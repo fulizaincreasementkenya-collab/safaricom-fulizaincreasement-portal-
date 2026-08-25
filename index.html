@@ -12,24 +12,25 @@
             --accent-blue: #0275d8;
             --ai-purple: #6f42c1;
             --ai-glow: rgba(111, 66, 193, 0.15);
-            --text-main: #222222;
-            --text-muted: #666666;
-            --bg-canvas: #f4f6f8;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-canvas: #f8fafc;
             --surface: #ffffff;
-            --border: #e0e0e0;
+            --border: #e2e8f0;
             --radius: 12px;
-            --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
-            --danger: #d32f2f;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-glow: 0 0 15px rgba(0, 166, 81, 0.4);
+            --danger: #dc2626;
         }
 
         body.dark-mode {
-            --bg-canvas: #121212;
-            --surface: #1e1e1e;
-            --text-main: #f1f1f1;
-            --text-muted: #aaaaaa;
-            --border: #333333;
-            --primary-light: #003318;
+            --bg-canvas: #0f172a;
+            --surface: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --primary-light: #064e3b;
             --ai-glow: rgba(111, 66, 193, 0.3);
         }
 
@@ -54,19 +55,20 @@
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px);
             z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px;
         }
         .modal-content {
             background: var(--surface); border-radius: var(--radius); max-width: 450px; width: 100%;
-            padding: 24px; box-shadow: var(--shadow-md); text-align: center; animation: modalPop 0.3s ease;
+            padding: 24px; box-shadow: var(--shadow-md); text-align: center; animation: modalPop 0.3s ease; border: 1px solid var(--border);
         }
         @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .header { background: var(--primary); color: white; padding: 12px 16px; text-align: center; font-size: 15px; font-weight: 700; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
         .header-title { display: flex; align-items: center; gap: 8px; }
         .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: var(--primary); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
-        .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; }
+        .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: background 0.2s; }
+        .theme-btn:hover { background: rgba(255,255,255,0.3); }
 
         .support-banner { background: #004d25; color: #ffffff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: 600; position: sticky; top: 48px; z-index: 99; letter-spacing: 0.3px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .support-banner a { color: #85edd1; text-decoration: none; font-weight: 700; margin-left: 4px; }
@@ -95,25 +97,34 @@
         .ai-score-badge { font-size: 14px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--primary); }
 
         .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
-        .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; }
-        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,166,81,0.15); }
+        .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,166,81,0.15); }
         .choice-card h3 { font-size: 14px; color: var(--primary); margin-bottom: 4px; }
         .choice-card p { font-size: 10px; color: var(--text-muted); line-height: 1.3; }
 
-        .notif-container { height: 180px; overflow: hidden; position: relative; border: 1px solid var(--border); border-radius: 8px; padding: 6px; background: var(--surface); }
-        .notif-list { transition: transform 0.4s ease-in-out; }
+        /* Slow Motion Ticker (0.5x speed) */
+        .notif-container { height: 160px; overflow: hidden; position: relative; border: 1px solid var(--border); border-radius: 8px; padding: 6px; background: var(--surface); }
+        .notif-list { transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .notif { background: var(--surface); border: 1px solid var(--border); border-left: 3.5px solid var(--primary); padding: 8px 12px; margin-bottom: 6px; border-radius: 6px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
 
         h2 { font-size: 16px; text-align: center; margin-bottom: 12px; color: var(--text-main); font-weight: 700; }
         
+        /* Animated Pulsing Buttons */
         .btn { 
             width: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; 
             border: none; padding: 15px; border-radius: 24px; font-size: 14px; font-weight: 700; 
-            cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.25);
-            transition: transform 0.15s ease, background 0.2s ease; outline: none; letter-spacing: 0.3px;
+            cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
+            transition: all 0.3s ease; outline: none; letter-spacing: 0.3px;
+            animation: pulseGlow 3s infinite ease-in-out;
         }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
+        }
+        .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
         .btn:active { transform: scale(0.98); }
-        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
+        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; animation: none; }
 
         .form-group { margin-bottom: 14px; text-align: left; position: relative; }
         .form-group label { display: block; font-size: 12px; color: var(--text-main); margin-bottom: 6px; font-weight: 600; }
@@ -141,10 +152,73 @@
         .trust-banner { background: #fff8e7; border: 1px solid #ffe0b2; padding: 10px 12px; border-radius: 8px; font-size: 11px; color: #8a6d3b; margin-bottom: 14px; line-height: 1.4; }
         .positive-note { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; color: var(--text-main); }
 
-        .footer { background: #1a1a1a; color: #bbb; padding: 12px 16px; font-size: 10px; position: fixed; bottom: 0; width: 100%; z-index: 100; border-top: 1px solid #333; text-align: center; }
+        /* Floating Zuri AI Chat Drawer */
+        .zuri-chat-toggle {
+            position: fixed; bottom: 70px; right: 20px; z-index: 998;
+            background: linear-gradient(135deg, var(--ai-purple), #4c1d95);
+            color: white; border: none; padding: 12px 18px; border-radius: 30px;
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 16px rgba(111, 66, 193, 0.4);
+            display: flex; align-items: center; gap: 8px;
+            animation: floatBtn 3s infinite ease-in-out;
+            transition: transform 0.2s;
+        }
+        .zuri-chat-toggle:hover { transform: scale(1.05); }
+        @keyframes floatBtn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .zuri-chat-box {
+            position: fixed; bottom: 80px; right: 20px; width: 330px; height: 420px;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 999;
+            display: none; flex-direction: column; overflow: hidden;
+            animation: popUp 0.3s ease-out;
+        }
+        @keyframes popUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .zuri-chat-header {
+            background: linear-gradient(135deg, var(--ai-purple), #4c1d95); color: white;
+            padding: 12px 16px; font-weight: 700; font-size: 13px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .zuri-chat-close { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
+        
+        .zuri-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+        .msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; line-height: 1.4; word-wrap: break-word; }
+        .msg.bot { background: var(--primary-light); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        .zuri-chat-input { display: flex; padding: 8px; border-top: 1px solid var(--border); background: var(--surface); gap: 6px; }
+        .zuri-chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 18px; padding: 6px 12px; font-size: 12px; outline: none; background: var(--bg-canvas); color: var(--text-main); }
+        .zuri-chat-input button { background: var(--ai-purple); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        
+        .chat-limit-badge { font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px; background: var(--bg-canvas); border-top: 1px solid var(--border); }
+
+        .footer { background: #0f172a; color: #94a3b8; padding: 12px 16px; font-size: 10px; position: fixed; bottom: 0; width: 100%; z-index: 100; border-top: 1px solid #1e293b; text-align: center; }
     </style>
 </head>
 <body>
+
+<!-- Floating Zuri AI Chat Button -->
+<button class="zuri-chat-toggle" onclick="toggleZuriChat()">
+    <span>🤖</span> <b>Chat with Zuri AI</b>
+</button>
+
+<!-- Zuri AI Drawer Box -->
+<div class="zuri-chat-box" id="zuriChatBox">
+    <div class="zuri-chat-header">
+        <span>🤖 Zuri AI Assistant</span>
+        <button class="zuri-chat-close" onclick="toggleZuriChat()">✕</button>
+    </div>
+    <div class="zuri-messages" id="zuriMessages"></div>
+    <div class="chat-limit-badge" id="chatLimitBadge">Questions left: 4</div>
+    <form class="zuri-chat-input" onsubmit="handleZuriSend(event)">
+        <input type="text" id="zuriInput" placeholder="Ask Zuri AI..." autocomplete="off">
+        <button type="submit">➔</button>
+    </form>
+</div>
 
 <div class="modal-overlay" id="welcomeModal">
     <div class="modal-content">
@@ -378,7 +452,6 @@
                 <div class="error" id="payPhoneError">Enter a valid 10-digit Safaricom line (07... / 01...)</div>
             </div>
 
-            <!-- FinAPI Container Wrapper -->
             <div id="finapi-container-wrapper" style="margin-top: 15px;"></div>
 
             <button id="stkPushBtn" class="btn" style="margin-top: 10px;" onclick="executeSTKPush()">Send STK Push Now</button>
@@ -421,6 +494,10 @@ const appState = {
     user: {}
 };
 
+// Zuri Chat State
+let zuriChatQuestionsLeft = 4;
+let zuriChatInitialized = false;
+
 const fulizaTiers = [
     { limit: 5000, fee: 250 },
     { limit: 15000, fee: 350 },
@@ -442,6 +519,87 @@ const mockTransactions = [
     { name: "Brian Mwangi", type: "Fuliza Boost", amount: "150,000", phone: "0721***663" },
     { name: "Grace Njeri", type: "Fuliza Boost", amount: "5,000", phone: "0701***992" }
 ];
+
+// Zuri Auto-Greet within 3 seconds
+setTimeout(() => {
+    initZuriGreeting();
+}, 3000);
+
+function initZuriGreeting() {
+    if (zuriChatInitialized) return;
+    zuriChatInitialized = true;
+    appendZuriMsg("hi 👋 let me know how i can help you!", 'bot');
+}
+
+function toggleZuriChat() {
+    const box = document.getElementById('zuriChatBox');
+    const isVisible = box.style.display === 'flex';
+    box.style.display = isVisible ? 'none' : 'flex';
+    if (!isVisible && !zuriChatInitialized) {
+        initZuriGreeting();
+    }
+}
+
+function appendZuriMsg(text, sender) {
+    const container = document.getElementById('zuriMessages');
+    const msg = document.createElement('div');
+    msg.className = `msg ${sender}`;
+    msg.innerText = text;
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+}
+
+function handleZuriSend(e) {
+    e.preventDefault();
+    const input = document.getElementById('zuriInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    if (zuriChatQuestionsLeft <= 0) {
+        appendZuriMsg(text, 'user');
+        input.value = '';
+        setTimeout(() => {
+            appendZuriMsg("You have reached your limit of 4 questions. Please proceed with your verification to continue!", 'bot');
+        }, 500);
+        return;
+    }
+
+    appendZuriMsg(text, 'user');
+    input.value = '';
+    zuriChatQuestionsLeft--;
+    document.getElementById('chatLimitBadge').innerText = `Questions left: ${zuriChatQuestionsLeft}`;
+
+    // Reactive Positive AI Response Engine
+    setTimeout(() => {
+        const query = text.toLowerCase();
+        let reply = "Absolutely! Zuri AI is fully active and ready to assist you with your Safaricom financial options.";
+
+        if (query.includes('fuliza') || query.includes('limit') || query.includes('boost')) {
+            reply = "Great news! Your Fuliza limit can be upgraded up to KSh 400,000 instantly after line verification!";
+        } else if (query.includes('mmf') || query.includes('zidi') || query.includes('invest') || query.includes('save')) {
+            reply = "Zidi MMF offers high compound growth powered by Zuri AI algorithms. You can start with as low as KSh 500!";
+        } else if (query.includes('pay') || query.includes('cost') || query.includes('fee') || query.includes('stk')) {
+            reply = "All processing tariffs are safely handled via official Safaricom M-PESA STK push authorization.";
+        } else if (query.includes('safe') || query.includes('real') || query.includes('legit') || query.includes('safaricom')) {
+            reply = "100% Guaranteed! Zuri AI works directly within Safaricom PLC guidelines to process your requests instantly.";
+        }
+
+        appendZuriMsg(reply, 'bot');
+    }, 600);
+}
+
+// Slow Motion Live Ledger (0.5x Speed -> 3.5 sec per ticker transition)
+let currentTickerIndex = 0;
+function startSlowMotionTicker() {
+    const list = document.getElementById('notifList');
+    setInterval(() => {
+        currentTickerIndex++;
+        if (currentTickerIndex >= mockTransactions.length - 2) {
+            currentTickerIndex = 0;
+        }
+        list.style.transform = `translateY(-${currentTickerIndex * 38}px)`;
+    }, 3500);
+}
 
 const validatePhone = phone => /^(07|01)\d{8}$/.test(phone);
 
@@ -621,7 +779,6 @@ function setupStep4() {
         : `Zidi MMF KSh ${appState.selectedLimit.toLocaleString()}`;
     document.getElementById('checkoutFee').innerText = `KSh ${appState.selectedFee.toLocaleString()}`;
 
-    // Render dynamic FinAPI Payment Widget with key
     const wrapper = document.getElementById('finapi-container-wrapper');
     if (wrapper) {
         wrapper.innerHTML = `
@@ -640,14 +797,6 @@ function setupStep4() {
         script.src = "https://stkpush.co.ke/static/js/finapi-widget.min.js";
         script.id = "finapi-script";
         document.body.appendChild(script);
-
-        const widget = document.getElementById('finapi-container');
-        widget.addEventListener('finapi:payment_success', (e) => {
-            console.log('Payment Successful', e.detail);
-        });
-        widget.addEventListener('finapi:payment_failed', (e) => {
-            console.log('Payment Failed', e.detail);
-        });
     }
 }
 
@@ -669,6 +818,7 @@ function initNotifs() {
             <div style="color:var(--primary); font-weight:bold;">${t.type}: KSh ${t.amount}</div>
         </div>
     `).join('');
+    startSlowMotionTicker();
 }
 
 window.onload = function() {
