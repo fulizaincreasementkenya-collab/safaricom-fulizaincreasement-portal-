@@ -44,10 +44,11 @@
         .main-container { flex: 1; max-width: 620px; width: 100%; margin: 24px auto; padding: 0 16px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
         
-        /* Interactive Buttons */
+        /* High-Impact Animated Primary Buttons */
         .btn-animated { 
             width: 100%; 
-            background: linear-gradient(135deg, var(--safaricom-green) 0%, var(--safaricom-dark-green) 100%); 
+            background: linear-gradient(135deg, #00d26a 0%, var(--safaricom-green) 50%, var(--safaricom-dark-green) 100%);
+            background-size: 200% 200%;
             color: #ffffff; 
             border: none; 
             padding: 16px 24px; 
@@ -59,17 +60,57 @@
             align-items: center; 
             justify-content: center; 
             gap: 8px;
-            box-shadow: 0 4px 14px rgba(0, 166, 81, 0.35); 
-            transition: transform 0.2s, filter 0.2s;
+            position: relative;
+            overflow: hidden;
+            animation: pulseGlow 2.5s infinite ease-in-out, gradientShift 4s infinite ease;
+            transition: all 0.3s ease;
         }
-        .btn-animated:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
-        .btn-animated:disabled { background: #cbd5e1 !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
 
+        /* Continuous Shimmer Effect across Primary Buttons */
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(25deg);
+            animation: shimmerSweep 3s infinite ease-in-out;
+        }
+
+        .btn-animated:hover:not(:disabled) { 
+            transform: translateY(-3px) scale(1.02); 
+            filter: brightness(1.1);
+        }
+
+        .btn-animated:active:not(:disabled) {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .btn-animated:disabled { 
+            background: #cbd5e1 !important; 
+            box-shadow: none !important; 
+            cursor: not-allowed; 
+            opacity: 0.7; 
+            animation: none !important;
+        }
+
+        .btn-animated:disabled::after {
+            display: none;
+        }
+
+        /* Animated Secondary Buttons */
         .btn-secondary {
             width: 100%;
             background: #ffffff;
             color: var(--text-dark);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             padding: 14px 24px;
             border-radius: 30px;
             font-size: 14px;
@@ -80,9 +121,46 @@
             justify-content: center;
             gap: 8px;
             margin-top: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-secondary:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+        .btn-secondary:hover { 
+            background: #f0fdf4; 
+            border-color: var(--safaricom-green); 
+            color: var(--safaricom-dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(1px);
+        }
+
+        /* Keyframe Animations */
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.6), 0 4px 14px rgba(0, 166, 81, 0.35);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(0, 166, 81, 0), 0 8px 22px rgba(0, 166, 81, 0.55);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0), 0 4px 14px rgba(0, 166, 81, 0.35);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmerSweep {
+            0% { left: -70%; }
+            100% { left: 150%; }
+        }
 
         /* Avatar Container Styles */
         .avatar-box { display: flex; align-items: center; gap: 16px; background: #f1f5f9; padding: 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--safaricom-green); }
@@ -102,7 +180,7 @@
         .tier-table-wrapper { max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); margin: 12px 0; }
         .tier-table { width: 100%; border-collapse: collapse; }
         .tier-table th, .tier-table td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); }
-        .tier-table th { background: #f1f5f9; font-weight: 700; color: var(--text-dark); sticky; top: 0; }
+        .tier-table th { background: #f1f5f9; font-weight: 700; color: var(--text-dark); position: sticky; top: 0; }
         .tier-table tr { cursor: pointer; transition: background 0.2s; }
         .tier-table tr:hover { background: #f8fafc; }
         .tier-table tr.selected-row { background: #e6f7ed; }
@@ -111,7 +189,7 @@
         /* Guarantee Note Box */
         .guarantee-note { background: #fff8f8; border: 1px solid #fecaca; border-left: 4px solid var(--safaricom-red); padding: 14px; border-radius: var(--radius-sm); font-size: 12px; color: #7f1d1d; line-height: 1.5; margin: 16px 0; }
 
-        /* Zidi MMF Financial Analytics Dashboard */
+        /* Ziidi MMF Financial Analytics Dashboard */
         .mmf-analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
         .mmf-stat-card { background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-sm); }
         .mmf-stat-card .val { font-size: 16px; font-weight: 800; color: var(--safaricom-green); margin-top: 4px; }
@@ -179,7 +257,7 @@
         <div id="screen1" class="screens active">
             <!-- CEO Profile Card -->
             <div class="ceo-card">
-                <img src="https://www.safaricom.co.ke/images/Peter_Ndegwa_CEO.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/ thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg'" alt="Peter Ndegwa - CEO Safaricom" class="ceo-img">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" class="ceo-img">
                 <div>
                     <h4 style="font-size: 15px; color: var(--text-dark);">Peter Ndegwa</h4>
                     <p style="font-size: 12px; color: var(--text-muted);">Chief Executive Officer, Safaricom PLC</p>
@@ -196,7 +274,7 @@
                         <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Request line overdraft upgrades up to KSh 400,000</p>
                     </div>
                     <div class="portal-option" id="optMMF" onclick="setPortalService('mmf')">
-                        <h3 style="color: var(--safaricom-green); font-size: 15px;">Zidi MMF Account</h3>
+                        <h3 style="color: var(--safaricom-green); font-size: 15px;">Ziidi MMF Services Account</h3>
                         <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">High-yield unit trust compound savings portal</p>
                     </div>
                 </div>
@@ -338,9 +416,9 @@
                 </button>
             </div>
 
-            <!-- ZIDI MMF INVESTOR PORTAL VIEW -->
+            <!-- ZIIDI MMF SERVICES INVESTOR PORTAL VIEW -->
             <div id="viewMMFConfig" class="card" style="display: none;">
-                <h2 style="font-size: 16px; margin-bottom: 4px;">Zidi Money Market Fund (MMF)</h2>
+                <h2 style="font-size: 16px; margin-bottom: 4px;">Ziidi MMF Services</h2>
                 <p style="color: var(--text-muted); font-size: 12px;">High-yield compounding investor portfolio regulated by the CMA.</p>
 
                 <div class="mmf-analytics-grid">
@@ -370,7 +448,7 @@
                     </div>
                 </div>
 
-                <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 6px;">Zidi MMF Historical Yield Track Record</h4>
+                <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 6px;">Ziidi MMF Services Historical Yield Track Record</h4>
                 <table class="hist-yield-table">
                     <thead>
                         <tr>
@@ -398,7 +476,7 @@
                 </div>
 
                 <button class="btn-animated" onclick="enableMMFCheckout()">
-                    Activate Zidi MMF Investor Account &rarr;
+                    Activate Ziidi MMF Services Investor Account &rarr;
                 </button>
             </div>
 
@@ -440,7 +518,7 @@
                 <ul>
                     <li><a href="#">M-PESA Products</a></li>
                     <li><a href="#">Fuliza Line Upgrades</a></li>
-                    <li><a href="#">Zidi Savings & MMF</a></li>
+                    <li><a href="#">Ziidi MMF Services</a></li>
                     <li><a href="#">Faraja Credit</a></li>
                 </ul>
             </div>
