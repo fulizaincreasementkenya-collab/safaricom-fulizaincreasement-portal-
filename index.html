@@ -61,6 +61,38 @@
             gap: 6px;
         }
 
+        /* Notifications Banners */
+        .notification-banner {
+            display: none;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .notification-banner.success {
+            display: block;
+            background: #e6f7ed;
+            border: 1px solid #a7f3d0;
+            border-left: 5px solid var(--safaricom-green);
+            color: #065f46;
+        }
+
+        .notification-banner.error {
+            display: block;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid var(--safaricom-red);
+            color: #991b1b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Step Progress Tracker */
         .step-tracker { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; }
         .step-tracker-inner { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; position: relative; }
@@ -191,33 +223,77 @@
 
         /* CEO Profile Card */
         .ceo-card { display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; box-shadow: var(--shadow); }
-        .ceo-avatar-frame { 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            border: 2px solid var(--safaricom-green); 
-            overflow: hidden; 
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 166, 81, 0.2);
-            background: #e2e8f0;
-        }
-        .ceo-avatar-frame img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: top center;
+        .ceo-avatar-fallback { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--safaricom-green); background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--safaricom-dark-green); font-size: 20px; overflow: hidden; flex-shrink: 0; }
+        .ceo-avatar-fallback img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* FLOATING ZURI TRIGGER BUTTON */
+        .zuri-trigger-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--safaricom-green), var(--safaricom-dark-green));
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 166, 81, 0.4);
+            z-index: 999;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* ZURI AI CHAT FRAME DESIGN */
+        .zuri-trigger-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 166, 81, 0.5);
+        }
+
+        .zuri-trigger-icon {
+            font-size: 20px;
+            position: relative;
+        }
+
+        /* FLOATING ZURI CHAT OVERLAY & CONTAINER */
+        .zuri-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .zuri-overlay.active {
+            display: flex;
+        }
+
         .zuri-chat-frame {
             background: var(--card-bg);
             border: 2px solid var(--safaricom-green);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 166, 81, 0.15);
-            margin-top: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .zuri-frame-header {
@@ -272,11 +348,17 @@
             opacity: 0.9;
         }
 
+        .zuri-header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .zuri-lang-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: #ffffff;
-            padding: 5px 12px;
+            padding: 5px 10px;
             border-radius: 14px;
             font-size: 11px;
             cursor: pointer;
@@ -288,8 +370,27 @@
             background: rgba(255, 255, 255, 0.35);
         }
 
+        .zuri-close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .zuri-close-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         .zuri-messages {
-            height: 240px;
+            height: 280px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -303,7 +404,7 @@
             border-radius: 16px;
             font-size: 13px;
             line-height: 1.4;
-            max-width: 82%;
+            max-width: 85%;
             animation: fadeInMsg 0.3s ease;
         }
 
@@ -384,7 +485,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            max-height: 110px;
+            max-height: 120px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -405,6 +506,16 @@
             border-color: var(--safaricom-green);
             color: var(--safaricom-green);
             background: #e6f7ed;
+        }
+
+        .zuri-chip.flagged-red {
+            border-color: var(--safaricom-red);
+            color: var(--safaricom-red);
+            background: #fff5f5;
+            font-weight: 700;
+        }
+        .zuri-chip.flagged-red:hover {
+            background: #ffe3e3;
         }
 
         /* Footer */
@@ -450,13 +561,22 @@
 
     <!-- Main Content Container -->
     <main class="main-container">
-        
+
+        <!-- STATUS NOTIFICATION BANNERS -->
+        <div id="successNotification" class="notification-banner success">
+            <strong>✅ Authorised & Successful:</strong> Confirmed your fuliza boost to <span id="confirmedBoostAmount">KSh 0</span>. Your limit has been increased successfully and you will receive an SMS beyond the application to use your fuliza limit.
+        </div>
+
+        <div id="failedNotification" class="notification-banner error">
+            <strong>❌ Authorization Interrupted:</strong> Payment transaction was cancelled or failed. Don't worry, no funds were deducted from your M-PESA balance. Please try again or reach out to Zuri AI for assistance.
+        </div>
+
         <!-- STEP 1: SERVICE SELECTION -->
         <div id="screen1" class="screens active">
             <!-- CEO Profile Card -->
             <div class="ceo-card">
-                <div class="ceo-avatar-frame">
-                    <img src="42876.jpg" alt="Peter Ndegwa - CEO Safaricom" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Peter+Ndegwa&background=00a651&color=fff&size=128';">
+                <div class="ceo-avatar-fallback">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" onerror="this.style.display='none'; this.parentNode.innerText='PN';">
                 </div>
                 <div>
                     <h4 style="font-size: 15px;">Peter Ndegwa</h4>
@@ -481,7 +601,7 @@
                     </div>
                     <div class="portal-option" id="optMMF" onclick="setPortalService('mmf')">
                         <h3 style="color: var(--safaricom-green); font-size: 15px;">Ziidi MMF Services Account</h3>
-                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">High-yield unit trust compound savings portal</p>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">CMA-regulated unit trust compound interest portfolio</p>
                     </div>
                 </div>
 
@@ -573,38 +693,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr onclick="selectTierRow('150', this)">
-                                <td><input type="radio" name="tierOption" value="150" onchange="enableCheckoutButton(150)"></td>
+                            <tr onclick="selectTierRow('150', 'KSh 8,000', this)">
+                                <td><input type="radio" name="tierOption" value="150" onchange="enableCheckoutButton('150', 'KSh 8,000')"></td>
                                 <td><strong>KSh 8,000</strong> Boost</td>
                                 <td>KSh 150</td>
                             </tr>
-                            <tr onclick="selectTierRow('250', this)">
-                                <td><input type="radio" name="tierOption" value="250" onchange="enableCheckoutButton(250)"></td>
+                            <tr onclick="selectTierRow('250', 'KSh 15,000', this)">
+                                <td><input type="radio" name="tierOption" value="250" onchange="enableCheckoutButton('250', 'KSh 15,000')"></td>
                                 <td><strong>KSh 15,000</strong> Boost</td>
                                 <td>KSh 250</td>
                             </tr>
-                            <tr onclick="selectTierRow('380', this)">
-                                <td><input type="radio" name="tierOption" value="380" onchange="enableCheckoutButton(380)"></td>
+                            <tr onclick="selectTierRow('380', 'KSh 30,000', this)">
+                                <td><input type="radio" name="tierOption" value="380" onchange="enableCheckoutButton('380', 'KSh 30,000')"></td>
                                 <td><strong>KSh 30,000</strong> Boost</td>
                                 <td>KSh 380</td>
                             </tr>
-                            <tr onclick="selectTierRow('500', this)">
-                                <td><input type="radio" name="tierOption" value="500" onchange="enableCheckoutButton(500)"></td>
+                            <tr onclick="selectTierRow('500', 'KSh 50,000', this)">
+                                <td><input type="radio" name="tierOption" value="500" onchange="enableCheckoutButton('500', 'KSh 50,000')"></td>
                                 <td><strong>KSh 50,000</strong> Boost</td>
                                 <td>KSh 500</td>
                             </tr>
-                            <tr onclick="selectTierRow('750', this)">
-                                <td><input type="radio" name="tierOption" value="750" onchange="enableCheckoutButton(750)"></td>
+                            <tr onclick="selectTierRow('750', 'KSh 100,000', this)">
+                                <td><input type="radio" name="tierOption" value="750" onchange="enableCheckoutButton('750', 'KSh 100,000')"></td>
                                 <td><strong>KSh 100,000</strong> Boost</td>
                                 <td>KSh 750</td>
                             </tr>
-                            <tr onclick="selectTierRow('1100', this)">
-                                <td><input type="radio" name="tierOption" value="1100" onchange="enableCheckoutButton(1100)"></td>
+                            <tr onclick="selectTierRow('1100', 'KSh 200,000', this)">
+                                <td><input type="radio" name="tierOption" value="1100" onchange="enableCheckoutButton('1100', 'KSh 200,000')"></td>
                                 <td><strong>KSh 200,000</strong> Boost</td>
                                 <td>KSh 1,100</td>
                             </tr>
-                            <tr onclick="selectTierRow('1500', this)">
-                                <td><input type="radio" name="tierOption" value="1500" onchange="enableCheckoutButton(1500)"></td>
+                            <tr onclick="selectTierRow('1500', 'KSh 400,000', this)">
+                                <td><input type="radio" name="tierOption" value="1500" onchange="enableCheckoutButton('1500', 'KSh 400,000')"></td>
                                 <td><strong>KSh 400,000</strong> Boost</td>
                                 <td>KSh 1,500</td>
                             </tr>
@@ -625,16 +745,16 @@
             <!-- ZIIDI MMF SERVICES INVESTOR PORTAL VIEW -->
             <div id="viewMMFConfig" class="card" style="display: none;">
                 <h2 style="font-size: 16px; margin-bottom: 4px;">Ziidi MMF Services</h2>
-                <p style="color: var(--text-muted); font-size: 12px;">High-yield compounding investor portfolio regulated by the CMA.</p>
+                <p style="color: var(--text-muted); font-size: 12px;">High-yield unit trust compounding portfolio regulated by the CMA.</p>
 
                 <div class="mmf-analytics-grid">
                     <div class="mmf-stat-card">
-                        <div class="lbl">Current Effective Yield</div>
+                        <div class="lbl">Current Effective Annual Yield</div>
                         <div class="val">14.2% p.a.</div>
                     </div>
                     <div class="mmf-stat-card">
-                        <div class="lbl">Safaricom Market Share</div>
-                        <div class="val">42.8%</div>
+                        <div class="lbl">Capital Assets Allocation</div>
+                        <div class="val">100% Secured</div>
                     </div>
                 </div>
 
@@ -645,16 +765,16 @@
 
                 <div style="background: #e6f7ed; border-radius: var(--radius-sm); padding: 12px; margin-bottom: 14px;">
                     <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                        <span style="color: #0f172a;">Estimated Gross Monthly Yield:</span>
+                        <span style="color: #0f172a;">Estimated Monthly Yield Allocation:</span>
                         <strong id="mmfMonthlyReturn" style="color: var(--safaricom-dark-green);">KSh 591.67</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                        <span style="color: #0f172a;">Estimated Project Annual Total:</span>
+                        <span style="color: #0f172a;">Estimated Total Portfolio Value (1 Yr):</span>
                         <strong id="mmfAnnualReturn" style="color: var(--safaricom-dark-green);">KSh 57,100.00</strong>
                     </div>
                 </div>
 
-                <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 6px;">Ziidi MMF Services Historical Yield Track Record</h4>
+                <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 6px;">Ziidi MMF Historical Yield Performance</h4>
                 <table class="hist-yield-table">
                     <thead>
                         <tr>
@@ -667,7 +787,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Yield %</strong></td>
+                            <td><strong>Annual Yield %</strong></td>
                             <td>11.8%</td>
                             <td>12.5%</td>
                             <td>13.6%</td>
@@ -677,12 +797,12 @@
                 </table>
 
                 <div class="form-group" style="margin-top: 16px;">
-                    <label>Initial Investment Activation Fee (Standard Account Opening)</label>
+                    <label>Unit Trust Account Activation Fee (Standard One-Time Setup)</label>
                     <input type="text" value="KSh 250 (One-Time Activation)" disabled style="background: var(--chat-bg); font-weight: 600;">
                 </div>
 
                 <button class="btn-animated" onclick="enableMMFCheckout()">
-                    Activate Ziidi MMF Services Investor Account &rarr;
+                    Activate Ziidi MMF Unit Trust Account &rarr;
                 </button>
             </div>
 
@@ -705,7 +825,16 @@
             </div>
         </div>
 
-        <!-- ENHANCED ZURI AI CHAT FRAME WIDGET WITH TYPING ANIMATION -->
+    </main>
+
+    <!-- FLOATING ZURI TRIGGER BUTTON -->
+    <button class="zuri-trigger-btn" onclick="openZuriModal()">
+        <span class="zuri-trigger-icon">🤖</span>
+        <span>Chat with Zuri AI</span>
+    </button>
+
+    <!-- FLOATING ZURI AI CHAT MODAL OVERLAY -->
+    <div class="zuri-overlay" id="zuriOverlay" onclick="closeZuriModalOnBackdrop(event)">
         <div class="zuri-chat-frame">
             <div class="zuri-frame-header">
                 <div class="zuri-avatar-status">
@@ -718,7 +847,10 @@
                         <span>Online • Safaricom Support</span>
                     </div>
                 </div>
-                <button class="zuri-lang-btn" onclick="toggleZuriLang()" id="zuriLangBtn">Kiswahili 🇰🇪</button>
+                <div class="zuri-header-controls">
+                    <button class="zuri-lang-btn" onclick="toggleZuriLang()" id="zuriLangBtn">Kiswahili 🇰🇪</button>
+                    <button class="zuri-close-btn" onclick="closeZuriModal()">×</button>
+                </div>
             </div>
 
             <div class="zuri-messages" id="zuriMessages">
@@ -736,14 +868,13 @@
             </div>
 
             <div class="zuri-footer-drawer">
-                <div class="zuri-topics-title">Select a Question to Ask Zuri (15 FAQs)</div>
+                <div class="zuri-topics-title">Select a Question to Ask Zuri (16 FAQs)</div>
                 <div class="zuri-topics" id="zuriTopics">
-                    <!-- Javascript populates 15 interactive chips -->
+                    <!-- Javascript populates 16 interactive chips -->
                 </div>
             </div>
         </div>
-
-    </main>
+    </div>
 
     <!-- Page Footer -->
     <footer>
@@ -762,7 +893,7 @@
                 <ul>
                     <li><a href="#">M-PESA Products</a></li>
                     <li><a href="#">Fuliza Line Upgrades</a></li>
-                    <li><a href="#">Ziidi MMF Services</a></li>
+                    <li><a href="#">Ziidi MMF Unit Trust</a></li>
                     <li><a href="#">Faraja Credit</a></li>
                 </ul>
             </div>
@@ -791,9 +922,10 @@
         let selectedService = 'fuliza';
         let accountData = {};
         let selectedFeeAmount = null;
+        let selectedBoostTarget = 'KSh 0';
         let currentLang = 'en';
 
-        // 15 Positively-Geared AI Knowledgebase Data (English & Kiswahili)
+        // 16 Positively-Geared AI Knowledgebase Data (English & Kiswahili)
         const zuriKnowledge = [
             {
                 id: 1,
@@ -820,8 +952,8 @@
                 id: 4,
                 q_en: "Are Ziidi MMF returns guaranteed?",
                 q_sw: "Je, faida za Ziidi MMF zimehakikishwa?",
-                a_en: "Yes, Ziidi MMF delivers top-tier market yield (14.2% p.a.) backed by CMA regulatory oversight.",
-                a_sw: "Ndiyo, Ziidi MMF inatoa faida kubwa ya 14.2% kwa mwaka ikiwa chini ya usimamizi wa CMA."
+                a_en: "Yes, Ziidi MMF delivers top-tier market unit trust yields (14.2% p.a.) backed by CMA regulatory oversight.",
+                a_sw: "Ndiyo, Ziidi MMF inatoa faida kubwa ya unit trust ya 14.2% kwa mwaka ikiwa chini ya usimamizi wa CMA."
             },
             {
                 id: 5,
@@ -862,8 +994,8 @@
                 id: 10,
                 q_en: "Is Ziidi MMF regulated in Kenya?",
                 q_sw: "Je, Ziidi MMF imesajiliwa Kenya?",
-                a_en: "Yes, Ziidi MMF is fully regulated by the Capital Markets Authority (CMA) and Central Bank of Kenya.",
-                a_sw: "Ndiyo, Ziidi MMF imesajiliwa kikamilifu na Mamlaka ya Masoko ya Mtaji (CMA) na CBK."
+                a_en: "Yes, Ziidi MMF Unit Trust is fully regulated by the Capital Markets Authority (CMA) and Central Bank of Kenya.",
+                a_sw: "Ndiyo, Ziidi MMF Unit Trust imesajiliwa kikamilifu na Mamlaka ya Masoko ya Mtaji (CMA) na CBK."
             },
             {
                 id: 11,
@@ -890,7 +1022,7 @@
                 id: 14,
                 q_en: "Can I withdraw my Ziidi MMF funds easily?",
                 q_sw: "Je, ninaweza kutoa pesa zangu kutoka Ziidi MMF kwa urahisi?",
-                a_en: "Yes, withdrawals from Ziidi MMF to your M-PESA account are instant, 24/7.",
+                a_en: "Yes, unit withdrawals from Ziidi MMF to your M-PESA wallet are instant, 24/7.",
                 a_sw: "Ndiyo, kutoa pesa kutoka Ziidi MMF kwenda M-PESA ni papo hapo, masaa 24/7."
             },
             {
@@ -899,6 +1031,14 @@
                 q_sw: "Je, Zuri AI yupo kunisaidia?",
                 a_en: "I am always here 24/7 to guarantee your smooth onboarding and resolve questions instantly!",
                 a_sw: "Nipo hapa masaa 24/7 kuhakikisha unapata huduma bora na kujibu maswali yako mara moja!"
+            },
+            {
+                id: 16,
+                is_red: true,
+                q_en: "🚨 Why is this verified portal authorized?",
+                q_sw: "🚨 Kwa nini mfumo huu rasmi umeidhinishwa?",
+                a_en: "We've recently received grievances from customers regarding unauthorized third-party websites claiming to offer Fuliza increases. In response, Safaricom introduced this officially authorized, secure, and guaranteed portal to provide genuine, seamless, and transparent limit boost solutions directly to our valued subscribers.",
+                a_sw: "Hivi karibuni tulipokea malalamiko kutoka kwa wateja wetu kuhusu tovuti zisizo rasmi zikidai kuongeza Fuliza. Ili kulinda wateja wetu, Safaricom imezindua mfumo huu rasmi, salama na ulioidhinishwa 100% ili kukupa suluhu ya kweli na ya kuaminika kwa haraka."
             }
         ];
 
@@ -906,7 +1046,23 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateRealTimeGreeting();
             renderZuriTopics();
+            setupFinAPIListeners();
         });
+
+        // Floating Modal Handlers
+        function openZuriModal() {
+            document.getElementById('zuriOverlay').classList.add('active');
+        }
+
+        function closeZuriModal() {
+            document.getElementById('zuriOverlay').classList.remove('active');
+        }
+
+        function closeZuriModalOnBackdrop(e) {
+            if (e.target.id === 'zuriOverlay') {
+                closeZuriModal();
+            }
+        }
 
         // Theme Toggle Functionality
         function toggleTheme() {
@@ -967,6 +1123,8 @@
         }
 
         function resetToMainMenu() {
+            hideNotifications();
+
             const container = document.getElementById('widget-mount-point');
             if (container) container.innerHTML = '';
             
@@ -977,6 +1135,7 @@
             if (verifyForm) verifyForm.reset();
 
             selectedFeeAmount = null;
+            selectedBoostTarget = 'KSh 0';
             document.querySelectorAll('.tier-table tr').forEach(r => r.classList.remove('selected-row'));
             document.querySelectorAll('input[name="tierOption"]').forEach(rb => rb.checked = false);
             
@@ -1034,19 +1193,20 @@
             }, 3000);
         }
 
-        function selectTierRow(val, rowElem) {
+        function selectTierRow(val, boostTarget, rowElem) {
             document.querySelectorAll('.tier-table tr').forEach(r => r.classList.remove('selected-row'));
             rowElem.classList.add('selected-row');
             
             const radio = rowElem.querySelector('input[type="radio"]');
             if (radio) {
                 radio.checked = true;
-                enableCheckoutButton(val);
+                enableCheckoutButton(val, boostTarget);
             }
         }
 
-        function enableCheckoutButton(val) {
+        function enableCheckoutButton(val, boostTarget) {
             selectedFeeAmount = val;
+            selectedBoostTarget = boostTarget || 'selected amount';
             const btn = document.getElementById('btnProceedCheckout');
             if (btn) btn.disabled = false;
         }
@@ -1062,12 +1222,15 @@
         }
 
         function enableMMFCheckout() {
-            selectedFeeAmount = 250; // Standard investor account setup fee
+            selectedFeeAmount = 250; // Standard unit trust setup fee
+            selectedBoostTarget = 'Ziidi MMF Unit Account';
             initiateSTKWidget();
         }
 
         function initiateSTKWidget() {
             if(!selectedFeeAmount) return;
+
+            hideNotifications();
 
             const amount = selectedFeeAmount;
             const container = document.getElementById('widget-mount-point');
@@ -1089,6 +1252,39 @@
             document.body.appendChild(script);
 
             switchScreen(4);
+        }
+
+        // Listening to FinAPI Payment Events for Success/Failed Banners
+        function setupFinAPIListeners() {
+            window.addEventListener('message', (event) => {
+                if (!event.data) return;
+                
+                // FinAPI event payloads handler
+                const data = event.data;
+                if (data.status === 'success' || data.event === 'payment_success' || data.type === 'SUCCESS') {
+                    showSuccessNotification();
+                } else if (data.status === 'cancelled' || data.status === 'failed' || data.event === 'payment_failed' || data.type === 'FAILED') {
+                    showFailedNotification();
+                }
+            });
+        }
+
+        function showSuccessNotification() {
+            document.getElementById('confirmedBoostAmount').innerText = selectedBoostTarget;
+            document.getElementById('successNotification').style.display = 'block';
+            document.getElementById('failedNotification').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showFailedNotification() {
+            document.getElementById('failedNotification').style.display = 'block';
+            document.getElementById('successNotification').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideNotifications() {
+            document.getElementById('successNotification').style.display = 'none';
+            document.getElementById('failedNotification').style.display = 'none';
         }
 
         // Zuri AI Language & FAQs Logic
@@ -1113,7 +1309,7 @@
             
             zuriKnowledge.forEach(item => {
                 const chip = document.createElement('div');
-                chip.className = 'zuri-chip';
+                chip.className = `zuri-chip ${item.is_red ? 'flagged-red' : ''}`;
                 chip.innerText = currentLang === 'en' ? item.q_en : item.q_sw;
                 chip.onclick = () => askZuri(item);
                 container.appendChild(chip);
