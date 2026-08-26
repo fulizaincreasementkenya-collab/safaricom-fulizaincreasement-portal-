@@ -194,18 +194,204 @@
         .ceo-avatar-fallback { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--safaricom-green); background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--safaricom-dark-green); font-size: 20px; overflow: hidden; flex-shrink: 0; }
         .ceo-avatar-fallback img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Zuri AI Assistant Drawer / Card */
-        .zuri-chat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-top: 20px; }
-        .zuri-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px; }
-        .zuri-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--safaricom-green); font-size: 14px; }
-        .zuri-lang-btn { background: var(--chat-bg); border: 1px solid var(--border); color: var(--text-dark); padding: 4px 8px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 600; }
-        .zuri-messages { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; }
-        .zuri-msg { padding: 10px 14px; border-radius: 12px; font-size: 12px; line-height: 1.4; max-width: 85%; }
-        .zuri-msg.bot { background: var(--chat-bg); color: var(--text-dark); border-bottom-left-radius: 2px; align-self: flex-start; border-left: 3px solid var(--safaricom-green); }
-        .zuri-msg.user { background: var(--safaricom-green); color: #ffffff; border-bottom-right-radius: 2px; align-self: flex-end; }
-        .zuri-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-        .zuri-chip { background: var(--chat-bg); border: 1px solid var(--border); color: var(--text-dark); padding: 6px 10px; border-radius: 16px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
-        .zuri-chip:hover { border-color: var(--safaricom-green); color: var(--safaricom-green); }
+        /* ZURI AI CHAT FRAME DESIGN */
+        .zuri-chat-frame {
+            background: var(--card-bg);
+            border: 2px solid var(--safaricom-green);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 166, 81, 0.15);
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .zuri-frame-header {
+            background: linear-gradient(135deg, var(--safaricom-green), var(--safaricom-dark-green));
+            color: #ffffff;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .zuri-avatar-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .zuri-avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: var(--safaricom-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .online-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #22c55e;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .zuri-meta-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .zuri-meta-info span {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .zuri-lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .zuri-lang-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .zuri-messages {
+            height: 240px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 16px;
+            background: var(--chat-bg);
+        }
+
+        .zuri-msg {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.4;
+            max-width: 82%;
+            animation: fadeInMsg 0.3s ease;
+        }
+
+        @keyframes fadeInMsg {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .zuri-msg.bot {
+            background: var(--surface);
+            color: var(--text-dark);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+            border-left: 3px solid var(--safaricom-green);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+
+        .zuri-msg.user {
+            background: var(--safaricom-green);
+            color: #ffffff;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+            box-shadow: 0 2px 6px rgba(0,166,81,0.25);
+        }
+
+        /* Animated Typing Indicator Dots */
+        .typing-bubble {
+            display: none;
+            align-self: flex-start;
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            border-left: 3px solid var(--safaricom-green);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            margin-bottom: 4px;
+        }
+
+        .typing-dots {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--safaricom-green);
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounceDot 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounceDot {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .zuri-footer-drawer {
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .zuri-topics-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .zuri-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-height: 110px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .zuri-chip {
+            background: var(--chat-bg);
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .zuri-chip:hover {
+            border-color: var(--safaricom-green);
+            color: var(--safaricom-green);
+            background: #e6f7ed;
+        }
 
         /* Footer */
         footer { background: #0f172a; color: #94a3b8; padding: 40px 20px 20px; margin-top: auto; font-size: 12px; border-top: 1px solid var(--border); }
@@ -505,23 +691,41 @@
             </div>
         </div>
 
-        <!-- ZURI AI ASSISTANT WIDGET (15 Positively-Geared Questions & Kiswahili/English Switcher) -->
-        <div class="zuri-chat-card">
-            <div class="zuri-header">
-                <div class="zuri-title">
-                    <span>🤖 Zuri AI Assistant</span>
-                    <span style="font-size: 10px; background: #e6f7ed; color: var(--safaricom-dark-green); padding: 2px 6px; border-radius: 10px; font-weight: 700;">100% Guaranteed</span>
+        <!-- ENHANCED ZURI AI CHAT FRAME WIDGET WITH TYPING ANIMATION -->
+        <div class="zuri-chat-frame">
+            <div class="zuri-frame-header">
+                <div class="zuri-avatar-status">
+                    <div class="zuri-avatar-circle">
+                        🤖
+                        <span class="online-indicator"></span>
+                    </div>
+                    <div class="zuri-meta-info">
+                        <h4>Zuri AI Assistant</h4>
+                        <span>Online • Safaricom Support</span>
+                    </div>
                 </div>
                 <button class="zuri-lang-btn" onclick="toggleZuriLang()" id="zuriLangBtn">Kiswahili 🇰🇪</button>
             </div>
+
             <div class="zuri-messages" id="zuriMessages">
                 <div class="zuri-msg bot" id="zuriWelcome">
                     Hello! I am Zuri, your official Safaricom AI guide. How can I assist you with your 100% guaranteed line upgrade or Ziidi MMF activation today?
                 </div>
+                <!-- Typing Indicator Bubble -->
+                <div class="typing-bubble" id="zuriTypingBubble">
+                    <div class="typing-dots">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                </div>
             </div>
-            <div style="margin-top: 10px; font-size: 11px; font-weight: 700; color: var(--text-muted);">Select a Topic (15 FAQs):</div>
-            <div class="zuri-topics" id="zuriTopics">
-                <!-- Javascript will populate 15 interactive chips -->
+
+            <div class="zuri-footer-drawer">
+                <div class="zuri-topics-title">Select a Question to Ask Zuri (15 FAQs)</div>
+                <div class="zuri-topics" id="zuriTopics">
+                    <!-- Javascript populates 15 interactive chips -->
+                </div>
             </div>
         </div>
 
@@ -904,20 +1108,31 @@
 
         function askZuri(item) {
             const msgs = document.getElementById('zuriMessages');
+            const typingBubble = document.getElementById('zuriTypingBubble');
             
             // Add user question
             const userDiv = document.createElement('div');
             userDiv.className = 'zuri-msg user';
             userDiv.innerText = currentLang === 'en' ? item.q_en : item.q_sw;
-            msgs.appendChild(userDiv);
-
-            // Add bot answer
-            const botDiv = document.createElement('div');
-            botDiv.className = 'zuri-msg bot';
-            botDiv.innerText = currentLang === 'en' ? item.a_en : item.a_sw;
-            msgs.appendChild(botDiv);
-
+            
+            // Insert user question before typing bubble
+            msgs.insertBefore(userDiv, typingBubble);
+            
+            // Show typing indicator animation
+            typingBubble.style.display = 'block';
             msgs.scrollTop = msgs.scrollHeight;
+
+            // Simulate AI delay with dots before outputting answer
+            setTimeout(() => {
+                typingBubble.style.display = 'none';
+
+                const botDiv = document.createElement('div');
+                botDiv.className = 'zuri-msg bot';
+                botDiv.innerText = currentLang === 'en' ? item.a_en : item.a_sw;
+                
+                msgs.insertBefore(botDiv, typingBubble);
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 1000);
         }
     </script>
 </body>
