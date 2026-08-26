@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,34 +17,68 @@
             --radius-sm: 8px;
             --radius-md: 16px;
             --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --chat-bg: #f1f5f9;
+        }
+
+        [data-theme="dark"] {
+            --text-dark: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-light: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            --header-bg: #1e293b;
+            --card-bg: #1e293b;
+            --chat-bg: #0f172a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; }
+        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; transition: background-color 0.3s, color 0.3s; }
 
-        /* Clean Top Navigation */
-        .brand-header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+        /* Top Navigation */
+        .brand-header { background: var(--header-bg); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
         .logo-container { display: flex; align-items: center; gap: 12px; }
         .brand-logo { font-size: 22px; font-weight: 800; color: var(--safaricom-green); letter-spacing: -0.5px; display: flex; align-items: center; gap: 4px; }
         .brand-badge { background: #e6f7ed; color: var(--safaricom-dark-green); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid #b3e6c8; }
         
-        .header-nav { display: flex; gap: 24px; align-items: center; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+        .header-nav { display: flex; gap: 16px; align-items: center; font-size: 13px; font-weight: 600; color: var(--text-muted); }
         .header-nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
         .header-nav a:hover { color: var(--safaricom-green); }
 
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* Step Progress Tracker */
-        .step-tracker { background: #ffffff; border-bottom: 1px solid var(--border); padding: 14px 20px; }
+        .step-tracker { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; }
         .step-tracker-inner { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; position: relative; }
         .step-node { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
         .step-node.active { color: var(--safaricom-green); }
-        .step-num { width: 22px; height: 22px; border-radius: 50%; background: #e2e8f0; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+        .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
         .step-node.active .step-num { background: var(--safaricom-green); color: #ffffff; }
 
         /* Main Container */
         .main-container { flex: 1; max-width: 620px; width: 100%; margin: 24px auto; padding: 0 16px; }
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
         
-        /* High-Impact Animated Primary Buttons */
+        /* Time Greeting Banner */
+        .greeting-banner { background: linear-gradient(135deg, var(--safaricom-green), var(--safaricom-dark-green)); color: #ffffff; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 16px; }
+        .greeting-banner h3 { font-size: 16px; margin-bottom: 4px; }
+        .greeting-banner p { font-size: 12px; opacity: 0.9; }
+
+        /* Primary Animated Buttons */
         .btn-animated { 
             width: 100%; 
             background: linear-gradient(135deg, #00d26a 0%, var(--safaricom-green) 50%, var(--safaricom-dark-green) 100%);
@@ -66,7 +100,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Continuous Shimmer Effect across Primary Buttons */
         .btn-animated::after {
             content: '';
             position: absolute;
@@ -74,41 +107,20 @@
             left: -60%;
             width: 50%;
             height: 200%;
-            background: linear-gradient(
-                60deg,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.4) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
+            background: linear-gradient(60deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
             transform: rotate(25deg);
             animation: shimmerSweep 3s infinite ease-in-out;
         }
 
-        .btn-animated:hover:not(:disabled) { 
-            transform: translateY(-3px) scale(1.02); 
-            filter: brightness(1.1);
-        }
+        .btn-animated:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); filter: brightness(1.1); }
+        .btn-animated:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+        .btn-animated:disabled { background: #cbd5e1 !important; box-shadow: none !important; cursor: not-allowed; opacity: 0.7; animation: none !important; }
+        .btn-animated:disabled::after { display: none; }
 
-        .btn-animated:active:not(:disabled) {
-            transform: translateY(1px) scale(0.98);
-        }
-
-        .btn-animated:disabled { 
-            background: #cbd5e1 !important; 
-            box-shadow: none !important; 
-            cursor: not-allowed; 
-            opacity: 0.7; 
-            animation: none !important;
-        }
-
-        .btn-animated:disabled::after {
-            display: none;
-        }
-
-        /* Animated Secondary Buttons */
+        /* Secondary Buttons */
         .btn-secondary {
             width: 100%;
-            background: #ffffff;
+            background: var(--surface);
             color: var(--text-dark);
             border: 2px solid var(--border);
             padding: 14px 24px;
@@ -121,92 +133,81 @@
             justify-content: center;
             gap: 8px;
             margin-top: 10px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.25s ease;
         }
 
-        .btn-secondary:hover { 
-            background: #f0fdf4; 
-            border-color: var(--safaricom-green); 
-            color: var(--safaricom-dark-green);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
+        .btn-secondary:hover { background: #f0fdf4; border-color: var(--safaricom-green); color: var(--safaricom-dark-green); transform: translateY(-2px); }
 
-        .btn-secondary:active {
-            transform: translateY(1px);
-        }
-
-        /* Keyframe Animations */
+        /* Keyframes */
         @keyframes pulseGlow {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.6), 0 4px 14px rgba(0, 166, 81, 0.35);
-            }
-            50% {
-                box-shadow: 0 0 0 14px rgba(0, 166, 81, 0), 0 8px 22px rgba(0, 166, 81, 0.55);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0), 0 4px 14px rgba(0, 166, 81, 0.35);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.6), 0 4px 14px rgba(0, 166, 81, 0.35); }
+            50% { box-shadow: 0 0 0 14px rgba(0, 166, 81, 0), 0 8px 22px rgba(0, 166, 81, 0.55); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 166, 81, 0), 0 4px 14px rgba(0, 166, 81, 0.35); }
         }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes shimmerSweep { 0% { left: -70%; } 100% { left: 150%; } }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shimmerSweep {
-            0% { left: -70%; }
-            100% { left: 150%; }
-        }
-
-        /* Avatar Container Styles */
-        .avatar-box { display: flex; align-items: center; gap: 16px; background: #f1f5f9; padding: 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--safaricom-green); }
+        /* Avatar Container */
+        .avatar-box { display: flex; align-items: center; gap: 16px; background: var(--chat-bg); padding: 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--safaricom-green); }
         .avatar-svg { width: 52px; height: 52px; border-radius: 50%; background: #ffffff; border: 2px solid var(--safaricom-green); padding: 2px; }
 
-        /* Dynamic Service Selector Options */
+        /* Service Selector Options */
         .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
         .portal-option { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 16px; cursor: pointer; transition: all 0.2s; }
         .portal-option.selected { border-color: var(--safaricom-green); background: #f0fdf4; }
 
         .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; outline: none; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: var(--surface); color: var(--text-dark); }
         .form-group input:focus { border-color: var(--safaricom-green); }
 
         /* Tier Selection Table */
         .tier-table-wrapper { max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); margin: 12px 0; }
         .tier-table { width: 100%; border-collapse: collapse; }
         .tier-table th, .tier-table td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); }
-        .tier-table th { background: #f1f5f9; font-weight: 700; color: var(--text-dark); position: sticky; top: 0; }
+        .tier-table th { background: var(--chat-bg); font-weight: 700; color: var(--text-dark); position: sticky; top: 0; }
         .tier-table tr { cursor: pointer; transition: background 0.2s; }
-        .tier-table tr:hover { background: #f8fafc; }
+        .tier-table tr:hover { background: var(--chat-bg); }
         .tier-table tr.selected-row { background: #e6f7ed; }
+        [data-theme="dark"] .tier-table tr.selected-row { background: #064e3b; }
         .tier-table input[type="radio"] { accent-color: var(--safaricom-green); cursor: pointer; }
 
         /* Guarantee Note Box */
         .guarantee-note { background: #fff8f8; border: 1px solid #fecaca; border-left: 4px solid var(--safaricom-red); padding: 14px; border-radius: var(--radius-sm); font-size: 12px; color: #7f1d1d; line-height: 1.5; margin: 16px 0; }
+        [data-theme="dark"] .guarantee-note { background: #450a0a; border-color: #991b1b; color: #fecaca; }
 
-        /* Ziidi MMF Financial Analytics Dashboard */
+        /* Analytics Grid */
         .mmf-analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
-        .mmf-stat-card { background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-sm); }
+        .mmf-stat-card { background: var(--chat-bg); border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-sm); }
         .mmf-stat-card .val { font-size: 16px; font-weight: 800; color: var(--safaricom-green); margin-top: 4px; }
         .mmf-stat-card .lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 
         .hist-yield-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
         .hist-yield-table th, .hist-yield-table td { padding: 8px; border: 1px solid var(--border); text-align: center; }
-        .hist-yield-table th { background: #f1f5f9; }
+        .hist-yield-table th { background: var(--chat-bg); }
 
         .screens { display: none; }
         .screens.active { display: block; }
 
-        /* CEO Profile Header Widget */
-        .ceo-card { display: flex; align-items: center; gap: 14px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; box-shadow: var(--shadow); }
-        .ceo-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--safaricom-green); }
+        /* CEO Profile Card */
+        .ceo-card { display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; box-shadow: var(--shadow); }
+        .ceo-avatar-fallback { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--safaricom-green); background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--safaricom-dark-green); font-size: 20px; overflow: hidden; flex-shrink: 0; }
+        .ceo-avatar-fallback img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Professional Footer */
+        /* Zuri AI Assistant Drawer / Card */
+        .zuri-chat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-top: 20px; }
+        .zuri-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px; }
+        .zuri-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--safaricom-green); font-size: 14px; }
+        .zuri-lang-btn { background: var(--chat-bg); border: 1px solid var(--border); color: var(--text-dark); padding: 4px 8px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 600; }
+        .zuri-messages { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; }
+        .zuri-msg { padding: 10px 14px; border-radius: 12px; font-size: 12px; line-height: 1.4; max-width: 85%; }
+        .zuri-msg.bot { background: var(--chat-bg); color: var(--text-dark); border-bottom-left-radius: 2px; align-self: flex-start; border-left: 3px solid var(--safaricom-green); }
+        .zuri-msg.user { background: var(--safaricom-green); color: #ffffff; border-bottom-right-radius: 2px; align-self: flex-end; }
+        .zuri-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .zuri-chip { background: var(--chat-bg); border: 1px solid var(--border); color: var(--text-dark); padding: 6px 10px; border-radius: 16px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+        .zuri-chip:hover { border-color: var(--safaricom-green); color: var(--safaricom-green); }
+
+        /* Footer */
         footer { background: #0f172a; color: #94a3b8; padding: 40px 20px 20px; margin-top: auto; font-size: 12px; border-top: 1px solid var(--border); }
         .footer-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; text-align: left; }
         .footer-col h4 { color: #ffffff; font-size: 14px; margin-bottom: 12px; }
@@ -215,11 +216,9 @@
         .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
         .footer-col ul li a:hover { color: #ffffff; }
         .footer-bottom { max-width: 1000px; margin: 0 auto; padding-top: 20px; border-top: 1px solid #334155; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; }
-        .trust-badges { display: flex; gap: 16px; font-weight: 600; color: #cbd5e1; font-size: 11px; }
+        .trust-badges { display: flex; gap: 16px; font-weight: 600; color: #cbd5e1; font-size: 11px; flex-wrap: wrap; justify-content: center; }
 
-        /* Zuri AI Processing Widget */
-        .zuri-badge { display: inline-flex; align-items: center; gap: 6px; background: #e6f7ed; color: var(--safaricom-dark-green); font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
-        .spinner { border: 3px solid #e2e8f0; border-top: 3px solid var(--safaricom-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
+        .spinner { border: 3px solid var(--border); border-top: 3px solid var(--safaricom-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -234,13 +233,12 @@
             <span class="brand-badge">Financial Services</span>
         </div>
         <nav class="header-nav">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
             <a href="#" onclick="resetToMainMenu()">Main Menu</a>
-            <a href="#">Personal</a>
-            <a href="#">Business</a>
         </nav>
     </header>
 
-    <!-- Step Progress Scaffolding Bar -->
+    <!-- Step Progress Tracker -->
     <div class="step-tracker">
         <div class="step-tracker-inner">
             <div class="step-node active" id="st1"><span class="step-num">1</span> Service</div>
@@ -257,15 +255,23 @@
         <div id="screen1" class="screens active">
             <!-- CEO Profile Card -->
             <div class="ceo-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" class="ceo-img">
+                <div class="ceo-avatar-fallback">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Peter_Ndegwa_CEO.jpg/440px-Peter_Ndegwa_CEO.jpg" alt="Peter Ndegwa - CEO Safaricom" onerror="this.style.display='none'; this.parentNode.innerText='PN';">
+                </div>
                 <div>
-                    <h4 style="font-size: 15px; color: var(--text-dark);">Peter Ndegwa</h4>
+                    <h4 style="font-size: 15px;">Peter Ndegwa</h4>
                     <p style="font-size: 12px; color: var(--text-muted);">Chief Executive Officer, Safaricom PLC</p>
                 </div>
             </div>
 
+            <!-- Dynamic Real-time Greeting Banner -->
+            <div class="greeting-banner" id="greetingBanner">
+                <h3 id="greetingText">Good Day, Valued Customer</h3>
+                <p>Welcome to Safaricom Financial Services. Select a service below to begin your instant line upgrade.</p>
+            </div>
+
             <div class="card">
-                <h2 style="font-size: 18px; margin-bottom: 8px;">Select Financial Option</h2>
+                <h2 style="font-size: 18px; margin-bottom: 8px;">Select Authorized Facility</h2>
                 <p style="color: var(--text-muted); font-size: 13px;">Choose an authorized financial service to configure on your active line.</p>
                 
                 <div class="portal-grid">
@@ -327,7 +333,7 @@
         <!-- 3-SECOND ZURI AI INTERMEDIARY SCREEN -->
         <div id="screen_load" class="screens">
             <div class="card" style="text-align: center; padding: 40px 20px;">
-                <div class="zuri-badge">🤖 Powered by Zuri AI Core</div>
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: #e6f7ed; color: var(--safaricom-dark-green); font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;">🤖 Powered by Zuri AI Core</div>
                 <div class="spinner"></div>
                 <h3 style="font-size: 16px; margin-top: 12px;">Analyzing Subscriber Line Score...</h3>
                 <p style="color: var(--text-muted); font-size: 12px; margin-top: 6px;">Evaluating active line tenure, M-PESA velocity & CRB compliance status.</p>
@@ -346,7 +352,7 @@
                     </svg>
                     <div>
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Verified Active Line</div>
-                        <h3 id="displayProfileName" style="font-size: 16px; color: var(--text-dark);">John Kamau</h3>
+                        <h3 id="displayProfileName" style="font-size: 16px;">John Kamau</h3>
                         <div id="displayProfilePhone" style="font-size: 12px; color: var(--safaricom-dark-green); font-weight: 600;">2547XXXXXXXX</div>
                     </div>
                 </div>
@@ -408,7 +414,7 @@
 
                 <div class="guarantee-note">
                     <strong>🛡️ Official Service Guarantee Note:</strong><br>
-                    If processing your request takes longer than 3 hours after payment confirmation, your service fee will be automatically returned in full back to your M-PESA number via <strong>Hashback for Safaricom Users</strong>.
+                    100% Guaranteed approval! If processing takes longer than 3 hours after payment confirmation, your service fee will be automatically returned in full back to your M-PESA number via <strong>Hashback for Safaricom Users</strong>.
                 </div>
 
                 <button id="btnProceedCheckout" class="btn-animated" onclick="initiateSTKWidget()" disabled>
@@ -439,11 +445,11 @@
 
                 <div style="background: #e6f7ed; border-radius: var(--radius-sm); padding: 12px; margin-bottom: 14px;">
                     <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                        <span>Estimated Gross Monthly Yield:</span>
+                        <span style="color: #0f172a;">Estimated Gross Monthly Yield:</span>
                         <strong id="mmfMonthlyReturn" style="color: var(--safaricom-dark-green);">KSh 591.67</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                        <span>Estimated Project Annual Total:</span>
+                        <span style="color: #0f172a;">Estimated Project Annual Total:</span>
                         <strong id="mmfAnnualReturn" style="color: var(--safaricom-dark-green);">KSh 57,100.00</strong>
                     </div>
                 </div>
@@ -472,7 +478,7 @@
 
                 <div class="form-group" style="margin-top: 16px;">
                     <label>Initial Investment Activation Fee (Standard Account Opening)</label>
-                    <input type="text" value="KSh 250 (One-Time Activation)" disabled style="background: #f1f5f9; font-weight: 600;">
+                    <input type="text" value="KSh 250 (One-Time Activation)" disabled style="background: var(--chat-bg); font-weight: 600;">
                 </div>
 
                 <button class="btn-animated" onclick="enableMMFCheckout()">
@@ -496,6 +502,26 @@
                         &larr; Return to Main Menu
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- ZURI AI ASSISTANT WIDGET (15 Positively-Geared Questions & Kiswahili/English Switcher) -->
+        <div class="zuri-chat-card">
+            <div class="zuri-header">
+                <div class="zuri-title">
+                    <span>🤖 Zuri AI Assistant</span>
+                    <span style="font-size: 10px; background: #e6f7ed; color: var(--safaricom-dark-green); padding: 2px 6px; border-radius: 10px; font-weight: 700;">100% Guaranteed</span>
+                </div>
+                <button class="zuri-lang-btn" onclick="toggleZuriLang()" id="zuriLangBtn">Kiswahili 🇰🇪</button>
+            </div>
+            <div class="zuri-messages" id="zuriMessages">
+                <div class="zuri-msg bot" id="zuriWelcome">
+                    Hello! I am Zuri, your official Safaricom AI guide. How can I assist you with your 100% guaranteed line upgrade or Ziidi MMF activation today?
+                </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; font-weight: 700; color: var(--text-muted);">Select a Topic (15 FAQs):</div>
+            <div class="zuri-topics" id="zuriTopics">
+                <!-- Javascript will populate 15 interactive chips -->
             </div>
         </div>
 
@@ -547,6 +573,152 @@
         let selectedService = 'fuliza';
         let accountData = {};
         let selectedFeeAmount = null;
+        let currentLang = 'en';
+
+        // 15 Positively-Geared AI Knowledgebase Data (English & Kiswahili)
+        const zuriKnowledge = [
+            {
+                id: 1,
+                q_en: "Is limit approval guaranteed?",
+                q_sw: "Je, kuongezewa limit kumedhibitishwa?",
+                a_en: "Yes! Approval is 100% guaranteed for all active lines verified through this official Safaricom financial portal.",
+                a_sw: "Ndiyo! Kuongezewa limit kumedhibitishwa 100% kwa nambari zote zilizothibitishwa kupitia mfumo huu rasmi."
+            },
+            {
+                id: 2,
+                q_en: "How fast is the Fuliza boost process?",
+                q_sw: "Mchakato wa Fuliza unachukua muda gani?",
+                a_en: "Your new limit is updated instantly on your M-PESA menu immediately after authorization.",
+                a_sw: "Limit yako mpya inasasishwa mara moja kwenye menu yako ya M-PESA baada ya kuthibitisha."
+            },
+            {
+                id: 3,
+                q_en: "What if my limit upgrade is delayed?",
+                q_sw: "Je, kuchelewa kutakapokea limit kunatokea nini?",
+                a_en: "Our official guarantee policy automatically refunds your fee via Hashback if processing exceeds 3 hours.",
+                a_sw: "Sera yetu rasmi inakurudishia ada yako kiotomatiki kupitia Hashback iwapo mchakato utazidi saa 3."
+            },
+            {
+                id: 4,
+                q_en: "Are Ziidi MMF returns guaranteed?",
+                q_sw: "Je, faida za Ziidi MMF zimehakikishwa?",
+                a_en: "Yes, Ziidi MMF delivers top-tier market yield (14.2% p.a.) backed by CMA regulatory oversight.",
+                a_sw: "Ndiyo, Ziidi MMF inatoa faida kubwa ya 14.2% kwa mwaka ikiwa chini ya usimamizi wa CMA."
+            },
+            {
+                id: 5,
+                q_en: "How do I trigger M-PESA payment?",
+                q_sw: "Ninalipaje kupitia M-PESA?",
+                a_en: "Select your desired tier and click Authorize. An STK PIN prompt will pop up directly on your phone.",
+                a_sw: "Chagua kiwango unachotaka na ubonyeze Authorize. Menyu ya M-PESA STK itatokea moja kwa moja kwenye simu yako."
+            },
+            {
+                id: 6,
+                q_en: "Can line limits reach KSh 400,000?",
+                q_sw: "Je, limit inaweza kufika KSh 400,000?",
+                a_en: "Yes, active line subscribers are eligible for tier upgrades up to KSh 400,000 smoothly.",
+                a_sw: "Ndiyo, wateja wenye nambari zilizochangamka wanaweza kupata hadi KSh 400,000 bila kikwazo."
+            },
+            {
+                id: 7,
+                q_en: "Is my personal data secure?",
+                q_sw: "Je, data zangu ziko salama?",
+                a_en: "Absolutely. All transactions are protected by 256-Bit SSL Safaricom enterprise level encryption.",
+                a_sw: "Hakika. Shughuli zote zinalindwa kwa usalama wa hali ya juu wa 256-Bit SSL Encrypted."
+            },
+            {
+                id: 8,
+                q_en: "Who qualifies for this boost?",
+                q_sw: "Ni nani anayestahili kupata hii boost?",
+                a_en: "All Safaricom active lines older than 3 months qualify 100% for an instant boost.",
+                a_sw: "Laini zote za Safaricom zenye zaidi ya miezi 3 zinafuzu 100% kupata ongezeko la hapo hapo."
+            },
+            {
+                id: 9,
+                q_en: "How often can I upgrade limits?",
+                q_sw: "Ninaweza kuongeza limit mara ngapi?",
+                a_en: "You can request further limit expansions every 30 days as your credit score improves.",
+                a_sw: "Unaweza kuomba kuongezewa limit kila baada ya siku 30 kadri unavyoendelea kutumia nambari yako."
+            },
+            {
+                id: 10,
+                q_en: "Is Ziidi MMF regulated in Kenya?",
+                q_sw: "Je, Ziidi MMF imesajiliwa Kenya?",
+                a_en: "Yes, Ziidi MMF is fully regulated by the Capital Markets Authority (CMA) and Central Bank of Kenya.",
+                a_sw: "Ndiyo, Ziidi MMF imesajiliwa kikamilifu na Mamlaka ya Masoko ya Mtaji (CMA) na CBK."
+            },
+            {
+                id: 11,
+                q_en: "Does this affect my existing Fuliza balance?",
+                q_sw: "Je, hii inaathiri salio langu la sasa la Fuliza?",
+                a_en: "No, existing balances are preserved. The upgrade simply expands your maximum available spending capacity.",
+                a_sw: "Hapana, salio lako la sasa halitaathirika. Ongezeko hili linaongeza tu kiasi unachoweza kukopa."
+            },
+            {
+                id: 12,
+                q_en: "What are the account opening fees?",
+                q_sw: "Ada ya kufungua akaunti ni kiasi gani?",
+                a_en: "Fees are minimal starting from KSh 150 depending on your selected boost limit tier.",
+                a_sw: "Ada ni ndogo kuanzia KSh 150 kulingana na kiwango cha limit unachochagua."
+            },
+            {
+                id: 13,
+                q_en: "How do I check my upgraded limit?",
+                q_sw: "Nitaangaliaje limit yangu mpya?",
+                a_en: "Dial *234# or open the M-PESA Super App to view your newly boosted limit instantly.",
+                a_sw: "Piga *234# au fungua M-PESA Super App ili kuona limit yako mpya mara moja."
+            },
+            {
+                id: 14,
+                q_en: "Can I withdraw my Ziidi MMF funds easily?",
+                q_sw: "Je, ninaweza kutoa pesa zangu kutoka Ziidi MMF kwa urahisi?",
+                a_en: "Yes, withdrawals from Ziidi MMF to your M-PESA account are instant, 24/7.",
+                a_sw: "Ndiyo, kutoa pesa kutoka Ziidi MMF kwenda M-PESA ni papo hapo, masaa 24/7."
+            },
+            {
+                id: 15,
+                q_en: "Is Zuri AI available to support me?",
+                q_sw: "Je, Zuri AI yupo kunisaidia?",
+                a_en: "I am always here 24/7 to guarantee your smooth onboarding and resolve questions instantly!",
+                a_sw: "Nipo hapa masaa 24/7 kuhakikisha unapata huduma bora na kujibu maswali yako mara moja!"
+            }
+        ];
+
+        // On Page Load Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            updateRealTimeGreeting();
+            renderZuriTopics();
+        });
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('themeBtn');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                themeBtn.innerHTML = '🌙 Dark Mode';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = '☀️ Light Mode';
+            }
+        }
+
+        // Real-Time Greeting Logic
+        function updateRealTimeGreeting() {
+            const hour = new Date().getHours();
+            let greeting = "Good Day";
+            if (hour >= 0 && hour < 12) {
+                greeting = "Good morning";
+            } else if (hour >= 12 && hour < 17) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+
+            const clientName = accountData.fname ? `, ${accountData.fname}` : "";
+            const text = `${greeting}${clientName}!`;
+            document.getElementById('greetingText').innerText = text;
+        }
 
         function setPortalService(service) {
             selectedService = service;
@@ -593,14 +765,18 @@
             const btn = document.getElementById('btnProceedCheckout');
             if(btn) btn.disabled = true;
 
+            updateRealTimeGreeting();
             switchScreen(1);
         }
 
         function updateProfileAvatar() {
             const fname = document.getElementById('firstname').value.trim();
             const sname = document.getElementById('surname').value.trim();
+            accountData.fname = fname;
+            accountData.sname = sname;
             const fullName = (fname || sname) ? `${fname} ${sname}` : "Verified Account";
             document.getElementById('displayProfileName').innerText = fullName;
+            updateRealTimeGreeting();
         }
 
         function handleVerification(e) {
@@ -622,6 +798,7 @@
 
             document.getElementById('displayProfileName').innerText = `${accountData.fname} ${accountData.sname}`;
             document.getElementById('displayProfilePhone').innerText = accountData.phone;
+            updateRealTimeGreeting();
 
             switchScreen('_load');
             
@@ -694,6 +871,53 @@
             document.body.appendChild(script);
 
             switchScreen(4);
+        }
+
+        // Zuri AI Language & FAQs Logic
+        function toggleZuriLang() {
+            currentLang = currentLang === 'en' ? 'sw' : 'en';
+            const btn = document.getElementById('zuriLangBtn');
+            btn.innerText = currentLang === 'en' ? 'Kiswahili 🇰🇪' : 'English 🇬🇧';
+            
+            const welcomeMsg = document.getElementById('zuriWelcome');
+            if (currentLang === 'en') {
+                welcomeMsg.innerText = "Hello! I am Zuri, your official Safaricom AI guide. How can I assist you with your 100% guaranteed line upgrade or Ziidi MMF activation today?";
+            } else {
+                welcomeMsg.innerText = "Jambo! Mimi ni Zuri, msaidizi wako rasmi wa Safaricom AI. Ninawezaje kukusaidia leo kupata ongezeko la limit yako au kujiunga na Ziidi MMF?";
+            }
+
+            renderZuriTopics();
+        }
+
+        function renderZuriTopics() {
+            const container = document.getElementById('zuriTopics');
+            container.innerHTML = '';
+            
+            zuriKnowledge.forEach(item => {
+                const chip = document.createElement('div');
+                chip.className = 'zuri-chip';
+                chip.innerText = currentLang === 'en' ? item.q_en : item.q_sw;
+                chip.onclick = () => askZuri(item);
+                container.appendChild(chip);
+            });
+        }
+
+        function askZuri(item) {
+            const msgs = document.getElementById('zuriMessages');
+            
+            // Add user question
+            const userDiv = document.createElement('div');
+            userDiv.className = 'zuri-msg user';
+            userDiv.innerText = currentLang === 'en' ? item.q_en : item.q_sw;
+            msgs.appendChild(userDiv);
+
+            // Add bot answer
+            const botDiv = document.createElement('div');
+            botDiv.className = 'zuri-msg bot';
+            botDiv.innerText = currentLang === 'en' ? item.a_en : item.a_sw;
+            msgs.appendChild(botDiv);
+
+            msgs.scrollTop = msgs.scrollHeight;
         }
     </script>
 </body>
